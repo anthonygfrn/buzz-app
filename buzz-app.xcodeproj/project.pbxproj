@@ -215,9 +215,9 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "test.buzz-appTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.anthony-gufron.buzz-appTests";
 				SDKROOT = macosx;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/buzz-app.app/buzz-app";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/buzz-app.app/Contents/MacOS/buzz-app";
 			};
 			name = Debug;
 		};
@@ -368,9 +368,9 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "test.buzz-appTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.anthony-gufron.buzz-appTests";
 				SDKROOT = macosx;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/buzz-app.app/buzz-app";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/buzz-app.app/Contents/MacOS/buzz-app";
 			};
 			name = Release;
 		};
