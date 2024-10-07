@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -57,6 +57,12 @@
 		792443E55F85CEEBAF9FB93B /* buzz-app */ = {
 			isa = PBXGroup;
 			children = (
+				F64408002CB3A2760008C44D /* Domain */,
+				F64408012CB3A2A60008C44D /* Data */,
+				F64408022CB3A2A70008C44D /* Presentation */,
+				F64408032CB3A2A70008C44D /* Infrastructure */,
+				F64408042CB3A2B80008C44D /* Resources */,
+				F64408052CB3A2CC0008C44D /* Utilities */,
 				DC4F0C288E564A2CE3943854 /* Assets.xcassets */,
 				BE43CA0307117644A83FF4A7 /* buzz_app.entitlements */,
 				981C735ED8D40E39A6611395 /* buzz_appApp.swift */,
@@ -82,6 +88,144 @@
 				045C347218A4E2514D942AAD /* buzz-appTests */,
 				2F891680CD4513CC2623ADAD /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		F64408002CB3A2760008C44D /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				F64408062CB3A2E80008C44D /* Entities */,
+				F64408072CB3A2EF0008C44D /* UseCases */,
+				F64408082CB3A2F00008C44D /* Protocols */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		F64408012CB3A2A60008C44D /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				F64408092CB3A2FE0008C44D /* Repositories */,
+				F644080A2CB3A3050008C44D /* DataSources */,
+				F644080B2CB3A3090008C44D /* Models */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		F64408022CB3A2A70008C44D /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				F644080C2CB3A30E0008C44D /* Views */,
+				F644080D2CB3A31B0008C44D /* ViewModels */,
+				F644080E2CB3A31B0008C44D /* Coordinators */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		F64408032CB3A2A70008C44D /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				F644080F2CB3A3220008C44D /* Networking */,
+				F64408102CB3A32B0008C44D /* Persistence */,
+				F64408112CB3A32F0008C44D /* Services */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		F64408042CB3A2B80008C44D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		F64408052CB3A2CC0008C44D /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		F64408062CB3A2E80008C44D /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		F64408072CB3A2EF0008C44D /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UseCases;
+			sourceTree = "<group>";
+		};
+		F64408082CB3A2F00008C44D /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		F64408092CB3A2FE0008C44D /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		F644080A2CB3A3050008C44D /* DataSources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DataSources;
+			sourceTree = "<group>";
+		};
+		F644080B2CB3A3090008C44D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F644080C2CB3A30E0008C44D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F644080D2CB3A31B0008C44D /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		F644080E2CB3A31B0008C44D /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		F644080F2CB3A3220008C44D /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		F64408102CB3A32B0008C44D /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		F64408112CB3A32F0008C44D /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,8 +271,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = D9664457FE2C38F707BED8CE /* Build configuration list for PBXProject "buzz-app" */;
 			compatibilityVersion = "Xcode 14.0";
