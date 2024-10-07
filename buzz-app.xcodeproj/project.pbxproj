@@ -3,13 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		140E4A48155C8421E3C2A688 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6198C7B5826977949AAEAD51 /* ContentView.swift */; };
 		145A1268BB710BCC14DE109A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D29EC68873E0D8E6A4A16803 /* Preview Assets.xcassets */; };
 		19B8770B9916D6E868EBD84E /* buzz_appTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC729F02BF8DAB3055A39BCD /* buzz_appTests.swift */; };
+		4630FB3B2CB3947E008010A0 /* dummy.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 4630FB3A2CB3947E008010A0 /* dummy.pdf */; };
 		A3DE819642EB419E9FCDE793 /* buzz_appApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981C735ED8D40E39A6611395 /* buzz_appApp.swift */; };
 		B4D4FD729073C3423BFDE1A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC4F0C288E564A2CE3943854 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -26,6 +27,7 @@
 
 /* Begin PBXFileReference section */
 		26D968C4B6E9A29125DB37C0 /* buzz-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "buzz-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4630FB3A2CB3947E008010A0 /* dummy.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = dummy.pdf; sourceTree = "<group>"; };
 		6198C7B5826977949AAEAD51 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		981C735ED8D40E39A6611395 /* buzz_appApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = buzz_appApp.swift; sourceTree = "<group>"; };
 		B5A00CF6CC881F599BB818F3 /* buzz-appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "buzz-appTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -57,6 +59,7 @@
 		792443E55F85CEEBAF9FB93B /* buzz-app */ = {
 			isa = PBXGroup;
 			children = (
+				4630FB3A2CB3947E008010A0 /* dummy.pdf */,
 				DC4F0C288E564A2CE3943854 /* Assets.xcassets */,
 				BE43CA0307117644A83FF4A7 /* buzz_app.entitlements */,
 				981C735ED8D40E39A6611395 /* buzz_appApp.swift */,
@@ -126,9 +129,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1430;
-				TargetAttributes = {
-				};
+				LastUpgradeCheck = 1600;
 			};
 			buildConfigurationList = D9664457FE2C38F707BED8CE /* Build configuration list for PBXProject "buzz-app" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -153,6 +154,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4630FB3B2CB3947E008010A0 /* dummy.pdf in Resources */,
 				B4D4FD729073C3423BFDE1A1 /* Assets.xcassets in Resources */,
 				145A1268BB710BCC14DE109A /* Preview Assets.xcassets in Resources */,
 			);
@@ -194,6 +196,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				INFOPLIST_FILE = "buzz-app/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -209,6 +212,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				INFOPLIST_FILE = "buzz-app/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -256,9 +260,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -320,9 +326,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -347,6 +355,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				INFOPLIST_FILE = "buzz-app/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -362,6 +371,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				INFOPLIST_FILE = "buzz-app/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
