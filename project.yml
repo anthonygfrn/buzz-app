@@ -1,0 +1,52 @@
+name: buzz-app
+settings:
+  MARKETING_VERSION: "1.0"
+  CURRENT_PROJECT_VERSION: 1
+options:
+  bundleIdPrefix: test
+  deploymentTarget:
+    MACOSX_DEPLOYMENT_TARGET: "15.0"
+targets:
+  buzz-app:
+    type: application
+    platform: macOS
+    sources: [buzz-app]
+    resources: [Resources]
+    info:
+      path: buzz-app/Info.plist
+      properties:
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        LSRequiresIPhoneOS: YES
+        UILaunchScreen: ""
+        UIApplicationSupportsIndirectInputEvents: YES
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: YES
+        UISupportedInterfaceOrientations~iphone:
+          [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.anthony-gufron.buzz-appTests
+      INFOPLIST_FILE: buzz-app/Info.plist
+  buzz-appTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources: [buzz-appTests]
+    dependencies:
+      - target: buzz-app
+    settings:
+      base:
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/buzz-app.app/buzz-app"
+        BUNDLE_LOADER: "$(TEST_HOST)"
+        INFOPLIST_FILE: buzz-app/Info.plist
+schemes:
+  APIHit:
+    build:
+      targets:
+        buzz-app: all
+        buzz-appTests: all
+    test:
+      targets:
+      - name: buzz-appTests
+      gatherCoverageData: true
+       
+
