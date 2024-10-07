@@ -1,0 +1,554 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		A281C5EE2CB37A48007FC1FB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A281C5D42CB37A46007FC1FB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A281C5DB2CB37A46007FC1FB;
+			remoteInfo = "buzz-app";
+		};
+		A281C5F82CB37A48007FC1FB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A281C5D42CB37A46007FC1FB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A281C5DB2CB37A46007FC1FB;
+			remoteInfo = "buzz-app";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A281C5DC2CB37A46007FC1FB /* buzz-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "buzz-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A281C5ED2CB37A48007FC1FB /* buzz-appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "buzz-appTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A281C5F72CB37A48007FC1FB /* buzz-appUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "buzz-appUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		A281C5DE2CB37A46007FC1FB /* buzz-app */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "buzz-app";
+			sourceTree = "<group>";
+		};
+		A281C5F02CB37A48007FC1FB /* buzz-appTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "buzz-appTests";
+			sourceTree = "<group>";
+		};
+		A281C5FA2CB37A48007FC1FB /* buzz-appUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "buzz-appUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A281C5D92CB37A46007FC1FB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A281C5EA2CB37A48007FC1FB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A281C5F42CB37A48007FC1FB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A281C5D32CB37A46007FC1FB = {
+			isa = PBXGroup;
+			children = (
+				A281C5DE2CB37A46007FC1FB /* buzz-app */,
+				A281C5F02CB37A48007FC1FB /* buzz-appTests */,
+				A281C5FA2CB37A48007FC1FB /* buzz-appUITests */,
+				A281C5DD2CB37A46007FC1FB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A281C5DD2CB37A46007FC1FB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A281C5DC2CB37A46007FC1FB /* buzz-app.app */,
+				A281C5ED2CB37A48007FC1FB /* buzz-appTests.xctest */,
+				A281C5F72CB37A48007FC1FB /* buzz-appUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A281C5DB2CB37A46007FC1FB /* buzz-app */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A281C6012CB37A48007FC1FB /* Build configuration list for PBXNativeTarget "buzz-app" */;
+			buildPhases = (
+				A281C5D82CB37A46007FC1FB /* Sources */,
+				A281C5D92CB37A46007FC1FB /* Frameworks */,
+				A281C5DA2CB37A46007FC1FB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				A281C5DE2CB37A46007FC1FB /* buzz-app */,
+			);
+			name = "buzz-app";
+			packageProductDependencies = (
+			);
+			productName = "buzz-app";
+			productReference = A281C5DC2CB37A46007FC1FB /* buzz-app.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A281C5EC2CB37A48007FC1FB /* buzz-appTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A281C6042CB37A48007FC1FB /* Build configuration list for PBXNativeTarget "buzz-appTests" */;
+			buildPhases = (
+				A281C5E92CB37A48007FC1FB /* Sources */,
+				A281C5EA2CB37A48007FC1FB /* Frameworks */,
+				A281C5EB2CB37A48007FC1FB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A281C5EF2CB37A48007FC1FB /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A281C5F02CB37A48007FC1FB /* buzz-appTests */,
+			);
+			name = "buzz-appTests";
+			packageProductDependencies = (
+			);
+			productName = "buzz-appTests";
+			productReference = A281C5ED2CB37A48007FC1FB /* buzz-appTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		A281C5F62CB37A48007FC1FB /* buzz-appUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A281C6072CB37A48007FC1FB /* Build configuration list for PBXNativeTarget "buzz-appUITests" */;
+			buildPhases = (
+				A281C5F32CB37A48007FC1FB /* Sources */,
+				A281C5F42CB37A48007FC1FB /* Frameworks */,
+				A281C5F52CB37A48007FC1FB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A281C5F92CB37A48007FC1FB /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A281C5FA2CB37A48007FC1FB /* buzz-appUITests */,
+			);
+			name = "buzz-appUITests";
+			packageProductDependencies = (
+			);
+			productName = "buzz-appUITests";
+			productReference = A281C5F72CB37A48007FC1FB /* buzz-appUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A281C5D42CB37A46007FC1FB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					A281C5DB2CB37A46007FC1FB = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					A281C5EC2CB37A48007FC1FB = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = A281C5DB2CB37A46007FC1FB;
+					};
+					A281C5F62CB37A48007FC1FB = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = A281C5DB2CB37A46007FC1FB;
+					};
+				};
+			};
+			buildConfigurationList = A281C5D72CB37A46007FC1FB /* Build configuration list for PBXProject "buzz-app" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A281C5D32CB37A46007FC1FB;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = A281C5DD2CB37A46007FC1FB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A281C5DB2CB37A46007FC1FB /* buzz-app */,
+				A281C5EC2CB37A48007FC1FB /* buzz-appTests */,
+				A281C5F62CB37A48007FC1FB /* buzz-appUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A281C5DA2CB37A46007FC1FB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A281C5EB2CB37A48007FC1FB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A281C5F52CB37A48007FC1FB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A281C5D82CB37A46007FC1FB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A281C5E92CB37A48007FC1FB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A281C5F32CB37A48007FC1FB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A281C5EF2CB37A48007FC1FB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A281C5DB2CB37A46007FC1FB /* buzz-app */;
+			targetProxy = A281C5EE2CB37A48007FC1FB /* PBXContainerItemProxy */;
+		};
+		A281C5F92CB37A48007FC1FB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A281C5DB2CB37A46007FC1FB /* buzz-app */;
+			targetProxy = A281C5F82CB37A48007FC1FB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		A281C5FF2CB37A48007FC1FB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A281C6002CB37A48007FC1FB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		A281C6022CB37A48007FC1FB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "buzz-app/buzz_app.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"buzz-app/Preview Content\"";
+				DEVELOPMENT_TEAM = FTP77G36XW;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.anthony-gufron.buzz-app";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		A281C6032CB37A48007FC1FB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "buzz-app/buzz_app.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"buzz-app/Preview Content\"";
+				DEVELOPMENT_TEAM = FTP77G36XW;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.anthony-gufron.buzz-app";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		A281C6052CB37A48007FC1FB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FTP77G36XW;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.anthony-gufron.buzz-appTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/buzz-app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/buzz-app";
+			};
+			name = Debug;
+		};
+		A281C6062CB37A48007FC1FB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FTP77G36XW;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.anthony-gufron.buzz-appTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/buzz-app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/buzz-app";
+			};
+			name = Release;
+		};
+		A281C6082CB37A48007FC1FB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FTP77G36XW;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.anthony-gufron.buzz-appUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "buzz-app";
+			};
+			name = Debug;
+		};
+		A281C6092CB37A48007FC1FB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FTP77G36XW;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.anthony-gufron.buzz-appUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "buzz-app";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A281C5D72CB37A46007FC1FB /* Build configuration list for PBXProject "buzz-app" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A281C5FF2CB37A48007FC1FB /* Debug */,
+				A281C6002CB37A48007FC1FB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A281C6012CB37A48007FC1FB /* Build configuration list for PBXNativeTarget "buzz-app" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A281C6022CB37A48007FC1FB /* Debug */,
+				A281C6032CB37A48007FC1FB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A281C6042CB37A48007FC1FB /* Build configuration list for PBXNativeTarget "buzz-appTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A281C6052CB37A48007FC1FB /* Debug */,
+				A281C6062CB37A48007FC1FB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A281C6072CB37A48007FC1FB /* Build configuration list for PBXNativeTarget "buzz-appUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A281C6082CB37A48007FC1FB /* Debug */,
+				A281C6092CB37A48007FC1FB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A281C5D42CB37A46007FC1FB /* Project object */;
+}
