@@ -13,16 +13,16 @@ cd ..
 echo "Generating Xcode project..."
 xcodegen
 echo "Check file on .xcodeproj"
-ls *.xcodeproj
+ls buzz-app.xcodeproj
 echo "Check file on project.xcworkspace"
 echo "Check file on xcshareddata"
-ls *.xcodeproj/project.xcworkspace/xcshareddata
+ls buzz-app.xcodeproj/project.xcworkspace/xcshareddata
 # BASED ON MY EXPERIENCE xcshareddata DIRECTORY IS NOT EXIST, YOU NEED TO CREATE THE DIRECTORY
-mkdir *.xcodeproj/project.xcworkspace/xcshareddata
+mkdir buzz-app.xcodeproj/project.xcworkspace/xcshareddata
 # BASED ON MY EXPERIENCE swiftpm DIRECTORY IS NOT EXIST, YOU NEED TO CREATE THE DIRECTORY
-mkdir *.xcodeproj/project.xcworkspace/xcshareddata/swiftpm
+mkdir buzz-app.xcodeproj/project.xcworkspace/xcshareddata/swiftpm
 # BASED ON MY EXPERIENCE Package.resolved DIRECTORY IS NOT EXIST, YOU NEED TO CREATE THE DIRECTORY
-touch *.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+touch buzz-app.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
 #echo "Creating Package.resolved..."
 #cat <<EOL > *.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
 ## CREATE YOUR EXAMPLE DEPENDENCY HERE, ONLY FOR CREATING Package.resolved
