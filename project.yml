@@ -2,6 +2,7 @@ name: buzz-app
 settings:
   MARKETING_VERSION: "1.0"
   CURRENT_PROJECT_VERSION: 1
+  DEVELOPMENT_TEAM: 49V8Q5W76J
 options:
   bundleIdPrefix: com.anthony-gufron
   deploymentTarget:
