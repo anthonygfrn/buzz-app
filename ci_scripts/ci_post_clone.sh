@@ -44,7 +44,7 @@ cat <<EOL > *.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolve
 EOL
 # Resolve package dependencies to generate Package.resolved
 echo "Resolving package dependencies..."
-xcodebuild -resolvePackageDependencies -project *.xcodeproj -scheme Your-app
+xcodebuild -resolvePackageDependencies -project *.xcodeproj -scheme buzz-app
 # Check if Package.resolved was created
 if [ -f "*.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" ]; then
     echo "Package.resolved generated successfully."
