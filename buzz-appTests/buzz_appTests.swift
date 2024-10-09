@@ -4,14 +4,26 @@
 //
 //  Created by Anthony on 07/10/24.
 //
+//
+//import Testing
+//@testable import buzz_app
+//
+//struct buzz_appTests {
+//
+//    @Test func example() async throws {
+//        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+//    }
+//
+//}
 
-import Testing
+import XCTest
 @testable import buzz_app
 
-struct buzz_appTests {
+final class buzz_appTests: XCTestCase {
 
-    @Test func example() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+    func testExample() async throws {
+        // Write your test here
+        XCTAssertEqual(1, 1) // An example test assertion
     }
 
 }

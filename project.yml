@@ -13,6 +13,9 @@ targets:
     platform: macOS
     sources: [buzz-app]
     resources: [Resources]
+    buildSettings:
+      ENABLE_TESTABILITY: YES
+      DEFINES_MODULE: YES
     info:
       path: buzz-app/Info.plist
       properties:
@@ -30,6 +33,9 @@ targets:
     type: bundle.unit-test
     platform: macOS
     sources: [buzz-appTests]
+    buildSettings:
+      ENABLE_TESTABILITY: YES
+      DEFINES_MODULE: YES
     dependencies:
       - target: buzz-app
     settings:
