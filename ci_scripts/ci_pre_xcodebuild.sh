@@ -4,6 +4,17 @@
 cd ..
 echo "Current directory: $(pwd)"
 
+# Ensure the .xcodeproj is generated
+echo "Generating buzz-app.xcodeproj using xcodegen..."
+xcodegen generate --spec project.yml
+
+# Check if the project file exists
+if [ ! -d "buzz-app.xcodeproj" ]; then
+    echo "Error: buzz-app.xcodeproj not found!"
+    exit 1
+fi
+
+
 # Check if the project file exists
 if [ ! -d "buzz-app.xcodeproj" ]; then
     echo "Error: buzz-app.xcodeproj not found!"
