@@ -5,6 +5,11 @@ cd ..
 echo "Current directory: $(pwd)"
 
 # Ensure the .xcodeproj is generated
+if ! command -v xcodegen &> /dev/null; then
+    echo "XcodeGen not found. Installing..."
+    brew install xcodegen
+fi
+
 echo "Generating buzz-app.xcodeproj using xcodegen..."
 xcodegen generate --spec project.yml
 
