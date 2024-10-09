@@ -27,7 +27,6 @@ targets:
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: YES
     settings:
-      PRODUCT_BUNDLE_IDENTIFIER: com.anthony-gufron.buzz-appTests
       INFOPLIST_FILE: buzz-app/Info.plist
   buzz-appTests:
     type: bundle.unit-test
@@ -39,6 +38,7 @@ targets:
     dependencies:
       - target: buzz-app
     settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.anthony-gufron.buzz-appTests
       base:
         INFOPLIST_FILE: buzz-app/Info.plist
 schemes:
