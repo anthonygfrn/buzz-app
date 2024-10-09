@@ -1,7 +1,7 @@
 bash
 #!/bin/bash
 # Change to the project directory
-cd ./buzz-app
+cd ..
 # cd ..
 
 # Check if the build succeeded
