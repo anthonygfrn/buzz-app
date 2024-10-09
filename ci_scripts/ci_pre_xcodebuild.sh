@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Change to the project directory
-# cd ..
-# echo "Current directory: $(pwd)"
+cd ./buzz-app
+echo "Current directory: $(pwd)"
 
 # Ensure the .xcodeproj is generated
 if ! command -v xcodegen &> /dev/null; then
