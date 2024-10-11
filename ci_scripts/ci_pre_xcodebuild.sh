@@ -4,9 +4,7 @@ bash
 ls .
 
 # Change to the project directory
-# cd .
-# cd ./buzz-app
-cd ./
+cd ..
 
 # Resolve Swift package dependencies
 echo "Resolving Swift package dependencies..."
