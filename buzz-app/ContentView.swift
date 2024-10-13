@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  buzz-app
-//
-//  Created by Anthony on 07/10/24.
-//
-
 import PDFKit
 import RichTextKit
 import SwiftUI
@@ -30,7 +23,7 @@ struct ContentView: View {
                     ForEach(pages.indices, id: \.self) { index in
                         ZStack {
                             Color(.white)
-                            
+
                             RichTextEditor(
                                 text: .constant(pages[index]),
                                 context: context
@@ -68,7 +61,15 @@ struct ContentView: View {
         }
     }
 
-    // Function to convert PDF to NSAttributedString
+    // Function to generate a random color for macOS (NSColor)
+    func randomColor() -> NSColor {
+        let red = CGFloat(arc4random_uniform(256)) / 255.0
+        let green = CGFloat(arc4random_uniform(256)) / 255.0
+        let blue = CGFloat(arc4random_uniform(256)) / 255.0
+        return NSColor(red: red, green: green, blue: blue, alpha: 1.0)
+    }
+
+    // Function to convert PDF to NSAttributedString with random colors per line
     func convertPDFToAttributedString(from url: URL) -> NSAttributedString? {
         guard let pdfDocument = PDFDocument(url: url) else {
             print("Cannot load PDF file.")
@@ -80,8 +81,13 @@ struct ContentView: View {
             if let page = pdfDocument.page(at: pageIndex),
                let pageText = page.string
             {
-                let attributedPageText = NSAttributedString(string: pageText + "\n")
-                fullText.append(attributedPageText)
+                let lines = pageText.components(separatedBy: .newlines)
+                for line in lines {
+                    // Apply random color to each line
+                    let attributedLineText = NSMutableAttributedString(string: line + "\n")
+                    attributedLineText.addAttribute(.foregroundColor, value: randomColor(), range: NSRange(location: 0, length: attributedLineText.length))
+                    fullText.append(attributedLineText)
+                }
             }
         }
 
