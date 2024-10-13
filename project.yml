@@ -7,12 +7,18 @@ options:
   bundleIdPrefix: com.anthony-gufron
   deploymentTarget:
     MACOSX_DEPLOYMENT_TARGET: "15.0"
+packages:
+  RichTextKit:
+    url: https://github.com/danielsaidi/RichTextKit
+    from: 1.1.1
 targets:
   buzz-app:
     type: application
     platform: macOS
     sources: [buzz-app]
     resources: [Resources]
+    dependencies:
+      - package: RichTextKit
     info:
       path: buzz-app/Info.plist
       properties:
