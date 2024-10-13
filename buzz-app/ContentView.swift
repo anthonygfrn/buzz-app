@@ -6,33 +6,52 @@ struct ContentView: View {
     @State private var extractedText = NSAttributedString(string: "")
     @StateObject var context = RichTextContext()
 
+    @State private var isTwoColumnLayout = false // State to control layout format
+
     let a4Width: CGFloat = 595
     let a4Height: CGFloat = 842
 
     var body: some View {
         VStack {
-            Button("Open PDF") {
-                openPDFPicker()
+            HStack {
+                Button("Open PDF") {
+                    openPDFPicker()
+                }
+                .padding()
+
+                Toggle("Two Column Layout", isOn: $isTwoColumnLayout)
+                    .padding()
             }
-            .padding()
 
             ScrollView {
                 VStack {
-                    let pages = splitTextIntoPages(text: extractedText, pageSize: CGSize(width: a4Width, height: a4Height))
+                    let pages = splitTextIntoPages(text: extractedText, pageSize: CGSize(width: a4Width, height: a4Height), isTwoColumn: isTwoColumnLayout)
 
                     ForEach(pages.indices, id: \.self) { index in
                         ZStack {
                             Color(.white)
 
-                            RichTextEditor(
-                                text: .constant(pages[index]),
-                                context: context
-                            )
-                            .frame(width: a4Width, height: a4Height)
-                            .border(Color.black, width: 1)
-                            .disabled(true) // Disable editing and internal scrolling
+                            HStack {
+                                RichTextEditor(
+                                    text: .constant(pages[index].leftColumn),
+                                    context: context
+                                )
+                                .frame(width: isTwoColumnLayout ? (a4Width / 2 - 10) : a4Width, height: a4Height)
+                                .border(Color.black, width: 1)
+                                .disabled(true)
+
+                                if isTwoColumnLayout {
+                                    RichTextEditor(
+                                        text: .constant(pages[index].rightColumn),
+                                        context: context
+                                    )
+                                    .frame(width: a4Width / 2 - 10, height: a4Height)
+                                    .border(Color.black, width: 1)
+                                    .disabled(true)
+                                }
+                            }
                         }
-                        .frame(width: a4Width, height: a4Height) // Keep the frame size consistent with A4
+                        .frame(width: a4Width, height: a4Height)
                         .padding()
                     }
                 }
@@ -94,9 +113,15 @@ struct ContentView: View {
         return fullText
     }
 
-    // Function to split NSAttributedString into multiple pages based on the page size
-    func splitTextIntoPages(text: NSAttributedString, pageSize: CGSize) -> [NSAttributedString] {
-        var pages: [NSAttributedString] = []
+    // Structure to hold the text of both columns
+    struct PageColumns {
+        let leftColumn: NSAttributedString
+        let rightColumn: NSAttributedString
+    }
+
+    // Function to split NSAttributedString into multiple pages with two columns
+    func splitTextIntoPages(text: NSAttributedString, pageSize: CGSize, isTwoColumn: Bool) -> [PageColumns] {
+        var pages: [PageColumns] = []
 
         let fullTextStorage = NSTextStorage(attributedString: text)
         let textLayoutManager = NSLayoutManager()
@@ -105,25 +130,41 @@ struct ContentView: View {
         var startIndex = 0
 
         while startIndex < text.length {
-            // Create a text container for each page
-            let textContainer = NSTextContainer(size: pageSize)
-            textContainer.lineFragmentPadding = 0
-            textLayoutManager.addTextContainer(textContainer)
+            // Adjust text container size for two-column layout
+            let columnWidth = isTwoColumn ? (pageSize.width / 2 - 10) : pageSize.width
 
-            // Get the glyph range that fits within this page
-            let glyphRange = textLayoutManager.glyphRange(for: textContainer)
+            // Left column container
+            let leftTextContainer = NSTextContainer(size: CGSize(width: columnWidth, height: pageSize.height))
+            leftTextContainer.lineFragmentPadding = 0
+            textLayoutManager.addTextContainer(leftTextContainer)
 
-            // Extract the corresponding character range
-            let characterRange = textLayoutManager.characterRange(forGlyphRange: glyphRange, actualGlyphRange: nil)
+            // Right column container (only if it's a two-column layout)
+            let rightTextContainer = NSTextContainer(size: CGSize(width: columnWidth, height: pageSize.height))
+            rightTextContainer.lineFragmentPadding = 0
+            textLayoutManager.addTextContainer(rightTextContainer)
 
-            // Extract the text for this page
-            let pageText = fullTextStorage.attributedSubstring(from: characterRange)
+            // Extract text for left column
+            let leftGlyphRange = textLayoutManager.glyphRange(for: leftTextContainer)
+            let leftCharacterRange = textLayoutManager.characterRange(forGlyphRange: leftGlyphRange, actualGlyphRange: nil)
+            let leftPageText = fullTextStorage.attributedSubstring(from: leftCharacterRange)
 
-            // Append the extracted text as a new page
-            pages.append(pageText)
+            // Extract text for right column (only if two-column layout)
+            let rightPageText: NSAttributedString
+            if isTwoColumn {
+                let rightGlyphRange = textLayoutManager.glyphRange(for: rightTextContainer)
+                let rightCharacterRange = textLayoutManager.characterRange(forGlyphRange: rightGlyphRange, actualGlyphRange: nil)
+                rightPageText = fullTextStorage.attributedSubstring(from: rightCharacterRange)
 
-            // Move the start index to the end of the current page
-            startIndex = NSMaxRange(characterRange)
+                // Move the start index to the end of the right column
+                startIndex = NSMaxRange(rightCharacterRange)
+            } else {
+                // Move the start index to the end of the left column if single column
+                rightPageText = NSAttributedString(string: "")
+                startIndex = NSMaxRange(leftCharacterRange)
+            }
+
+            // Add the page with both columns (or just one if single-column mode)
+            pages.append(PageColumns(leftColumn: leftPageText, rightColumn: rightPageText))
         }
 
         return pages
