@@ -38,7 +38,6 @@ struct ContentView: View {
                                 )
                                 .frame(width: isTwoColumnLayout ? (a4Width / 2 - 10) : a4Width, height: a4Height)
                                 .border(Color.black, width: 1)
-                                .disabled(true)
 
                                 if isTwoColumnLayout {
                                     RichTextEditor(
