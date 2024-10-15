@@ -35,7 +35,7 @@ struct ContentView: View {
     // Fungsi untuk memilih PDF menggunakan NSOpenPanel
     func selectPDF() {
         let openPanel = NSOpenPanel()  // NSOpenPanel untuk memilih file di macOS
-        openPanel.allowedFileTypes = ["pdf"]
+        openPanel.allowedContentTypes = [.pdf]
         openPanel.allowsMultipleSelection = false
         openPanel.canChooseDirectories = false
         
