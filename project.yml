@@ -7,15 +7,18 @@ options:
   bundleIdPrefix: com.anthony-gufron
   deploymentTarget:
     MACOSX_DEPLOYMENT_TARGET: "15.0"
+packages:
+  RichTextKit:
+    url: https://github.com/danielsaidi/RichTextKit
+    from: 1.1.1
 targets:
   buzz-app:
     type: application
     platform: macOS
     sources: [buzz-app]
     resources: [Resources]
-    buildSettings:
-      ENABLE_TESTABILITY: YES
-      DEFINES_MODULE: YES
+    dependencies:
+      - package: RichTextKit
     info:
       path: buzz-app/Info.plist
       properties:
@@ -26,9 +29,10 @@ targets:
         UIApplicationSupportsIndirectInputEvents: YES
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: YES
+        LSApplicationCategoryType: public.app-category.productivity
     settings:
-      PRODUCT_BUNDLE_IDENTIFIER: com.anthony-gufron.buzz-appTests
       INFOPLIST_FILE: buzz-app/Info.plist
+      ENABLE_TESTABILITY: YES
   buzz-appTests:
     type: bundle.unit-test
     platform: macOS
@@ -39,6 +43,8 @@ targets:
     dependencies:
       - target: buzz-app
     settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.anthony-gufron.buzz-appTests
+      ENABLE_TESTABILITY: YES
       base:
         INFOPLIST_FILE: buzz-app/Info.plist
 schemes:
@@ -51,5 +57,3 @@ schemes:
       targets:
         - name: buzz-appTests
       gatherCoverageData: true
-       
-

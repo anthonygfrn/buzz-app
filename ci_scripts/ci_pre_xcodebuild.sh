@@ -1,7 +1,11 @@
 bash
 #!/bin/bash
+
+ls .
+
 # Change to the project directory
 cd ..
+
 # Resolve Swift package dependencies
 echo "Resolving Swift package dependencies..."
 if [ -f "*.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" ]; then

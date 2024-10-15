@@ -1,7 +1,9 @@
 bash
 #!/bin/bash
 # Change to the project directory
+# cd ..
 cd ..
+
 # Check if the build succeeded
 if [ $? -eq 0 ]; then
     echo "Build succeeded!"
