@@ -13,6 +13,7 @@ struct buzz_appApp: App {
         WindowGroup {
             ContentView()
         }
+        .windowStyle(HiddenTitleBarWindowStyle())
     }
 }
 
