@@ -22,17 +22,28 @@ struct ContentView: View {
                     openPDFPicker()
                 }
             }
-            ScrollView {
-                VStack {
-                    // Bind RichTextEditor directly to extractedText
-                    RichTextEditor(text: $extractedText, context: context)
-                        .frame(height: 594)
+            
+            GeometryReader { geometry in
+                ScrollView {
+                    VStack {
+                        // Calculate padding based on the screen width and given ratio
+                        let totalWidth = geometry.size.width
+                        let contentWidth: CGFloat = 974 // Fixed content width based on ratio
+                        let sidePadding = (totalWidth - contentWidth) / 2
+                        
+                        // Center the RichTextEditor with calculated padding
+                        RichTextEditor(text: $extractedText, context: context)
+                            .frame(width: contentWidth, height: 594) // Set fixed width and height for the editor
+                            .padding(.leading, max(sidePadding, 0))
+                            .padding(.trailing, max(sidePadding, 0))
+                    }
                 }
             }
             .padding()
 
             CustomToolbar()
         }
+        .background(Color.white) // Set the background color to white
     }
 
     // Function to open PDF from Finder (macOS)
@@ -88,10 +99,9 @@ struct ContentView: View {
 
                 for paragraph in paragraphs {
                     if !paragraph.isEmpty {
-//                        Add \n
                         let attributedParagraphText = NSMutableAttributedString(string: paragraph + "\n\n")
 
-//                        Add auto color
+                        // Add auto color
                         attributedParagraphText.addAttribute(.foregroundColor, value: randomColor(), range: NSRange(location: 0, length: attributedParagraphText.length))
                         fullText.append(attributedParagraphText)
 
@@ -159,25 +169,20 @@ struct ContentView: View {
             }
 
         case .punctuation:
-            // Split text by sentence-ending punctuation (. ! ?)
             let sentenceDelimiters = CharacterSet(charactersIn: ".!?")
             let sentences = text.components(separatedBy: sentenceDelimiters)
 
             var location = 0
             for (index, sentence) in sentences.enumerated() {
                 if !sentence.isEmpty {
-                    // Color the sentence
                     let range = NSRange(location: location, length: sentence.count)
                     coloredText.addAttribute(.foregroundColor, value: randomColor(), range: range)
 
-                    // Add the punctuation after the sentence
                     if index < sentences.count - 1 {
-                        let punctuationRange = NSRange(location: location + sentence.count, length: 1) // For the punctuation itself
+                        let punctuationRange = NSRange(location: location + sentence.count, length: 1) // Punctuation
                         coloredText.addAttribute(.foregroundColor, value: randomColor(), range: punctuationRange)
                     }
                 }
-
-                // Move the location by the length of the sentence and the punctuation (1 character)
                 location += sentence.count + 1
             }
         }

@@ -111,7 +111,7 @@ struct CustomToolbar: View {
         .overlay(
             Rectangle() // Straight top line for outline
                 .frame(height: 2)
-                .foregroundColor(Color.gray),
+                .foregroundColor(Color.gray.opacity(0.3)),
             alignment: .top // The line appears only at the top
         )
         .padding([.leading, .trailing], 0) // Ensure full width with no side padding

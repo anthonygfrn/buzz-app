@@ -22,14 +22,14 @@ struct ToolbarButton: View {
                 Image(systemName: iconName)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 24, height: 24) // Smaller SF Symbol
+                    .frame(width: 28, height: 28) // Smaller SF Symbol
                     .foregroundColor(.black)
-                    .padding(16)
+                    .padding(14)
                     .font(.title)
                     .bold()
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .stroke(Color.gray, lineWidth: 1.5)
+                            .stroke(Color.gray.opacity(0.3), lineWidth: 1.5)
                             .background(
                                 RoundedRectangle(cornerRadius: 12)
                                     .fill(isHovered ? Color.black.opacity(0.2) : Color.clear)
@@ -45,7 +45,7 @@ struct ToolbarButton: View {
                     .padding(4) // Smaller padding for custom image
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .stroke(Color.gray, lineWidth: 1.5)
+                            .stroke(Color.gray.opacity(0.3), lineWidth: 1.5)
                             .background(
                                 RoundedRectangle(cornerRadius: 12)
                                     .fill(isHovered ? Color.black.opacity(0.2) : Color.clear)
