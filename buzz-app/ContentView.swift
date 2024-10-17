@@ -2,14 +2,18 @@ import PDFKit
 import RichTextKit
 import SwiftUI
 
+enum ColorMode {
+    case line
+    case paragraph
+    case punctuation
+    case sentence
+}
+
 struct ContentView: View {
     @State private var extractedText = NSAttributedString(string: "")
+    @State private var rawText = "" // Store the raw PDF text for reprocessing
     @StateObject var context = RichTextContext()
-
-    @State private var isTwoColumnLayout = false // State to control layout format
-
-    let a4Width: CGFloat = 595
-    let a4Height: CGFloat = 842
+    @State private var colorMode: ColorMode = .line // State to control color mode
 
     var body: some View {
         VStack {
@@ -17,48 +21,29 @@ struct ContentView: View {
                 Button("Open PDF") {
                     openPDFPicker()
                 }
-                .padding()
-
-                Toggle("Two Column Layout", isOn: $isTwoColumnLayout)
-                    .padding()
             }
-
-            ScrollView {
-                VStack {
-                    let pages = splitTextIntoPages(text: extractedText, pageSize: CGSize(width: a4Width, height: a4Height), isTwoColumn: isTwoColumnLayout)
-
-                    ForEach(pages.indices, id: \.self) { index in
-                        ZStack {
-                            Color(.white)
-
-                            HStack {
-                                RichTextEditor(
-                                    text: .constant(pages[index].leftColumn),
-                                    context: context
-                                )
-                                .frame(width: isTwoColumnLayout ? (a4Width / 2 - 10) : a4Width, height: a4Height)
-                                .border(Color.black, width: 1)
-
-                                if isTwoColumnLayout {
-                                    RichTextEditor(
-                                        text: .constant(pages[index].rightColumn),
-                                        context: context
-                                    )
-                                    .frame(width: a4Width / 2 - 10, height: a4Height)
-                                    .border(Color.black, width: 1)
-                                    .disabled(true)
-                                }
-                            }
-                        }
-                        .frame(width: a4Width, height: a4Height)
-                        .padding()
+            
+            GeometryReader { geometry in
+                ScrollView {
+                    VStack {
+                        // Calculate padding based on the screen width and given ratio
+                        let totalWidth = geometry.size.width
+                        let contentWidth: CGFloat = 974 // Fixed content width based on ratio
+                        let sidePadding = (totalWidth - contentWidth) / 2
+                        
+                        // Center the RichTextEditor with calculated padding
+                        RichTextEditor(text: $extractedText, context: context)
+                            .frame(width: contentWidth, height: 594) // Set fixed width and height for the editor
+                            .padding(.leading, max(sidePadding, 0))
+                            .padding(.trailing, max(sidePadding, 0))
                     }
                 }
             }
             .padding()
 
-            RichTextFormat.Toolbar(context: context)
+            CustomToolbar()
         }
+        .background(Color.white) // Set the background color to white
     }
 
     // Function to open PDF from Finder (macOS)
@@ -70,13 +55,21 @@ struct ContentView: View {
 
         if panel.runModal() == .OK {
             if let url = panel.url {
-                if let text = convertPDFToAttributedString(from: url) {
-                    extractedText = text
+                if let attributedText = convertPDFToAttributedString(from: url) {
+                    extractedText = attributedText
+                    rawText = extractedText.string // Update raw text with paragraph breaks
+                    context.setAttributedString(to: extractedText) // Reflect changes in context
                 } else {
                     extractedText = NSAttributedString(string: "Failed to extract text from PDF.")
                 }
             }
         }
+    }
+
+    // Function to recolor the text based on the selected color mode
+    func recolorText() {
+        extractedText = applyColorMode(to: rawText)
+        context.setAttributedString(to: extractedText) // Reflect changes in context
     }
 
     // Function to generate a random color for macOS (NSColor)
@@ -87,7 +80,7 @@ struct ContentView: View {
         return NSColor(red: red, green: green, blue: blue, alpha: 1.0)
     }
 
-    // Function to convert PDF to NSAttributedString with random colors per line
+    // Function to convert PDF to NSAttributedString with automatic paragraph detection
     func convertPDFToAttributedString(from url: URL) -> NSAttributedString? {
         guard let pdfDocument = PDFDocument(url: url) else {
             print("Cannot load PDF file.")
@@ -95,78 +88,106 @@ struct ContentView: View {
         }
 
         let fullText = NSMutableAttributedString()
+        var rawTextBuffer = "" // To accumulate raw text for processing
+
         for pageIndex in 0 ..< pdfDocument.pageCount {
             if let page = pdfDocument.page(at: pageIndex),
                let pageText = page.string
             {
-                let lines = pageText.components(separatedBy: .newlines)
-                for line in lines {
-                    // Apply random color to each line
-                    let attributedLineText = NSMutableAttributedString(string: line + "\n")
-                    attributedLineText.addAttribute(.foregroundColor, value: randomColor(), range: NSRange(location: 0, length: attributedLineText.length))
-                    fullText.append(attributedLineText)
+                // Split text by paragraph
+                let paragraphs = pageText.components(separatedBy: "\n\n")
+
+                for paragraph in paragraphs {
+                    if !paragraph.isEmpty {
+                        let attributedParagraphText = NSMutableAttributedString(string: paragraph + "\n\n")
+
+                        // Add auto color
+                        attributedParagraphText.addAttribute(.foregroundColor, value: randomColor(), range: NSRange(location: 0, length: attributedParagraphText.length))
+                        fullText.append(attributedParagraphText)
+
+                        // Append to rawTextBuffer with paragraph breaks
+                        rawTextBuffer += paragraph + "\n\n"
+                    }
                 }
             }
         }
 
+        // Update rawText state
+        rawText = rawTextBuffer.trimmingCharacters(in: .whitespacesAndNewlines)
+
         return fullText
     }
 
-    // Structure to hold the text of both columns
-    struct PageColumns {
-        let leftColumn: NSAttributedString
-        let rightColumn: NSAttributedString
-    }
+    // Function to apply color based on the selected color mode
+    func applyColorMode(to text: String) -> NSAttributedString {
+        let coloredText = NSMutableAttributedString(string: text)
 
-    // Function to split NSAttributedString into multiple pages with two columns
-    func splitTextIntoPages(text: NSAttributedString, pageSize: CGSize, isTwoColumn: Bool) -> [PageColumns] {
-        var pages: [PageColumns] = []
+        switch colorMode {
+        case .line:
+            let lines = text.components(separatedBy: .newlines)
+            var location = 0
+            for line in lines {
+                if !line.isEmpty {
+                    let range = NSRange(location: location, length: line.count)
+                    coloredText.addAttribute(.foregroundColor, value: randomColor(), range: range)
+                }
+                location += line.count + 1 // Move to next line (including newline character)
+            }
+            
+        case .sentence:
+            let sentenceDelimiters = CharacterSet(charactersIn: ".!?")
+            let sentences = text.components(separatedBy: sentenceDelimiters)
 
-        let fullTextStorage = NSTextStorage(attributedString: text)
-        let textLayoutManager = NSLayoutManager()
-        fullTextStorage.addLayoutManager(textLayoutManager)
+            var location = 0
+            for (index, sentence) in sentences.enumerated() {
+                if !sentence.isEmpty {
+                    // Color the sentence
+                    let range = NSRange(location: location, length: sentence.count)
+                    coloredText.addAttribute(.foregroundColor, value: randomColor(), range: range)
 
-        var startIndex = 0
+                    // Color the punctuation after the sentence (if applicable)
+                    if index < sentences.count - 1 {
+                        let punctuationRange = NSRange(location: location + sentence.count, length: 1) // Punctuation
+                        coloredText.addAttribute(.foregroundColor, value: randomColor(), range: punctuationRange)
+                    }
+                }
 
-        while startIndex < text.length {
-            // Adjust text container size for two-column layout
-            let columnWidth = isTwoColumn ? (pageSize.width / 2 - 10) : pageSize.width
-
-            // Left column container
-            let leftTextContainer = NSTextContainer(size: CGSize(width: columnWidth, height: pageSize.height))
-            leftTextContainer.lineFragmentPadding = 0
-            textLayoutManager.addTextContainer(leftTextContainer)
-
-            // Right column container (only if it's a two-column layout)
-            let rightTextContainer = NSTextContainer(size: CGSize(width: columnWidth, height: pageSize.height))
-            rightTextContainer.lineFragmentPadding = 0
-            textLayoutManager.addTextContainer(rightTextContainer)
-
-            // Extract text for left column
-            let leftGlyphRange = textLayoutManager.glyphRange(for: leftTextContainer)
-            let leftCharacterRange = textLayoutManager.characterRange(forGlyphRange: leftGlyphRange, actualGlyphRange: nil)
-            let leftPageText = fullTextStorage.attributedSubstring(from: leftCharacterRange)
-
-            // Extract text for right column (only if two-column layout)
-            let rightPageText: NSAttributedString
-            if isTwoColumn {
-                let rightGlyphRange = textLayoutManager.glyphRange(for: rightTextContainer)
-                let rightCharacterRange = textLayoutManager.characterRange(forGlyphRange: rightGlyphRange, actualGlyphRange: nil)
-                rightPageText = fullTextStorage.attributedSubstring(from: rightCharacterRange)
-
-                // Move the start index to the end of the right column
-                startIndex = NSMaxRange(rightCharacterRange)
-            } else {
-                // Move the start index to the end of the left column if single column
-                rightPageText = NSAttributedString(string: "")
-                startIndex = NSMaxRange(leftCharacterRange)
+                // Move the location by the length of the sentence and punctuation
+                location += sentence.count + 1
             }
 
-            // Add the page with both columns (or just one if single-column mode)
-            pages.append(PageColumns(leftColumn: leftPageText, rightColumn: rightPageText))
+    
+        case .paragraph:
+            let paragraphs = text.components(separatedBy: "\n\n")
+            var location = 0
+            for paragraph in paragraphs {
+                if !paragraph.isEmpty {
+                    let range = NSRange(location: location, length: paragraph.count)
+                    coloredText.addAttribute(.foregroundColor, value: randomColor(), range: range)
+                }
+                location += paragraph.count + 2 // Move to next paragraph
+            }
+
+        case .punctuation:
+            let sentenceDelimiters = CharacterSet(charactersIn: ".!?")
+            let sentences = text.components(separatedBy: sentenceDelimiters)
+
+            var location = 0
+            for (index, sentence) in sentences.enumerated() {
+                if !sentence.isEmpty {
+                    let range = NSRange(location: location, length: sentence.count)
+                    coloredText.addAttribute(.foregroundColor, value: randomColor(), range: range)
+
+                    if index < sentences.count - 1 {
+                        let punctuationRange = NSRange(location: location + sentence.count, length: 1) // Punctuation
+                        coloredText.addAttribute(.foregroundColor, value: randomColor(), range: punctuationRange)
+                    }
+                }
+                location += sentence.count + 1
+            }
         }
 
-        return pages
+        return coloredText
     }
 }
 
