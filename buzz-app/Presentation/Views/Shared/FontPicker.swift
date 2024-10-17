@@ -36,7 +36,7 @@ struct FontPicker: View {
                 .padding(.horizontal, 10)
                 .padding(.vertical, 8)
                 .background(Color(NSColor.windowBackgroundColor))
-                .cornerRadius(20) // Make the entire container oval
+                .cornerRadius(16)
                 .overlay(
                     RoundedRectangle(cornerRadius: 20)
                         .stroke(Color.gray.opacity(0.5), lineWidth: 1)

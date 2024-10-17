@@ -39,18 +39,18 @@ struct CustomToolbar: View {
                         activeToolbar = .palette // Show child buttons for color palette
                     }
                 } else if activeToolbar == .textFormat {
-                    // Child buttons for text format
-                    ToolbarButton(iconName: "a.circle", customImage: nil) {
-                        print("Font style tapped")
-                    }
-                    
-                    ToolbarButton(iconName: "textformat.size.larger", customImage: nil) {
-                        print("Font size tapped")
-                    }
-                    
-                    ToolbarButton(iconName: "arrow.left", customImage: nil) {
+                    // Left chevron button to go back to main toolbar
+                    Button(action: {
                         activeToolbar = .main // Return to main toolbar
-                    }
+                    }) {
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 24)) // Customize icon size if needed
+                        .padding() // Add padding if required for alignment
+                                        }
+                    // Child buttons for text format (Font, Size, Weight pickers)
+                    Picker(items: ["SF Pro", "Tahoma", "Sans Serif"]) // Font picker
+                    Picker(items: ["Normal", "Large", "Extra Large"]) // Size picker
+                    Picker(items: ["Regular", "Bold"]) // Weight picker
                 } else if activeToolbar == .textAlign {
                     // Child buttons for text alignment
                     ToolbarButton(iconName: "text.alignleft", customImage: nil) {
