@@ -1,15 +1,9 @@
-//  Picker.swift
-//  buzz-app
-//
-//  Created by Anthony on 17/10/24.
-//
-
 import SwiftUI
 
-struct Picker: View {
-    @Binding var selectedItem: String
+struct EnumPicker<T: RawRepresentable & Hashable>: View where T.RawValue == String {
+    @Binding var selectedItem: T
     @State private var isMenuVisible: Bool = false
-    let items: [String]
+    let items: [T]
 
     var body: some View {
         ZStack {
@@ -26,16 +20,16 @@ struct Picker: View {
                 if !isMenuVisible {
                     // Picker container with SF Symbol "textformat" and item name
                     HStack {
-                        // SF Symbol "textformat" and selected item in one container
                         HStack {
                             Image(systemName: "textformat")
                                 .font(.system(size: 24))
                                 .padding(.trailing, 5)
 
-                            Text(selectedItem)
+                            // Show the rawValue (String) of the selected enum
+                            Text(selectedItem.rawValue)
                                 .font(.system(size: 16))
 
-                            Spacer() // Allow space for the button
+                            Spacer()
 
                             // Dropdown button, toggles menu visibility
                             Button(action: {
@@ -45,20 +39,20 @@ struct Picker: View {
                             }) {
                                 Image(systemName: "chevron.up.chevron.down")
                                     .foregroundColor(.white)
-                                    .font(.system(size: 20)) // Make the chevron icon bigger
+                                    .font(.system(size: 20))
                                     .padding(8)
                                     .background(Color.blue)
                                     .cornerRadius(5)
                             }
-                            .buttonStyle(PlainButtonStyle()) // Ensure the button is plain without a hover effect
+                            .buttonStyle(PlainButtonStyle())
                         }
-                        .padding(.horizontal, 8) // Adjusted padding
-                        .padding(.vertical, 6) // Adjusted padding
-                        .background(Color.white) // Set picker background to white
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 6)
+                        .background(Color.white)
                         .cornerRadius(16)
                         .overlay(
                             RoundedRectangle(cornerRadius: 16)
-                                .stroke(Color.black, lineWidth: 1) // Set border to black
+                                .stroke(Color.black, lineWidth: 1)
                         )
                     }
                     .frame(width: 264)
@@ -72,21 +66,21 @@ struct Picker: View {
                                 selectedItem = item
                                 isMenuVisible = false
                             }) {
-                                Text(item)
-                                    .foregroundColor(.white) // Always keep text white
+                                Text(item.rawValue) // Display the enum rawValue (String)
+                                    .foregroundColor(.white)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .padding(.vertical, 10)
                                     .padding(.horizontal, 10)
                             }
-                            .background(Color.black.opacity(0.9)) // Menu stays dark
-                            .buttonStyle(PlainButtonStyle()) // No hover or focus styling
+                            .background(Color.black.opacity(0.9))
+                            .buttonStyle(PlainButtonStyle())
                         }
                     }
                     .frame(width: 264)
-                    .background(Color.black.opacity(0.9)) // Menu stays black
+                    .background(Color.black.opacity(0.9))
                     .cornerRadius(10)
                     .shadow(radius: 5)
-                    .offset(y: -24) // Smooth overlay over the picker
+                    .offset(y: -24)
                 }
             }
         }
@@ -94,7 +88,3 @@ struct Picker: View {
         .background(Color.clear) // Transparent background to capture outside taps
     }
 }
-
-//#Preview {
-//    Picker(items: ["SF Pro", "Tahoma", "Sans Serif"])
-//}

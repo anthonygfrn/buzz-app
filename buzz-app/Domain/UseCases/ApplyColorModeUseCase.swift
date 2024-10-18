@@ -29,6 +29,7 @@ struct ApplyColorModeUseCase {
             applyColorByPunctuation(in: coloredText, from: text, coloringStyle: coloringStyle)
         }
         
+        colorApplier.colorIndex = 1
         return coloredText
     }
     

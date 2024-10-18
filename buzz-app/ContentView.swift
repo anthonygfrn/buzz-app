@@ -6,7 +6,7 @@ struct ContentView: View {
     @StateObject var viewModel = PDFViewModel(
         extractPDFTextUseCase: ExtractPDFTextUseCase(repository: PDFRepository()),
         applyColorModeUseCase: ApplyColorModeUseCase(),
-        applyFontSizeUseCase: ApplyFontSizeUseCase()
+        applyFontAttributesUseCase: ApplyFontAttributesUseCase()
     )
 
     var body: some View {
@@ -40,6 +40,7 @@ struct ContentView: View {
 
             CustomToolbar()
         }
+        .environmentObject(viewModel)
         .background(Color.white) // Set the background color to white
     }
 
