@@ -159,24 +159,24 @@ struct CustomToolbar: View {
                         HStack(spacing: 10) {
                             // First button (e.g., Bold Text Button)
                             Button(action: {
-                                print("Bold button tapped")
+                                pdfViewModel.setSegmentedControlValue(to: .line)
                             }) {
                                 Image(systemName: "text.justify.left")
                                     .foregroundColor(.white)
                                     .padding(12)
-                                    .background(Color.blue)
+                                    .background(pdfViewModel.segmentColoringMode == .line ? Color.blue : Color.gray)
                                     .cornerRadius(10)
                             }
                             .buttonStyle(PlainButtonStyle())
 
                             // Second button (e.g., Light Text Button)
                             Button(action: {
-                                print("Light text button tapped")
+                                pdfViewModel.setSegmentedControlValue(to: .sentence)
                             }) {
                                 Image(systemName: "text.word.spacing")
                                     .foregroundColor(.white)
                                     .padding(12)
-                                    .background(Color.gray)
+                                    .background(pdfViewModel.segmentColoringMode == .sentence ? Color.blue : Color.gray)
                                     .cornerRadius(10)
                             }
                             .buttonStyle(PlainButtonStyle())

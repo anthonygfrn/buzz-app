@@ -31,13 +31,16 @@ class PDFViewModel: ObservableObject {
     func openPDF(url: URL) {
         if let document = extractPDFTextUseCase.execute(url: url) {
             rawText = document.rawText
+            extractedText = NSAttributedString(string: document.rawText)
             recolorText()
         }
     }
 
     func recolorText() {
-        extractedText = applyColorModeUseCase.execute(text: rawText, segmentColorMode: segmentColoringMode, coloringStyle: coloringStyle)
+        let coloredText = applyColorModeUseCase.execute(text: extractedText, segmentColorMode: segmentColoringMode, coloringStyle: coloringStyle)
+        extractedText = coloredText
         context.setAttributedString(to: extractedText)
+        modifyFontAttributes() // Ensure font attributes are applied after recoloring
     }
 
     // Apply both font size and weight
@@ -53,7 +56,6 @@ class PDFViewModel: ObservableObject {
         }
     }
 
-    // Set font size and apply both size and weight
     func setSelectedFontSize(to newFontSize: FontSizePicker) {
         switch newFontSize {
         case .normal:
@@ -66,7 +68,6 @@ class PDFViewModel: ObservableObject {
         modifyFontAttributes()
     }
 
-    // Set font weight and apply both size and weight
     func setSelectedFontWeight(to newFontWeight: FontWeightPicker) {
         switch newFontWeight {
         case .regular:
@@ -86,5 +87,20 @@ class PDFViewModel: ObservableObject {
         case .sansSerif:
             fontFamily = NSFont.systemFont(ofSize: fontSize)
         }
+    }
+
+    func setSegmentedControlValue(to newValue: SegmentColoringMode) {
+        switch newValue {
+        case .line:
+            segmentColoringMode = .line
+        case .sentence:
+            segmentColoringMode = .sentence
+        case .paragraph:
+            segmentColoringMode = .paragraph
+        case .punctuation:
+            segmentColoringMode = .punctuation
+        }
+        
+        recolorText()
     }
 }
