@@ -12,9 +12,14 @@ struct PDFDocumentEntity {
     let attributedText: NSAttributedString
 }
 
-enum TextColorMode {
+enum SegmentColoringMode {
     case line
     case paragraph
     case punctuation
     case sentence
+}
+
+enum ColoringStyle {
+    case text
+    case highlight
 }

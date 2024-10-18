@@ -12,12 +12,13 @@ import RichTextKit
 class PDFViewModel: ObservableObject {
     @Published var extractedText = NSAttributedString("")
     @Published var rawText = ""
-    @Published var colorMode: TextColorMode = .line
+    @Published var segmentColoringMode: SegmentColoringMode = .line
+    @Published var coloringStyle: ColoringStyle = .highlight
     @Published var context = RichTextContext()
     @Published var fontSize: CGFloat = 16
 
     private let extractPDFTextUseCase: ExtractPDFTextUseCase
-    private let applyColorModeUseCase: ApplyColorModeUseCase
+    private var applyColorModeUseCase: ApplyColorModeUseCase
     private let applyFontSizeUseCase: ApplyFontSizeUseCase
 
     init(extractPDFTextUseCase: ExtractPDFTextUseCase, applyColorModeUseCase: ApplyColorModeUseCase, applyFontSizeUseCase: ApplyFontSizeUseCase) {
@@ -34,7 +35,7 @@ class PDFViewModel: ObservableObject {
     }
 
     func recolorText() {
-        var result = applyColorModeUseCase.execute(text: rawText, colorMode: colorMode)
+        var result = applyColorModeUseCase.execute(text: rawText, segmentColorMode: segmentColoringMode, coloringStyle: coloringStyle)
         extractedText = result
         context.setAttributedString(to: extractedText)
     }

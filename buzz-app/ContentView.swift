@@ -12,8 +12,11 @@ struct ContentView: View {
     var body: some View {
         VStack {
             HStack {
-                Button("Open PDF") {
+                Button(action: {
                     openPDFPicker()
+                }) {
+                    Text("Open PDF")
+                        .foregroundColor(.black)
                 }
             }
 
