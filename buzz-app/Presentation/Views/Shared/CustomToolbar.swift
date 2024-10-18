@@ -35,7 +35,7 @@ struct CustomToolbar: View {
                     }
                     
                     // Using a custom image for the palette button
-                    ToolbarButton(iconName: nil, customImage: Image("color-mode")) {
+                    ToolbarButton(iconName: nil, customImage: Image("Color-Mode")) {
                         activeToolbar = .palette // Show child buttons for color palette
                     }
                 } else if activeToolbar == .textFormat {
