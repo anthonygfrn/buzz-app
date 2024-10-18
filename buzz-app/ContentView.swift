@@ -4,14 +4,19 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var viewModel = PDFViewModel(
-        extractPDFTextUseCase: ExtractPDFTextUseCase(repository: PDFRepository()), applyColorModeUseCase: ApplyColorModeUseCase()
+        extractPDFTextUseCase: ExtractPDFTextUseCase(repository: PDFRepository()),
+        applyColorModeUseCase: ApplyColorModeUseCase(),
+        applyFontAttributesUseCase: ApplyFontAttributesUseCase()
     )
 
     var body: some View {
         VStack {
             HStack {
-                Button("Open PDF") {
+                Button(action: {
                     openPDFPicker()
+                }) {
+                    Text("Open PDF")
+                        .foregroundColor(.black)
                 }
             }
 
@@ -35,6 +40,7 @@ struct ContentView: View {
 
             CustomToolbar()
         }
+        .environmentObject(viewModel)
         .background(Color.white) // Set the background color to white
     }
 

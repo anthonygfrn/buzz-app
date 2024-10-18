@@ -11,84 +11,187 @@ enum ActiveToolbar {
     case main
     case textFormat
     case textAlign
+    case textSpacing
     case palette
 }
 
 struct CustomToolbar: View {
-    @State private var activeToolbar: ActiveToolbar = .main // Default is the main toolbar
+    @EnvironmentObject var pdfViewModel: PDFViewModel
+    @StateObject var toolbarViewModel = ToolBarViewModel()
 
     var body: some View {
         ZStack {
             HStack {
-                if activeToolbar == .main {
+                if toolbarViewModel.activeToolbar == .main {
                     // Main toolbar buttons
                     ToolbarButton(iconName: "textformat", customImage: nil) {
-                        activeToolbar = .textFormat // Show child buttons for text format
+                        toolbarViewModel.activeToolbar = .textFormat // Show child buttons for text format
                     }
-                    
+
                     ToolbarButton(iconName: "arrow.up.and.down.text.horizontal", customImage: nil) {
-                        activeToolbar = .textAlign // Another text alignment example
+                        toolbarViewModel.setActiveToolbar(.textSpacing)
                     }
-                    
+
                     ToolbarButton(iconName: "text.justify.left", customImage: nil) {
-                        activeToolbar = .textAlign // Show child buttons for text alignment
+                        toolbarViewModel.setActiveToolbar(.textAlign)
                     }
-                    
-                    // Using a custom image for the palette button
+
                     ToolbarButton(iconName: nil, customImage: Image("Color-Mode")) {
-                        activeToolbar = .palette // Show child buttons for color palette
+                        toolbarViewModel.setActiveToolbar(.palette)
                     }
-                } else if activeToolbar == .textFormat {
-                    // Child buttons for text format
-                    ToolbarButton(iconName: "a.circle", customImage: nil) {
-                        print("Font style tapped")
+                } else if toolbarViewModel.activeToolbar == .textFormat {
+                    // Back Button
+                    Button(action: {
+                        toolbarViewModel.setActiveToolbar(.main)
+                    }) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 24))
+                            .padding()
                     }
-                    
-                    ToolbarButton(iconName: "textformat.size.larger", customImage: nil) {
-                        print("Font size tapped")
+                    .buttonStyle(PlainButtonStyle())
+
+                    // Font Family
+                    EnumPicker(selectedItem: $pdfViewModel.selectedFontFamily, items: FontFamilyPicker.allCases)
+                        .padding()
+                        .onChange(of: pdfViewModel.selectedFontFamily) { newValue in
+                            pdfViewModel.setSelectedFontFamily(to: newValue)
+                        }
+
+                    // Font Size
+                    EnumPicker(
+                        selectedItem: $pdfViewModel.selectedFontSize,
+                        items: FontSizePicker.allCases
+                    )
+                    .padding()
+                    .onChange(of: pdfViewModel.selectedFontSize) { newValue in
+                        pdfViewModel.setSelectedFontSize(to: newValue)
                     }
-                    
-                    ToolbarButton(iconName: "arrow.left", customImage: nil) {
-                        activeToolbar = .main // Return to main toolbar
+
+                    // Font Weight
+                    EnumPicker(
+                        selectedItem: $pdfViewModel.selectedFontWeight,
+                        items: FontWeightPicker.allCases
+                    )
+                    .onChange(of: pdfViewModel.selectedFontWeight) { newValue in
+                        pdfViewModel.setSelectedFontWeight(to: newValue)
                     }
-                } else if activeToolbar == .textAlign {
-                    // Child buttons for text alignment
-                    ToolbarButton(iconName: "text.alignleft", customImage: nil) {
-                        print("Align Left tapped")
+                } else if toolbarViewModel.activeToolbar == .textSpacing {
+                    Button(action: {
+                        toolbarViewModel.setActiveToolbar(.main)
+                    }) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 24)) // Customize icon size if needed
+                            .padding() // Add padding if required for alignment
                     }
-                    
-                    ToolbarButton(iconName: "text.aligncenter", customImage: nil) {
-                        print("Align Center tapped")
+                    .buttonStyle(PlainButtonStyle())
+
+                    // Child buttons for text format (Font, Size, Weight pickers)
+                    Picker(selectedItem: .constant("Default"), items: ["SF Pro", "Tahoma", "Sans Serif"])
+                    Picker(selectedItem: .constant("Default"), items: ["Normal", "Large", "Extra Large"])
+                    Picker(selectedItem: .constant("Default"), items: ["Regular", "Bold"]) // Weight picker
+                } else if toolbarViewModel.activeToolbar == .textAlign {
+                    Button(action: {
+                        toolbarViewModel.setActiveToolbar(.main)
+                    }) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 24)) // Customize icon size if needed
+                            .padding() // Add padding if required for alignment
                     }
-                    
-                    ToolbarButton(iconName: "text.alignright", customImage: nil) {
-                        print("Align Right tapped")
+                    .buttonStyle(PlainButtonStyle())
+                    HStack(spacing: 20) {
+                        ToolbarButton(iconName: "text.alignleft", customImage: nil) {
+                            print("Align Left tapped")
+                        }
+
+                        ToolbarButton(iconName: "text.aligncenter", customImage: nil) {
+                            print("Align Center tapped")
+                        }
+
+                        ToolbarButton(iconName: "text.alignright", customImage: nil) {
+                            print("Align Right tapped")
+                        }
+
+                        ToolbarButton(iconName: "text.justify.leading", customImage: nil) {
+                            print("Justify tapped")
+                        }
                     }
-                    
-                    ToolbarButton(iconName: "arrow.left", customImage: nil) {
-                        activeToolbar = .main // Return to main toolbar
+                    .padding(12)
+                    .background(RoundedRectangle(cornerRadius: 20).stroke(Color.gray.opacity(0.3), lineWidth: 1.5)) // Rounded rectangle border
+                } else if toolbarViewModel.activeToolbar == .palette {
+                    // Left chevron button to go back to main toolbar
+                    Button(action: {
+                        toolbarViewModel.setActiveToolbar(.main) // Return to main toolbar
+                    }) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 24)) // Customize icon size if needed
+                            .padding() // Add padding if required for alignment
                     }
-                } else if activeToolbar == .palette {
-                    // Child buttons for color palette
-                    ToolbarButton(iconName: "paintbrush", customImage: nil) {
-                        print("Color picker tapped")
+                    .buttonStyle(PlainButtonStyle())
+
+                    HStack(spacing: 20) {
+                        HStack(spacing: 10) {
+                            Button(action: {
+                                pdfViewModel.setColoringStyle(to: .text)
+                            }) {
+                                Image(systemName: "character")
+                                    .foregroundColor(.white)
+                                    .padding(12)
+                                    .background(pdfViewModel.coloringStyle == .text ? Color.blue : Color.gray)
+                                    .cornerRadius(10)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+
+                            Button(action: {
+                                pdfViewModel.setColoringStyle(to: .highlight)
+                            }) {
+                                Image(systemName: "a.square.fill")
+                                    .foregroundColor(.white)
+                                    .padding(12)
+                                    .background(pdfViewModel.coloringStyle == .highlight ? Color.blue : Color.gray)
+                                    .cornerRadius(10)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        }
+                        .padding(12)
+                        .background(RoundedRectangle(cornerRadius: 20).stroke(Color.gray.opacity(0.5), lineWidth: 2)) // Rounded rectangle border around both buttons
                     }
-                    
-                    ToolbarButton(iconName: "drop.circle", customImage: nil) {
-                        print("Custom color tapped")
-                    }
-                    
-                    ToolbarButton(iconName: "arrow.left", customImage: nil) {
-                        activeToolbar = .main // Return to main toolbar
+                    HStack(spacing: 20) {
+                        HStack(spacing: 10) {
+                            // First button (e.g., Bold Text Button)
+                            Button(action: {
+                                pdfViewModel.setSegmentedControlValue(to: .line)
+                            }) {
+                                Image(systemName: "text.justify.left")
+                                    .foregroundColor(.white)
+                                    .padding(12)
+                                    .background(pdfViewModel.segmentColoringMode == .line ? Color.blue : Color.gray)
+                                    .cornerRadius(10)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+
+                            // Second button (e.g., Light Text Button)
+                            Button(action: {
+                                pdfViewModel.setSegmentedControlValue(to: .sentence)
+                            }) {
+                                Image(systemName: "text.word.spacing")
+                                    .foregroundColor(.white)
+                                    .padding(12)
+                                    .background(pdfViewModel.segmentColoringMode == .sentence ? Color.blue : Color.gray)
+                                    .cornerRadius(10)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        }
+                        .padding(12)
+                        .background(RoundedRectangle(cornerRadius: 20).stroke(Color.gray.opacity(0.5), lineWidth: 2)) // Rounded rectangle border around both buttons
                     }
                 }
 
                 Spacer() // Pushes buttons to the left
             }
             .padding(.leading, 88) // Add margin on the left
-            
+
             // Show the Reset button only when in the main toolbar
-            if activeToolbar == .main {
+            if toolbarViewModel.activeToolbar == .main {
                 HStack {
                     Spacer() // Pushes the Reset button to the right
 
@@ -98,7 +201,7 @@ struct CustomToolbar: View {
                         .bold() // Emphasize the text
                         .foregroundColor(.red)
                         .onTapGesture {
-                            activeToolbar = .main // Reset to the main toolbar
+                            toolbarViewModel.setActiveToolbar(.main)
                             print("Reset All button tapped")
                         }
                 }
@@ -118,6 +221,6 @@ struct CustomToolbar: View {
     }
 }
 
-#Preview {
-    CustomToolbar()
-}
+// #Preview {
+//    CustomToolbar()
+// }
