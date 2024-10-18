@@ -4,7 +4,9 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var viewModel = PDFViewModel(
-        extractPDFTextUseCase: ExtractPDFTextUseCase(repository: PDFRepository()), applyColorModeUseCase: ApplyColorModeUseCase()
+        extractPDFTextUseCase: ExtractPDFTextUseCase(repository: PDFRepository()),
+        applyColorModeUseCase: ApplyColorModeUseCase(),
+        applyFontSizeUseCase: ApplyFontSizeUseCase()
     )
 
     var body: some View {

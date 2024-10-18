@@ -20,9 +20,10 @@ class PDFViewModel: ObservableObject {
     private let applyColorModeUseCase: ApplyColorModeUseCase
     private let applyFontSizeUseCase: ApplyFontSizeUseCase
 
-    init(extractPDFTextUseCase: ExtractPDFTextUseCase, applyColorModeUseCase: ApplyColorModeUseCase) {
+    init(extractPDFTextUseCase: ExtractPDFTextUseCase, applyColorModeUseCase: ApplyColorModeUseCase, applyFontSizeUseCase: ApplyFontSizeUseCase) {
         self.extractPDFTextUseCase = extractPDFTextUseCase
         self.applyColorModeUseCase = applyColorModeUseCase
+        self.applyFontSizeUseCase = applyFontSizeUseCase
     }
 
     func openPDF(url: URL) {

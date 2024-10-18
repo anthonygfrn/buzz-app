@@ -16,4 +16,3 @@ struct buzz_appApp: App {
         .windowStyle(HiddenTitleBarWindowStyle())
     }
 }
-
