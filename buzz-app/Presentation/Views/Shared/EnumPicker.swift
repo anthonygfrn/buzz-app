@@ -4,6 +4,8 @@ struct EnumPicker<T: RawRepresentable & Hashable>: View where T.RawValue == Stri
     @Binding var selectedItem: T
     @State private var isMenuVisible: Bool = false
     let items: [T]
+    let imageName: String? // Optional String for SF Symbol
+    let assetImageName: String? // New property for asset images
 
     var body: some View {
         ZStack {
@@ -18,12 +20,21 @@ struct EnumPicker<T: RawRepresentable & Hashable>: View where T.RawValue == Stri
 
             VStack {
                 if !isMenuVisible {
-                    // Picker container with SF Symbol "textformat" and item name
+                    // Picker container with custom image and selected item name
                     HStack {
                         HStack {
-                            Image(systemName: "textformat")
-                                .font(.system(size: 24))
-                                .padding(.trailing, 5)
+                            // Use the provided image name for the picker
+                            if let assetImageName = assetImageName {
+                                Image(assetImageName) // Use asset image if available
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 24, height: 24)
+                                    .padding(.trailing, 5)
+                            } else if let imageName = imageName {
+                                Image(systemName: imageName) // Fallback to SF Symbol
+                                    .font(.system(size: 24))
+                                    .padding(.trailing, 5)
+                            }
 
                             // Show the rawValue (String) of the selected enum
                             Text(selectedItem.rawValue)
@@ -67,17 +78,17 @@ struct EnumPicker<T: RawRepresentable & Hashable>: View where T.RawValue == Stri
                                 isMenuVisible = false
                             }) {
                                 Text(item.rawValue) // Display the enum rawValue (String)
-                                    .foregroundColor(.white)
+                                    .foregroundColor(.black)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .padding(.vertical, 10)
                                     .padding(.horizontal, 10)
                             }
-                            .background(Color.black.opacity(0.9))
+                            .background(Color.white)
                             .buttonStyle(PlainButtonStyle())
                         }
                     }
                     .frame(width: 264)
-                    .background(Color.black.opacity(0.9))
+                    .background(Color.white)
                     .cornerRadius(10)
                     .shadow(radius: 5)
                     .offset(y: -24)

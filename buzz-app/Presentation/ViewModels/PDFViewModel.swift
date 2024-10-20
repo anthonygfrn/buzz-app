@@ -15,6 +15,10 @@ class PDFViewModel: ObservableObject {
     @Published private(set) var fontSize: CGFloat = 18
     @Published private(set) var fontWeight: NSFont.Weight = .regular
     @Published private(set) var fontFamily: NSFont = .systemFont(ofSize: 18)
+    
+    @Published var selectedLineSpacing: LineSpacing = .normal
+    @Published var selectedLetterSpacing: LetterSpacing = .normal
+    @Published var selectedParagraphSpacing: ParagraphSpacing = .normal
 
     @Published var context = RichTextContext()
 
@@ -102,5 +106,38 @@ class PDFViewModel: ObservableObject {
         }
         
         recolorText()
+    }
+    
+    func setLineSpacing(to newLineSpacing: LineSpacing) {
+        switch newLineSpacing {
+        case .normal:
+            segmentColoringMode = .line
+        case .large:
+            segmentColoringMode = .line
+        case .extraLarge:
+            segmentColoringMode = .line
+        }
+    }
+    
+    func setLetterSpacing(to newLetterSpacing: LetterSpacing) {
+        switch newLetterSpacing {
+        case .normal:
+            segmentColoringMode = .line
+        case .large:
+            segmentColoringMode = .line
+        case .extraLarge:
+            segmentColoringMode = .line
+        }
+    }
+    
+    func setParagraphSpacing(to newParagraphSpacing: ParagraphSpacing) {
+        switch newParagraphSpacing {
+        case .normal:
+            segmentColoringMode = .line
+        case .large:
+            segmentColoringMode = .line
+        case .extraLarge:
+            segmentColoringMode = .line
+        }
     }
 }
