@@ -22,16 +22,34 @@ class PDFRepository: PDFRepositoryProtocol {
             if let page = pdfDocument.page(at: pageIndex),
                let pageText = page.string
             {
-                let paragraphs = pageText.components(separatedBy: "\n\n")
-                for paragraph in paragraphs {
-                    if !paragraph.isEmpty {
-                        let attributedParagraphText = NSMutableAttributedString(string: paragraph + "\n\n")
-                        fullText.append(attributedParagraphText)
-                        rawTextBuffer += paragraph + "\n\n"
+                let lines = pageText.components(separatedBy: .newlines)
+                var currentParagraph = ""
+
+                for line in lines {
+                    if line.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        if !currentParagraph.isEmpty {
+                            let attributedParagraphText = NSMutableAttributedString(string: currentParagraph + "\n\n")
+                            fullText.append(attributedParagraphText)
+                            rawTextBuffer += currentParagraph + "\n\n"
+                            currentParagraph = ""
+                        }
+                    } else {
+                        if !currentParagraph.isEmpty {
+                            currentParagraph += " "
+                        }
+                        currentParagraph += line
                     }
+                }
+
+                // Append the last paragraph if not already appended
+                if !currentParagraph.isEmpty {
+                    let attributedParagraphText = NSMutableAttributedString(string: currentParagraph + "\n\n")
+                    fullText.append(attributedParagraphText)
+                    rawTextBuffer += currentParagraph + "\n\n"
                 }
             }
         }
+        
         let rawText = rawTextBuffer.trimmingCharacters(in: .whitespacesAndNewlines)
         return PDFDocumentEntity(rawText: rawText, attributedText: fullText)
     }

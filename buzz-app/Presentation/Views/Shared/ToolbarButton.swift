@@ -10,6 +10,7 @@ import SwiftUI
 struct ToolbarButton: View {
     let iconName: String? // SF Symbol name (optional for custom image)
     let customImage: Image? // Custom image (optional)
+    let overlayOpacity: Double // Opacity for the overlay (0.0 to 1.0)
     let action: () -> Void // Action closure for button tap
 
     // State for hover effect
@@ -29,10 +30,10 @@ struct ToolbarButton: View {
                     .bold()
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .stroke(Color.gray.opacity(0.3), lineWidth: 1.5)
+                            .stroke(Color.gray.opacity(overlayOpacity), lineWidth: 1.5)
                             .background(
                                 RoundedRectangle(cornerRadius: 12)
-                                    .fill(isHovered ? Color.black.opacity(0.2) : Color.clear)
+                                    .fill(isHovered ? Color.black.opacity(overlayOpacity) : Color.clear) // Use the overlayOpacity
                             )
                     )
                     .frame(width: 64, height: 64) // Outer frame remains the same
@@ -45,10 +46,10 @@ struct ToolbarButton: View {
                     .padding(4) // Smaller padding for custom image
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .stroke(Color.gray.opacity(0.3), lineWidth: 1.5)
+                            .stroke(Color.gray.opacity(overlayOpacity), lineWidth: 1.5)
                             .background(
                                 RoundedRectangle(cornerRadius: 12)
-                                    .fill(isHovered ? Color.black.opacity(0.2) : Color.clear)
+                                    .fill(isHovered ? Color.black.opacity(overlayOpacity) : Color.clear) // Use the overlayOpacity
                             )
                     )
                     .frame(width: 64, height: 64) // Same outer frame size
@@ -72,7 +73,7 @@ struct ToolbarButton: View {
 }
 
 #Preview {
-    ToolbarButton(iconName: "textformat", customImage: nil, action: {
+    ToolbarButton(iconName: "textformat", customImage: nil, overlayOpacity: 0.2) { // Provide action closure here
         print("Button tapped")
-    })
+    }
 }

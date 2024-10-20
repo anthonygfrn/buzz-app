@@ -34,10 +34,31 @@ if [ ! -d "buzz-app.xcodeproj/project.xcworkspace/xcshareddata/swiftpm" ]; then
     mkdir -p buzz-app.xcodeproj/project.xcworkspace/xcshareddata/swiftpm
 fi
 
-if [ ! -f "buzz-app.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" ]; then
-    echo "Creating Package.resolved file..."
-    touch buzz-app.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
-fi
+# if [ ! -f "buzz-app.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" ]; then
+#     echo "Creating Package.resolved file..."
+#     touch buzz-app.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+# fi
+
+touch *.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+echo "Creating Package.resolved..."
+cat <<EOL > *.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+# CREATE YOUR EXAMPLE DEPENDENCY HERE, ONLY FOR CREATING Package.resolved
+{
+  "originHash" : "",
+  "pins" : [
+    {
+      "identity" : "",
+      "kind" : "",
+      "location" : "",
+      "state" : {
+        "revision" : "",
+        "version" : ""
+      }
+    }
+  ],
+  "version" : 3
+}
+EOL
 
 echo "Resolving package dependencies..."
 xcodebuild -resolvePackageDependencies -project buzz-app.xcodeproj -scheme buzz-app
