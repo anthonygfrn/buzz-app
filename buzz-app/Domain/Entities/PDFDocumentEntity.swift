@@ -40,3 +40,21 @@ enum FontFamilyPicker: String, CaseIterable {
     case tahoma = "Tahoma"
     case sansSerif = "Sans Serif"
 }
+
+enum LineSpacing: String, CaseIterable {
+    case normal = "Normal"
+    case large = "Large"
+    case extraLarge = "Extra Large"
+}
+
+enum LetterSpacing: String, CaseIterable {
+    case normal = "Normal"
+    case large = "Large"
+    case extraLarge = "Extra Large"
+}
+
+enum ParagraphSpacing: String, CaseIterable {
+    case normal = "Normal"
+    case large = "Large"
+    case extraLarge = "Extra Large"
+}
