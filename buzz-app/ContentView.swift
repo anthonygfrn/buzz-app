@@ -11,37 +11,30 @@ struct ContentView: View {
 
     var body: some View {
         VStack {
-            HStack {
-                Button(action: {
-                    openPDFPicker()
-                }) {
-                    Text("Open PDF")
-                        .foregroundColor(.black)
-                }
-            }
-
             GeometryReader { geometry in
                 ScrollView {
                     VStack {
                         // Calculate padding based on the screen width and given ratio
                         let totalWidth = geometry.size.width
-                        let contentWidth: CGFloat = 974 // Fixed content width based on ratio
+                        let contentWidth: CGFloat = 1424 // Fixed content width based on ratio
                         let sidePadding = (totalWidth - contentWidth) / 2
 
                         // Center the RichTextEditor with calculated padding
                         RichTextEditor(text: $viewModel.extractedText, context: viewModel.context)
-                            .frame(width: contentWidth, height: 594) // Set fixed width and height for the editor
+                            .frame(width: contentWidth, height: 888) // Set fixed width and height for the editor
                             .padding(.leading, max(sidePadding, 0))
                             .padding(.trailing, max(sidePadding, 0))
                     }
                 }
             }
-            .padding()
 
             CustomToolbar()
         }
         .environmentObject(viewModel)
         .background(Color.white) // Set the background color to white
+        .onAppear {
+            openPDFPicker() // Call the PDF picker when the view appears
+        }
     }
 
     // Function to open PDF from Finder (macOS)
