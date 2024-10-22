@@ -9,6 +9,8 @@ struct ContentView: View {
         applyFontAttributesUseCase: ApplyFontAttributesUseCase()
     )
 
+    @StateObject var darkModeViewModel = DarkModeViewModel()
+
     var body: some View {
         VStack {
             GeometryReader { geometry in
@@ -16,12 +18,12 @@ struct ContentView: View {
                     VStack {
                         // Calculate padding based on the screen width and given ratio
                         let totalWidth = geometry.size.width
-                        let contentWidth: CGFloat = 1424 // Fixed content width based on ratio
+                        let contentWidth: CGFloat = min(totalWidth * 0.85, 1424) // Fixed content width based on ratio
                         let sidePadding = (totalWidth - contentWidth) / 2
 
                         // Center the RichTextEditor with calculated padding
                         RichTextEditor(text: $viewModel.extractedText, context: viewModel.context)
-                            .frame(width: contentWidth, height: 888) // Set fixed width and height for the editor
+                            .frame(width: contentWidth, height: 888)
                             .padding(.leading, max(sidePadding, 0))
                             .padding(.trailing, max(sidePadding, 0))
                     }
@@ -31,7 +33,7 @@ struct ContentView: View {
             CustomToolbar()
         }
         .environmentObject(viewModel)
-        .background(Color.white) // Set the background color to white
+        .background(Color("BgColor"))
         .onAppear {
             openPDFPicker() // Call the PDF picker when the view appears
         }

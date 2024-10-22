@@ -11,16 +11,13 @@ struct TextColorApplier {
                 .foregroundColor: NSColor(named: NSColor.Name("Text\(colorIndex)")) ?? NSColor.black // Default to black if color not found
             ]
             text.addAttributes(textColorAttribute, range: range)
-            
-            // Remove existing highlight attribute if switching to text style
-            text.removeAttribute(.backgroundColor, range: range)
         } else if coloringStyle == .highlight {
-            // Apply highlight attribute
             let highlightAttribute: [NSAttributedString.Key: Any] = [
                 .backgroundColor: NSColor(named: NSColor.Name("Highlight\(colorIndex)")) ?? NSColor.clear // Default to clear if color not found
             ]
+
             text.addAttributes(highlightAttribute, range: range)
-            text.addAttribute(.foregroundColor, value: NSColor.black, range: range)
+            text.addAttribute(.foregroundColor, value: NSColor(named: NSColor.Name("Default")), range: range)
         }
 
         nextColor()

@@ -59,11 +59,10 @@ struct EnumPicker<T: RawRepresentable & Hashable>: View where T.RawValue == Stri
                         }
                         .padding(.horizontal, 8)
                         .padding(.vertical, 6)
-                        .background(Color.white)
                         .cornerRadius(16)
                         .overlay(
                             RoundedRectangle(cornerRadius: 16)
-                                .stroke(Color.black, lineWidth: 1)
+                                .stroke(Color("OutlinePrimary"), lineWidth: 1)
                         )
                     }
                     .frame(width: 264)
@@ -77,7 +76,7 @@ struct EnumPicker<T: RawRepresentable & Hashable>: View where T.RawValue == Stri
                                 selectedItem = item
                                 isMenuVisible = false
                             }) {
-                                Text(item.rawValue) // Display the enum rawValue (String)
+                                Text(item.rawValue)
                                     .foregroundColor(.black)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .padding(.vertical, 10)

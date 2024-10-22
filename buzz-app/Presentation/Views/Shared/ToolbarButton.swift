@@ -24,16 +24,16 @@ struct ToolbarButton: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 28, height: 28) // Smaller SF Symbol
-                    .foregroundColor(.black)
+                    .foregroundColor(Color("Default"))
                     .padding(14)
                     .font(.title)
                     .bold()
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .stroke(Color.gray.opacity(overlayOpacity), lineWidth: 1.5)
+                            .stroke(Color("OutlinePrimary"), lineWidth: 1.5)
                             .background(
                                 RoundedRectangle(cornerRadius: 12)
-                                    .fill(isHovered ? Color.black.opacity(overlayOpacity) : Color.clear) // Use the overlayOpacity
+                                    .fill(isHovered ? Color("OutlinePrimary").opacity(overlayOpacity) : Color.clear) // Use the overlayOpacity
                             )
                     )
                     .frame(width: 64, height: 64) // Outer frame remains the same
@@ -46,10 +46,10 @@ struct ToolbarButton: View {
                     .padding(4) // Smaller padding for custom image
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .stroke(Color.gray.opacity(overlayOpacity), lineWidth: 1.5)
+                            .stroke(Color("OutlinePrimary"), lineWidth: 1.5)
                             .background(
                                 RoundedRectangle(cornerRadius: 12)
-                                    .fill(isHovered ? Color.black.opacity(overlayOpacity) : Color.clear) // Use the overlayOpacity
+                                    .fill(isHovered ? Color("OutlinePrimary").opacity(overlayOpacity) : Color.clear) // Use the overlayOpacity
                             )
                     )
                     .frame(width: 64, height: 64) // Same outer frame size

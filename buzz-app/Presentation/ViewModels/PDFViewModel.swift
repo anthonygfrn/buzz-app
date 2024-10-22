@@ -15,13 +15,17 @@ class PDFViewModel: ObservableObject {
     @Published private(set) var fontSize: CGFloat = 18
     @Published private(set) var fontWeight: NSFont.Weight = .regular
     @Published private(set) var fontFamily: NSFont = .systemFont(ofSize: 18)
-    
+    @Published private(set) var lineSpacing: CGFloat = 0
+    @Published private(set) var letterSpacing: CGFloat = 1
+    @Published private(set) var paragraphSpacing: CGFloat = 2
+
     @Published var selectedLineSpacing: LineSpacing = .normal
     @Published var selectedLetterSpacing: LetterSpacing = .normal
     @Published var selectedParagraphSpacing: ParagraphSpacing = .normal
 
     @Published var context = RichTextContext()
 
+//    Use Case
     private let extractPDFTextUseCase: ExtractPDFTextUseCase
     private var applyColorModeUseCase: ApplyColorModeUseCase
     private let applyFontAttributesUseCase: ApplyFontAttributesUseCase
@@ -49,7 +53,14 @@ class PDFViewModel: ObservableObject {
 
     // Apply both font size and weight
     func modifyFontAttributes() {
-        extractedText = applyFontAttributesUseCase.execute(text: extractedText, fontSize: fontSize, fontWeight: fontWeight)
+        extractedText = applyFontAttributesUseCase.execute(
+            text: extractedText,
+            fontSize: fontSize,
+            fontWeight: fontWeight,
+            lineSpacing: lineSpacing,
+            letterSpacing: letterSpacing,
+            paragraphSpacing: paragraphSpacing
+        )
         context.setAttributedString(to: extractedText)
     }
 
@@ -104,40 +115,46 @@ class PDFViewModel: ObservableObject {
         case .punctuation:
             segmentColoringMode = .punctuation
         }
-        
+
         recolorText()
     }
-    
+
     func setLineSpacing(to newLineSpacing: LineSpacing) {
         switch newLineSpacing {
         case .normal:
-            segmentColoringMode = .line
+            lineSpacing = 1
         case .large:
-            segmentColoringMode = .line
+            lineSpacing = 1.5
         case .extraLarge:
-            segmentColoringMode = .line
+            lineSpacing = 2
         }
+
+        modifyFontAttributes()
     }
-    
+
     func setLetterSpacing(to newLetterSpacing: LetterSpacing) {
         switch newLetterSpacing {
         case .normal:
-            segmentColoringMode = .line
+            letterSpacing = 1
         case .large:
-            segmentColoringMode = .line
+            letterSpacing = 1.5
         case .extraLarge:
-            segmentColoringMode = .line
+            letterSpacing = 2
         }
+
+        modifyFontAttributes()
     }
-    
+
     func setParagraphSpacing(to newParagraphSpacing: ParagraphSpacing) {
         switch newParagraphSpacing {
         case .normal:
-            segmentColoringMode = .line
+            paragraphSpacing = 2
         case .large:
-            segmentColoringMode = .line
+            paragraphSpacing = 2.5
         case .extraLarge:
-            segmentColoringMode = .line
+            paragraphSpacing = 3
         }
+
+        modifyFontAttributes()
     }
 }

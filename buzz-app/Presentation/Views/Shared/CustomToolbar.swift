@@ -37,7 +37,7 @@ struct CustomToolbar: View {
                         toolbarViewModel.setActiveToolbar(.textAlign)
                     }
 
-                    ToolbarButton(iconName: nil, customImage: Image("color-mode"),  overlayOpacity: 0.2) {
+                    ToolbarButton(iconName: nil, customImage: Image("Color-Mode"), overlayOpacity: 0.2) {
                         toolbarViewModel.setActiveToolbar(.palette)
                     }
                 } else if toolbarViewModel.activeToolbar == .textFormat {
@@ -47,6 +47,7 @@ struct CustomToolbar: View {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 24))
                             .padding()
+                            .foregroundColor(Color("Default"))
                     }
                     .buttonStyle(PlainButtonStyle())
 
@@ -77,28 +78,29 @@ struct CustomToolbar: View {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 24)) // Customize icon size if needed
                             .padding() // Add padding if required for alignment
+                            .foregroundColor(Color("Default"))
                     }
                     .buttonStyle(PlainButtonStyle())
 
                     EnumPicker(selectedItem: $pdfViewModel.selectedLineSpacing, items: LineSpacing.allCases, imageName: "arrow.up.and.down.text.horizontal", assetImageName: nil)
                         .padding(.horizontal, 0)
                         .frame(width: 264)
-                        .onChange(of: pdfViewModel.selectedFontFamily) { newValue in
-                            pdfViewModel.setSelectedFontFamily(to: newValue)
+                        .onChange(of: pdfViewModel.selectedLineSpacing) { newValue in
+                            pdfViewModel.setLineSpacing(to: newValue)
                         }
 
                     EnumPicker(selectedItem: $pdfViewModel.selectedLetterSpacing, items: LetterSpacing.allCases, imageName: nil, assetImageName: "space.character")
                         .padding(.horizontal, 0)
                         .frame(width: 264)
-                        .onChange(of: pdfViewModel.selectedFontSize) { newValue in
-                            pdfViewModel.setSelectedFontSize(to: newValue)
+                        .onChange(of: pdfViewModel.selectedLetterSpacing) { newValue in
+                            pdfViewModel.setLetterSpacing(to: newValue)
                         }
 
                     EnumPicker(selectedItem: $pdfViewModel.selectedParagraphSpacing, items: ParagraphSpacing.allCases, imageName: "text.justify.left", assetImageName: nil)
                         .padding(.horizontal, 0)
                         .frame(width: 264)
-                        .onChange(of: pdfViewModel.selectedFontWeight) { newValue in
-                            pdfViewModel.setSelectedFontWeight(to: newValue)
+                        .onChange(of: pdfViewModel.selectedParagraphSpacing) { newValue in
+                            pdfViewModel.setParagraphSpacing(to: newValue)
                         }
                 } else if toolbarViewModel.activeToolbar == .textAlign {
                     Button(action: {
@@ -107,6 +109,7 @@ struct CustomToolbar: View {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 24)) // Customize icon size if needed
                             .padding() // Add padding if required for alignment
+                            .foregroundColor(Color("Default"))
                     }
                     .buttonStyle(PlainButtonStyle())
                     HStack(spacing: 5) {
@@ -148,9 +151,10 @@ struct CustomToolbar: View {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 24)) // Customize icon size if needed
                             .padding() // Add padding if required for alignment
+                            .foregroundColor(Color("Default"))
                     }
                     .buttonStyle(PlainButtonStyle())
-                    
+
                     HStack(spacing: 20) {
                         HStack(spacing: 12) {
                             Button(action: {
@@ -166,7 +170,7 @@ struct CustomToolbar: View {
                                     .cornerRadius(10)
                             }
                             .buttonStyle(PlainButtonStyle())
-                            
+
                             Button(action: {
                                 pdfViewModel.setColoringStyle(to: .highlight)
                             }) {
@@ -199,7 +203,7 @@ struct CustomToolbar: View {
                                     .cornerRadius(10)
                             }
                             .buttonStyle(PlainButtonStyle())
-                            
+
                             Button(action: {
                                 pdfViewModel.setSegmentedControlValue(to: .line)
                             }) {
@@ -243,7 +247,7 @@ struct CustomToolbar: View {
         }
         .padding()
         .frame(maxWidth: .infinity, minHeight: 126, maxHeight: 126) // Adjusted toolbar height
-        .background(Color.white) // Background for the toolbar
+        .background(Color("BgColor"))
         .overlay(
             Rectangle() // Straight top line for outline
                 .frame(height: 2)
