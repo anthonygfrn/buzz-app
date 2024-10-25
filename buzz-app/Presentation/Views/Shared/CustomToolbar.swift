@@ -19,6 +19,7 @@ struct CustomToolbar: View {
     @EnvironmentObject var pdfViewModel: PDFViewModel
     @StateObject var toolbarViewModel = ToolBarViewModel()
     @State private var selectedAlignment: String?
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         ZStack {
@@ -245,6 +246,7 @@ struct CustomToolbar: View {
                 .padding(.trailing, 88) // Add same margin as the left for the Reset button
             }
         }
+
         .padding()
         .frame(maxWidth: .infinity, minHeight: 126, maxHeight: 126) // Adjusted toolbar height
         .background(Color("BgColor"))

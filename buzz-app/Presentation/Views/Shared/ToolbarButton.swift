@@ -71,9 +71,3 @@ struct ToolbarButton: View {
         }
     }
 }
-
-#Preview {
-    ToolbarButton(iconName: "textformat", customImage: nil, overlayOpacity: 0.2) { // Provide action closure here
-        print("Button tapped")
-    }
-}

@@ -9,29 +9,27 @@ struct EnumPicker<T: RawRepresentable & Hashable>: View where T.RawValue == Stri
 
     var body: some View {
         ZStack {
-            // Background overlay to detect taps outside the Picker menu
             if isMenuVisible {
-                Color.clear // Invisible background to capture taps
+                Color.clear
                     .onTapGesture {
-                        isMenuVisible = false // Close the menu
+                        isMenuVisible = false
                     }
-                    .ignoresSafeArea() // Capture taps across the entire screen
+                    .ignoresSafeArea()
             }
 
             VStack {
                 if !isMenuVisible {
-                    // Picker container with custom image and selected item name
                     HStack {
                         HStack {
-                            // Use the provided image name for the picker
                             if let assetImageName = assetImageName {
-                                Image(assetImageName) // Use asset image if available
+                                Image(assetImageName)
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 24, height: 24)
                                     .padding(.trailing, 5)
+                                    .foregroundStyle(Color("Default"))
                             } else if let imageName = imageName {
-                                Image(systemName: imageName) // Fallback to SF Symbol
+                                Image(systemName: imageName)
                                     .font(.system(size: 24))
                                     .padding(.trailing, 5)
                             }

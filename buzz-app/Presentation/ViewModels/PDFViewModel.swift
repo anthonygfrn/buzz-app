@@ -10,11 +10,11 @@ class PDFViewModel: ObservableObject {
 
     @Published var selectedFontSize: FontSizePicker = .normal
     @Published var selectedFontWeight: FontWeightPicker = .regular
-    @Published var selectedFontFamily: FontFamilyPicker = .sansSerif
+    @Published var selectedFontFamily: FontFamilyPicker = .SFPro
 
     @Published private(set) var fontSize: CGFloat = 18
     @Published private(set) var fontWeight: NSFont.Weight = .regular
-    @Published private(set) var fontFamily: NSFont = .systemFont(ofSize: 18)
+    @Published private(set) var fontFamily: String = "SF Pro"
     @Published private(set) var lineSpacing: CGFloat = 0
     @Published private(set) var letterSpacing: CGFloat = 1
     @Published private(set) var paragraphSpacing: CGFloat = 2
@@ -57,6 +57,7 @@ class PDFViewModel: ObservableObject {
             text: extractedText,
             fontSize: fontSize,
             fontWeight: fontWeight,
+            fontFamily: fontFamily,
             lineSpacing: lineSpacing,
             letterSpacing: letterSpacing,
             paragraphSpacing: paragraphSpacing
@@ -94,14 +95,9 @@ class PDFViewModel: ObservableObject {
     }
 
     func setSelectedFontFamily(to newFontFamily: FontFamilyPicker) {
-        switch newFontFamily {
-        case .sfPro:
-            fontFamily = NSFont(name: "SF Pro", size: fontSize) ?? NSFont.systemFont(ofSize: fontSize)
-        case .tahoma:
-            fontFamily = NSFont(name: "Tahoma", size: fontSize) ?? NSFont.systemFont(ofSize: fontSize)
-        case .sansSerif:
-            fontFamily = NSFont.systemFont(ofSize: fontSize)
-        }
+        fontFamily = newFontFamily.rawValue
+
+        modifyFontAttributes()
     }
 
     func setSegmentedControlValue(to newValue: SegmentColoringMode) {
