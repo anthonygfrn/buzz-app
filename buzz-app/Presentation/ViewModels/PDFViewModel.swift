@@ -133,11 +133,11 @@ class PDFViewModel: ObservableObject {
     func setLetterSpacing(to newLetterSpacing: LetterSpacing) {
         switch newLetterSpacing {
         case .normal:
-            letterSpacing = 1
+            letterSpacing = 1 * lineSpacing
         case .large:
-            letterSpacing = 1.5
+            letterSpacing = 1.5 * lineSpacing
         case .extraLarge:
-            letterSpacing = 2
+            letterSpacing = 2 * lineSpacing
         }
 
         modifyFontAttributes()
@@ -146,11 +146,11 @@ class PDFViewModel: ObservableObject {
     func setParagraphSpacing(to newParagraphSpacing: ParagraphSpacing) {
         switch newParagraphSpacing {
         case .normal:
-            paragraphSpacing = 2
+            paragraphSpacing = 2 * lineSpacing
         case .large:
-            paragraphSpacing = 2.5
+            paragraphSpacing = 2.5 * lineSpacing
         case .extraLarge:
-            paragraphSpacing = 3
+            paragraphSpacing = 3 * lineSpacing
         }
 
         modifyFontAttributes()

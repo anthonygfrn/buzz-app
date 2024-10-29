@@ -154,12 +154,12 @@ struct CustomToolbar: View {
                             Button(action: {
                                 pdfViewModel.setColoringStyle(to: .text)
                             }) {
-                                Image(systemName: "character")
+                                Image(pdfViewModel.coloringStyle == .text ? "letter-2" : "letter-1")
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 32, height: 32) // Make the image bigger
                                     .foregroundColor(.white)
-                                    .padding(8) // Adjust padding to make button smaller
+                                    .padding(8)
                                     .background(pdfViewModel.coloringStyle == .text ? Color.blue : Color.gray)
                                     .cornerRadius(10)
                             }
@@ -168,7 +168,7 @@ struct CustomToolbar: View {
                             Button(action: {
                                 pdfViewModel.setColoringStyle(to: .highlight)
                             }) {
-                                Image(systemName: "a.square.fill")
+                                Image("highlight")
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 32, height: 32) // Make the image bigger

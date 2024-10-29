@@ -18,12 +18,14 @@ struct ContentView: View {
                     VStack {
                         // Calculate padding based on the screen width and given ratio
                         let totalWidth = geometry.size.width
+                        let totalHeight = geometry.size.height
+
                         let contentWidth: CGFloat = min(totalWidth * 0.85, 1424) // Fixed content width based on ratio
                         let sidePadding = (totalWidth - contentWidth) / 2
 
                         // Center the RichTextEditor with calculated padding
                         RichTextEditor(text: $viewModel.extractedText, context: viewModel.context)
-                            .frame(width: contentWidth, height: 888)
+                            .frame(width: contentWidth, height: totalHeight)
                             .padding(.leading, max(sidePadding, 0))
                             .padding(.trailing, max(sidePadding, 0))
                     }

@@ -71,5 +71,5 @@ enum FontFamily: String, CaseIterable {
     case tahoma = "Tahoma"
     case sansSerif = "Sans Serif"
     case Arial
-    case openDyslexic = "Open Dyslexic"
+    case openDyslexic = "OpenDyslexic"
 }
