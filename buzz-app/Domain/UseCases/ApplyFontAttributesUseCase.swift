@@ -9,7 +9,8 @@ class ApplyFontAttributesUseCase {
         fontFamily: String,
         lineSpacing: CGFloat,
         letterSpacing: CGFloat,
-        paragraphSpacing: CGFloat
+        paragraphSpacing: CGFloat,
+        textAlignment: String 
     ) -> NSAttributedString {
         // Create a mutable attributed string
         let mutableText = NSMutableAttributedString(attributedString: text)
@@ -17,25 +18,32 @@ class ApplyFontAttributesUseCase {
         let fontDescriptor = NSFontDescriptor(name: fontFamily, size: fontSize)
             .addingAttributes([.traits: [NSFontDescriptor.TraitKey.weight: fontWeight]])
 
-        // Attempt to create the custom font with the specified weight
         let font = NSFont(descriptor: fontDescriptor, size: fontSize) ??
-            NSFont.systemFont(ofSize: fontSize, weight: fontWeight) // Fallback to system font
+            NSFont.systemFont(ofSize: fontSize, weight: fontWeight)
 
-        // Apply font attributes to the entire text
         let fullRange = NSRange(location: 0, length: text.length)
         mutableText.addAttribute(.font, value: font, range: fullRange)
-
-        // Apply letter spacing (kerning)
         mutableText.addAttribute(.kern, value: letterSpacing, range: fullRange)
 
-        // Apply paragraph style for line spacing and paragraph spacing
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = lineSpacing
         paragraphStyle.paragraphSpacing = paragraphSpacing
 
-        // Apply paragraph style to the entire text
+        // Set alignment based on textAlignment value
+        switch textAlignment {
+        case "center":
+            paragraphStyle.alignment = .center
+        case "right":
+            paragraphStyle.alignment = .right
+        case "justified":
+            paragraphStyle.alignment = .justified
+        default:
+            paragraphStyle.alignment = .left
+        }
+
         mutableText.addAttribute(.paragraphStyle, value: paragraphStyle, range: fullRange)
 
         return mutableText
     }
 }
+

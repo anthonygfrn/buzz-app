@@ -18,7 +18,6 @@ enum ActiveToolbar {
 struct CustomToolbar: View {
     @EnvironmentObject var pdfViewModel: PDFViewModel
     @StateObject var toolbarViewModel = ToolBarViewModel()
-    @State private var selectedAlignment: String?
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
@@ -115,37 +114,31 @@ struct CustomToolbar: View {
                     .buttonStyle(PlainButtonStyle())
                     HStack(spacing: 5) {
                         ToolbarButton(iconName: "text.alignleft", customImage: nil, overlayOpacity: 0) {
-                            selectedAlignment = "left" // Set the selected state
-                            print("Align Left tapped")
+                            pdfViewModel.setSelectedTextAlignment(to: .left)
                         }
-                        .background(selectedAlignment == "left" ? Color.blue : Color.clear) // Blue background when selected
-                        .cornerRadius(12) // Add corner radius to match rounded rectangle
+                        .background(pdfViewModel.selectedTextAlignment == .left ? Color.blue : Color.clear)
+                        .cornerRadius(12)
 
                         ToolbarButton(iconName: "text.aligncenter", customImage: nil, overlayOpacity: 0) {
-                            selectedAlignment = "center"
-                            print("Align Center tapped")
+                            pdfViewModel.setSelectedTextAlignment(to: .center)
                         }
-                        .background(selectedAlignment == "center" ? Color.blue : Color.clear)
+                        .background(pdfViewModel.selectedTextAlignment == .center ? Color.blue : Color.clear)
                         .cornerRadius(12)
 
                         ToolbarButton(iconName: "text.alignright", customImage: nil, overlayOpacity: 0) {
-                            selectedAlignment = "right"
-                            print("Align Right tapped")
+                            pdfViewModel.setSelectedTextAlignment(to: .right)
                         }
-                        .background(selectedAlignment == "right" ? Color.blue : Color.clear)
+                        .background(pdfViewModel.selectedTextAlignment == .right ? Color.blue : Color.clear)
                         .cornerRadius(12)
 
                         ToolbarButton(iconName: "text.justify.leading", customImage: nil, overlayOpacity: 0) {
-                            selectedAlignment = "justify"
-                            print("Justify tapped")
+                            pdfViewModel.setSelectedTextAlignment(to: .justified)
                         }
-                        .background(selectedAlignment == "justify" ? Color.blue : Color.clear)
+                        .background(pdfViewModel.selectedTextAlignment == .justified ? Color.blue : Color.clear)
                         .cornerRadius(12)
                     }
-                    .padding(6) // Reduced padding around the buttons
-                    .background(RoundedRectangle(cornerRadius: 20).stroke(Color.gray.opacity(0.3), lineWidth: 1.5)) // Rounded rectangle border
+                    .padding(6)
                 } else if toolbarViewModel.activeToolbar == .palette {
-                    // Left chevron button to go back to main toolbar
                     Button(action: {
                         toolbarViewModel.setActiveToolbar(.main) // Return to main toolbar
                     }) {
@@ -240,6 +233,7 @@ struct CustomToolbar: View {
                         .foregroundColor(.red)
                         .onTapGesture {
                             toolbarViewModel.setActiveToolbar(.main)
+                            pdfViewModel.resetAllStyling()
                             print("Reset All button tapped")
                         }
                 }

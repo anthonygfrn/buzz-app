@@ -11,6 +11,10 @@ class PDFViewModel: ObservableObject {
     @Published var selectedFontSize: FontSizePicker = .normal
     @Published var selectedFontWeight: FontWeightPicker = .regular
     @Published var selectedFontFamily: FontFamilyPicker = .SFPro
+    @Published var selectedLineSpacing: LineSpacing = .normal
+    @Published var selectedLetterSpacing: LetterSpacing = .normal
+    @Published var selectedParagraphSpacing: ParagraphSpacing = .normal
+    @Published var selectedTextAlignment: TextAlignment = .left
 
     @Published private(set) var fontSize: CGFloat = 18
     @Published private(set) var fontWeight: NSFont.Weight = .regular
@@ -18,10 +22,7 @@ class PDFViewModel: ObservableObject {
     @Published private(set) var lineSpacing: CGFloat = 0
     @Published private(set) var letterSpacing: CGFloat = 1
     @Published private(set) var paragraphSpacing: CGFloat = 2
-
-    @Published var selectedLineSpacing: LineSpacing = .normal
-    @Published var selectedLetterSpacing: LetterSpacing = .normal
-    @Published var selectedParagraphSpacing: ParagraphSpacing = .normal
+    @Published private(set) var textAlignment: String = "left"
 
     @Published var context = RichTextContext()
 
@@ -60,7 +61,8 @@ class PDFViewModel: ObservableObject {
             fontFamily: fontFamily,
             lineSpacing: lineSpacing,
             letterSpacing: letterSpacing,
-            paragraphSpacing: paragraphSpacing
+            paragraphSpacing: paragraphSpacing,
+            textAlignment: textAlignment
         )
         context.setAttributedString(to: extractedText)
     }
@@ -150,6 +152,41 @@ class PDFViewModel: ObservableObject {
         case .extraLarge:
             paragraphSpacing = 3
         }
+
+        modifyFontAttributes()
+    }
+
+    func setSelectedTextAlignment(to newTextAlignment: TextAlignment) {
+        selectedTextAlignment = newTextAlignment
+        switch newTextAlignment {
+        case .left:
+            textAlignment = "left"
+        case .center:
+            textAlignment = "center"
+        case .right:
+            textAlignment = "right"
+        case .justified:
+            textAlignment = "justified"
+        }
+        modifyFontAttributes()
+    }
+
+    func resetAllStyling() {
+        fontSize = 18
+        fontWeight = .regular
+        fontFamily = "SF Pro"
+        lineSpacing = 0
+        letterSpacing = 1
+        paragraphSpacing = 2
+        textAlignment = "left"
+
+        selectedFontSize = .normal
+        selectedFontWeight = .regular
+        selectedFontFamily = .SFPro
+        selectedLineSpacing = .normal
+        selectedLetterSpacing = .normal
+        selectedParagraphSpacing = .normal
+        selectedTextAlignment = .left
 
         modifyFontAttributes()
     }
