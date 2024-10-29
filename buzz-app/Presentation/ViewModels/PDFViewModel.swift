@@ -10,11 +10,11 @@ class PDFViewModel: ObservableObject {
 
     @Published var selectedFontSize: FontSizePicker = .normal
     @Published var selectedFontWeight: FontWeightPicker = .regular
-    @Published var selectedFontFamily: FontFamilyPicker = .SFPro
+    @Published var selectedFontFamily: FontFamily = .SFPro
     @Published var selectedLineSpacing: LineSpacing = .normal
     @Published var selectedLetterSpacing: LetterSpacing = .normal
     @Published var selectedParagraphSpacing: ParagraphSpacing = .normal
-    @Published var selectedTextAlignment: TextAlignment = .left
+    @Published var selectedTextAlignment: AlignmentText = .left
 
     @Published private(set) var fontSize: CGFloat = 18
     @Published private(set) var fontWeight: NSFont.Weight = .regular
@@ -96,7 +96,7 @@ class PDFViewModel: ObservableObject {
         modifyFontAttributes()
     }
 
-    func setSelectedFontFamily(to newFontFamily: FontFamilyPicker) {
+    func setSelectedFontFamily(to newFontFamily: FontFamily) {
         fontFamily = newFontFamily.rawValue
 
         modifyFontAttributes()
@@ -156,7 +156,7 @@ class PDFViewModel: ObservableObject {
         modifyFontAttributes()
     }
 
-    func setSelectedTextAlignment(to newTextAlignment: TextAlignment) {
+    func setSelectedTextAlignment(to newTextAlignment: AlignmentText) {
         selectedTextAlignment = newTextAlignment
         switch newTextAlignment {
         case .left:

@@ -51,7 +51,7 @@ struct CustomToolbar: View {
                     }
                     .buttonStyle(PlainButtonStyle())
 
-                    EnumPicker(selectedItem: $pdfViewModel.selectedFontFamily, items: FontFamilyPicker.allCases, imageName: "textformat", assetImageName: nil)
+                    EnumPicker(selectedItem: $pdfViewModel.selectedFontFamily, items: FontFamily.allCases, imageName: "textformat", assetImageName: nil)
                         .padding(.horizontal, 0)
                         .frame(width: 264)
                         .onChange(of: pdfViewModel.selectedFontFamily) { newValue in
