@@ -122,9 +122,9 @@ class PDFViewModel: ObservableObject {
         case .normal:
             lineSpacing = 1
         case .large:
-            lineSpacing = 1.5
+            lineSpacing = 2.5
         case .extraLarge:
-            lineSpacing = 2
+            lineSpacing = 4
         }
 
         modifyFontAttributes()

@@ -160,7 +160,7 @@ struct CustomToolbar: View {
                                     .frame(width: 32, height: 32) // Make the image bigger
                                     .foregroundColor(.white)
                                     .padding(8)
-                                    .background(pdfViewModel.coloringStyle == .text ? Color.blue : Color.gray)
+                                    .background(pdfViewModel.coloringStyle == .text ? Color.blue : Color.clear)
                                     .cornerRadius(10)
                             }
                             .buttonStyle(PlainButtonStyle())
@@ -174,7 +174,7 @@ struct CustomToolbar: View {
                                     .frame(width: 32, height: 32) // Make the image bigger
                                     .foregroundColor(.white)
                                     .padding(8) // Adjust padding to make button smaller
-                                    .background(pdfViewModel.coloringStyle == .highlight ? Color.blue : Color.gray)
+                                    .background(pdfViewModel.coloringStyle == .highlight ? Color.blue : Color.clear)
                                     .cornerRadius(10)
                             }
                             .buttonStyle(PlainButtonStyle())
@@ -185,29 +185,57 @@ struct CustomToolbar: View {
                     HStack(spacing: 20) {
                         HStack(spacing: 10) {
                             Button(action: {
+                                pdfViewModel.setSegmentedControlValue(to: .line)
+                            }) {
+                                Image(systemName: "text.justify")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 32, height: 32) // Make the image bigger
+                                    .foregroundColor(pdfViewModel.segmentColoringMode == .line ? .white : .black)
+                                    .padding(8) // Adjust padding to make button smaller
+                                    .background(pdfViewModel.segmentColoringMode == .line ? Color.blue : Color.clear)
+                                    .cornerRadius(10)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+
+                            Button(action: {
                                 pdfViewModel.setSegmentedControlValue(to: .sentence)
                             }) {
                                 Image(systemName: "text.word.spacing")
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 32, height: 32) // Make the image bigger
-                                    .foregroundColor(.white)
+                                    .foregroundColor(pdfViewModel.segmentColoringMode == .sentence ? .white : .black)
                                     .padding(8) // Adjust padding to make button smaller
-                                    .background(pdfViewModel.segmentColoringMode == .sentence ? Color.blue : Color.gray)
+                                    .background(pdfViewModel.segmentColoringMode == .sentence ? Color.blue : Color.clear)
                                     .cornerRadius(10)
                             }
                             .buttonStyle(PlainButtonStyle())
 
                             Button(action: {
-                                pdfViewModel.setSegmentedControlValue(to: .line)
+                                pdfViewModel.setSegmentedControlValue(to: .paragraph)
                             }) {
                                 Image(systemName: "text.justify.left")
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 32, height: 32) // Make the image bigger
-                                    .foregroundColor(.white)
+                                    .foregroundColor(pdfViewModel.segmentColoringMode == .paragraph ? .white : .black)
                                     .padding(8) // Adjust padding to make button smaller
-                                    .background(pdfViewModel.segmentColoringMode == .line ? Color.blue : Color.gray)
+                                    .background(pdfViewModel.segmentColoringMode == .paragraph ? Color.blue : Color.clear)
+                                    .cornerRadius(10)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+
+                            Button(action: {
+                                pdfViewModel.setSegmentedControlValue(to: .punctuation)
+                            }) {
+                                Image(pdfViewModel.segmentColoringMode == .punctuation ? "Punctuation-1": "Punctuation-2")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 32, height: 32) // Make the image bigger
+                                    .foregroundColor(pdfViewModel.segmentColoringMode == .punctuation ? .white : .black)
+                                    .padding(8) // Adjust padding to make button smaller
+                                    .background(pdfViewModel.segmentColoringMode == .punctuation ? Color.blue : Color.clear)
                                     .cornerRadius(10)
                             }
                             .buttonStyle(PlainButtonStyle())

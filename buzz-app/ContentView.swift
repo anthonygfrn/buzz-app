@@ -20,14 +20,14 @@ struct ContentView: View {
                         let totalWidth = geometry.size.width
                         let totalHeight = geometry.size.height
 
-                        let contentWidth: CGFloat = min(totalWidth * 0.85, 1424) // Fixed content width based on ratio
-                        let sidePadding = (totalWidth - contentWidth) / 2
+//                        let contentWidth: CGFloat = min(totalWidth * 0.85, 1424)
+//                        let sidePadding = (totalWidth - contentWidth) / 2
 
                         // Center the RichTextEditor with calculated padding
                         RichTextEditor(text: $viewModel.extractedText, context: viewModel.context)
-                            .frame(width: contentWidth, height: totalHeight)
-                            .padding(.leading, max(sidePadding, 0))
-                            .padding(.trailing, max(sidePadding, 0))
+                            .frame(height: totalHeight)
+                            .padding(.horizontal, 244)
+                            .padding(.top, 106)
                     }
                 }
             }
