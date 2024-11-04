@@ -22,6 +22,8 @@ class PDFRepository: PDFRepositoryProtocol {
             if let page = pdfDocument.page(at: pageIndex),
                let pageText = page.string
             {
+                
+                print(pageText.trimmingCharacters(in: .newlines))
                 let lines = pageText.components(separatedBy: .newlines)
                 var currentParagraph = ""
 
@@ -49,7 +51,7 @@ class PDFRepository: PDFRepositoryProtocol {
                 }
             }
         }
-        
+
         let rawText = rawTextBuffer.trimmingCharacters(in: .whitespacesAndNewlines)
         return PDFDocumentEntity(rawText: rawText, attributedText: fullText)
     }

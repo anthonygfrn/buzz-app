@@ -68,8 +68,8 @@ enum AlignmentText: String, CaseIterable {
 
 enum FontFamily: String, CaseIterable {
     case SFPro = "SF Pro"
-    case tahoma = "Tahoma"
-    case sansSerif = "Sans Serif"
+    case openSans = "Open Sans"
+    case calibri = "Calibri"
     case Arial
     case openDyslexic = "OpenDyslexic"
 }

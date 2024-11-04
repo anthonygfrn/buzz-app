@@ -1,11 +1,13 @@
 import SwiftUI
 
 struct EnumPicker<T: RawRepresentable & Hashable>: View where T.RawValue == String {
+    let idPicker: Int
     @Binding var selectedItem: T
+    @EnvironmentObject var toolbarViewModel: ToolBarViewModel
     @State private var isMenuVisible: Bool = false
     let items: [T]
-    let imageName: String? // Optional String for SF Symbol
-    let assetImageName: String? // New property for asset images
+    let imageName: String?
+    let assetImageName: String?
 
     var body: some View {
         ZStack {
@@ -13,7 +15,9 @@ struct EnumPicker<T: RawRepresentable & Hashable>: View where T.RawValue == Stri
                 Color.clear
                     .onTapGesture {
                         isMenuVisible = false
+                        toolbarViewModel.resetActivePicker()
                     }
+                    .frame(width: .infinity, height: .infinity)
                     .ignoresSafeArea()
             }
 
@@ -34,17 +38,13 @@ struct EnumPicker<T: RawRepresentable & Hashable>: View where T.RawValue == Stri
                                     .padding(.trailing, 5)
                             }
 
-                            // Show the rawValue (String) of the selected enum
                             Text(selectedItem.rawValue)
                                 .font(.system(size: 16))
 
                             Spacer()
 
-                            // Dropdown button, toggles menu visibility
                             Button(action: {
-                                withAnimation {
-                                    isMenuVisible.toggle()
-                                }
+                                toolbarViewModel.setActivePicker(idPicker)
                             }) {
                                 Image(systemName: "chevron.up.chevron.down")
                                     .foregroundColor(.white)
@@ -57,22 +57,22 @@ struct EnumPicker<T: RawRepresentable & Hashable>: View where T.RawValue == Stri
                         }
                         .padding(.horizontal, 8)
                         .padding(.vertical, 6)
-                        .cornerRadius(16)
+                        .cornerRadius(12)
                         .overlay(
-                            RoundedRectangle(cornerRadius: 16)
+                            RoundedRectangle(cornerRadius: 12)
                                 .stroke(Color("OutlinePrimary"), lineWidth: 1)
                         )
                     }
                     .frame(width: 264)
                 }
 
-                // Dropdown menu that overlays and covers the picker
                 if isMenuVisible {
                     VStack(alignment: .leading, spacing: 0) {
                         ForEach(items, id: \.self) { item in
                             Button(action: {
                                 selectedItem = item
                                 isMenuVisible = false
+                                toolbarViewModel.resetActivePicker()
                             }) {
                                 Text(item.rawValue)
                                     .foregroundColor(.black)
@@ -92,7 +92,18 @@ struct EnumPicker<T: RawRepresentable & Hashable>: View where T.RawValue == Stri
                 }
             }
         }
+        .onChange(of: toolbarViewModel.activePicker) { newValue in
+            isMenuVisible = (newValue == idPicker)
+        }
+        .simultaneousGesture(
+            TapGesture()
+                .onEnded {
+                    if toolbarViewModel.activePicker != idPicker {
+                        isMenuVisible = false
+                    }
+                }
+        )
         .padding()
-        .background(Color.clear) // Transparent background to capture outside taps
+        .background(Color.clear)
     }
 }

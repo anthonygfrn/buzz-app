@@ -51,21 +51,21 @@ struct CustomToolbar: View {
                     }
                     .buttonStyle(PlainButtonStyle())
 
-                    EnumPicker(selectedItem: $pdfViewModel.selectedFontFamily, items: FontFamily.allCases, imageName: "textformat", assetImageName: nil)
+                    EnumPicker(idPicker: 0, selectedItem: $pdfViewModel.selectedFontFamily, items: FontFamily.allCases, imageName: "textformat", assetImageName: nil)
                         .padding(.horizontal, 0)
                         .frame(width: 264)
                         .onChange(of: pdfViewModel.selectedFontFamily) { newValue in
                             pdfViewModel.setSelectedFontFamily(to: newValue)
                         }
 
-                    EnumPicker(selectedItem: $pdfViewModel.selectedFontSize, items: FontSizePicker.allCases, imageName: "textformat.size", assetImageName: nil)
+                    EnumPicker(idPicker: 1, selectedItem: $pdfViewModel.selectedFontSize, items: FontSizePicker.allCases, imageName: "textformat.size", assetImageName: nil)
                         .padding(.horizontal, 0)
                         .frame(width: 264)
                         .onChange(of: pdfViewModel.selectedFontSize) { newValue in
                             pdfViewModel.setSelectedFontSize(to: newValue)
                         }
 
-                    EnumPicker(selectedItem: $pdfViewModel.selectedFontWeight, items: FontWeightPicker.allCases, imageName: "bold", assetImageName: nil)
+                    EnumPicker(idPicker: 2, selectedItem: $pdfViewModel.selectedFontWeight, items: FontWeightPicker.allCases, imageName: "bold", assetImageName: nil)
                         .padding(.horizontal, 0)
                         .frame(width: 264)
                         .onChange(of: pdfViewModel.selectedFontWeight) { newValue in
@@ -82,21 +82,21 @@ struct CustomToolbar: View {
                     }
                     .buttonStyle(PlainButtonStyle())
 
-                    EnumPicker(selectedItem: $pdfViewModel.selectedLineSpacing, items: LineSpacing.allCases, imageName: "arrow.up.and.down.text.horizontal", assetImageName: nil)
+                    EnumPicker(idPicker: 3, selectedItem: $pdfViewModel.selectedLineSpacing, items: LineSpacing.allCases, imageName: "arrow.up.and.down.text.horizontal", assetImageName: nil)
                         .padding(.horizontal, 0)
                         .frame(width: 264)
                         .onChange(of: pdfViewModel.selectedLineSpacing) { newValue in
                             pdfViewModel.setLineSpacing(to: newValue)
                         }
 
-                    EnumPicker(selectedItem: $pdfViewModel.selectedLetterSpacing, items: LetterSpacing.allCases, imageName: nil, assetImageName: "space.character")
+                    EnumPicker(idPicker: 4, selectedItem: $pdfViewModel.selectedLetterSpacing, items: LetterSpacing.allCases, imageName: nil, assetImageName: "space.character")
                         .padding(.horizontal, 0)
                         .frame(width: 264)
                         .onChange(of: pdfViewModel.selectedLetterSpacing) { newValue in
                             pdfViewModel.setLetterSpacing(to: newValue)
                         }
 
-                    EnumPicker(selectedItem: $pdfViewModel.selectedParagraphSpacing, items: ParagraphSpacing.allCases, imageName: "text.justify.left", assetImageName: nil)
+                    EnumPicker(idPicker: 5, selectedItem: $pdfViewModel.selectedParagraphSpacing, items: ParagraphSpacing.allCases, imageName: "text.justify.left", assetImageName: nil)
                         .padding(.horizontal, 0)
                         .frame(width: 264)
                         .onChange(of: pdfViewModel.selectedParagraphSpacing) { newValue in
@@ -229,7 +229,7 @@ struct CustomToolbar: View {
                             Button(action: {
                                 pdfViewModel.setSegmentedControlValue(to: .punctuation)
                             }) {
-                                Image(pdfViewModel.segmentColoringMode == .punctuation ? "Punctuation-1": "Punctuation-2")
+                                Image(pdfViewModel.segmentColoringMode == .punctuation ? "Punctuation-1" : "Punctuation-2")
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 32, height: 32) // Make the image bigger
@@ -268,7 +268,7 @@ struct CustomToolbar: View {
                 .padding(.trailing, 88) // Add same margin as the left for the Reset button
             }
         }
-
+        .environmentObject(toolbarViewModel)
         .padding()
         .frame(maxWidth: .infinity, minHeight: 126, maxHeight: 126) // Adjusted toolbar height
         .background(Color("BgColor"))
