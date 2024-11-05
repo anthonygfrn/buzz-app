@@ -21,9 +21,11 @@ struct ContentView: View {
                 let sidePadding = (totalWidth - contentWidth) / 2
                 ScrollView {
                 
+                    
                     VStack {
                         RichTextEditor(text: $viewModel.extractedText, context: viewModel.context)
                             .frame(width: contentWidth, height: totalHeight)
+                            .fixedSize(horizontal: true, vertical: true)
 //                            .disabled(true)
                           
                      

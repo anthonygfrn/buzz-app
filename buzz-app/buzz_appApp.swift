@@ -14,17 +14,21 @@ struct buzz_appApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .frame(minWidth: 800, minHeight: 600)
         }
         .windowStyle(HiddenTitleBarWindowStyle())
     }
 }
 
 class AppDelegate: NSObject, NSApplicationDelegate {
+    
     func applicationDidFinishLaunching(_ notification: Notification) {
         // Menangkap event keyboard di level aplikasi
         NSEvent.addLocalMonitorForEvents(matching: .keyDown) { _ in
             // Mengabaikan semua input keyboard
             return nil
         }
+        
+        
     }
 }
