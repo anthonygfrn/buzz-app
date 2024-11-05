@@ -9,10 +9,22 @@ import SwiftUI
 
 @main
 struct buzz_appApp: App {
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
         .windowStyle(HiddenTitleBarWindowStyle())
+    }
+}
+
+class AppDelegate: NSObject, NSApplicationDelegate {
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        // Menangkap event keyboard di level aplikasi
+        NSEvent.addLocalMonitorForEvents(matching: .keyDown) { _ in
+            // Mengabaikan semua input keyboard
+            return nil
+        }
     }
 }

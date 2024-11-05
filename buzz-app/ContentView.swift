@@ -14,22 +14,25 @@ struct ContentView: View {
     var body: some View {
         VStack(spacing: 0) { // Mengatur spacing menjadi 0 untuk menghilangkan ruang kosong
             GeometryReader { geometry in
+                
+                let totalWidth = geometry.size.width
+                let contentWidth: CGFloat = min(totalWidth * 0.80, 1424)
+                let totalHeight = geometry.size.height
+                let sidePadding = (totalWidth - contentWidth) / 2
                 ScrollView {
+                
                     VStack {
-                        let totalWidth = geometry.size.width
-                        let totalHeight = geometry.size.height
-                        
-                        let contentWidth: CGFloat = min(totalWidth * 0.80, 1424)
-                        let sidePadding = (totalWidth - contentWidth) / 2
-                        
                         RichTextEditor(text: $viewModel.extractedText, context: viewModel.context)
                             .frame(width: contentWidth, height: totalHeight)
-                            .padding(.leading, sidePadding)
-                            .padding(.trailing, sidePadding)
-                            
+//                            .disabled(true)
+                          
+                     
                     }
-                    .frame(maxWidth: .infinity)
+                    .padding(.leading, sidePadding)
+                    .padding(.trailing, sidePadding)
+
                 }
+
                 .background(Color("BgColor"))
             }
             CustomToolbar()
