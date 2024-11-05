@@ -54,6 +54,11 @@ struct ContentView: View {
         if panel.runModal() == .OK {
             if let url = panel.url {
                 viewModel.openPDF(url: url)
+                
+                // Set the window title to the file name
+                if let window = NSApplication.shared.windows.first {
+                    window.title = url.lastPathComponent // Nama file PDF
+                }
             }
         }
     }

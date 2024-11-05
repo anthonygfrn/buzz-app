@@ -16,7 +16,6 @@ struct buzz_appApp: App {
             ContentView()
                 .frame(minWidth: 800, minHeight: 600)
         }
-        .windowStyle(HiddenTitleBarWindowStyle())
     }
 }
 
