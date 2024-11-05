@@ -48,6 +48,8 @@ struct CustomToolbar: View {
                             .font(.system(size: 24))
                             .padding()
                             .foregroundColor(Color("Default"))
+                            .frame(width: 64, height: 64) // Mengatur ukuran click area
+                            .contentShape(Rectangle()) // Menambah area klik di luar icon
                     }
                     .buttonStyle(PlainButtonStyle())
 
@@ -79,6 +81,8 @@ struct CustomToolbar: View {
                             .font(.system(size: 24)) // Customize icon size if needed
                             .padding() // Add padding if required for alignment
                             .foregroundColor(Color("Default"))
+                            .frame(width: 64, height: 64)
+                            .contentShape(Rectangle())
                     }
                     .buttonStyle(PlainButtonStyle())
 
@@ -110,6 +114,8 @@ struct CustomToolbar: View {
                             .font(.system(size: 24)) // Customize icon size if needed
                             .padding() // Add padding if required for alignment
                             .foregroundColor(Color("Default"))
+                            .frame(width: 64, height: 64)
+                            .contentShape(Rectangle())
                     }
                     .buttonStyle(PlainButtonStyle())
                     HStack(spacing: 5) {
@@ -146,6 +152,8 @@ struct CustomToolbar: View {
                             .font(.system(size: 24)) // Customize icon size if needed
                             .padding() // Add padding if required for alignment
                             .foregroundColor(Color("Default"))
+                            .frame(width: 64, height: 64)
+                            .contentShape(Rectangle())
                     }
                     .buttonStyle(PlainButtonStyle())
 
