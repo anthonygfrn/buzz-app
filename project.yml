@@ -30,6 +30,10 @@ targets:
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: YES
         LSApplicationCategoryType: public.app-category.productivity
+        ATSApplicationFontsPath: .
+          # - ./TAHOMAB0.ttf
+          # - ./OpenDyslexic.ttf
+          # - ./OpenSans.ttf
     settings:
       INFOPLIST_FILE: buzz-app/Info.plist
       ENABLE_TESTABILITY: YES
