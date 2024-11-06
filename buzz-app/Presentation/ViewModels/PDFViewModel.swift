@@ -5,6 +5,9 @@ import RichTextKit
 class PDFViewModel: ObservableObject {
     @Published var extractedText = NSAttributedString("")
     @Published var rawText = ""
+    @Published var extractedImages: [NSImage] = []
+    @Published var isLoading = true
+    
     @Published var segmentColoringMode: SegmentColoringMode = .line
     @Published var coloringStyle: ColoringStyle = .highlight
 
@@ -30,6 +33,7 @@ class PDFViewModel: ObservableObject {
     private let extractPDFTextUseCase: ExtractPDFTextUseCase
     private var applyColorModeUseCase: ApplyColorModeUseCase
     private let applyFontAttributesUseCase: ApplyFontAttributesUseCase
+    private let pdfUploadService = PDFUploadService()
 
     init(extractPDFTextUseCase: ExtractPDFTextUseCase, applyColorModeUseCase: ApplyColorModeUseCase, applyFontAttributesUseCase: ApplyFontAttributesUseCase) {
         self.extractPDFTextUseCase = extractPDFTextUseCase
@@ -38,10 +42,36 @@ class PDFViewModel: ObservableObject {
     }
 
     func openPDF(url: URL) {
-        if let document = extractPDFTextUseCase.execute(url: url) {
-            rawText = document.rawText
-            extractedText = NSAttributedString(string: document.rawText)
-            recolorText()
+        isLoading = true  // Mulai loading
+        
+        // Ekstraksi teks secara lokal
+        DispatchQueue.global(qos: .userInitiated).async {
+            if let document = self.extractPDFTextUseCase.execute(url: url) {
+                DispatchQueue.main.async {
+                    self.rawText = document.rawText
+                    self.extractedText = NSAttributedString(string: document.rawText)
+                    self.recolorText()
+                }
+            }
+        }
+        
+        // Panggil API untuk ekstraksi gambar secara paralel
+        uploadPDFForImageExtraction(pdfURL: url)
+    }
+    
+    // Fungsi untuk mengunggah PDF ke API dan mengekstrak gambar
+    private func uploadPDFForImageExtraction(pdfURL: URL) {
+        pdfUploadService.uploadPDFToAPI(pdfURL: pdfURL) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let images):
+                    self?.extractedImages = images
+                case .failure(let error):
+                    print("Error uploading PDF for image extraction: \(error)")
+                }
+                
+                self?.isLoading = false
+            }
         }
     }
 
