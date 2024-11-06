@@ -47,7 +47,6 @@ class PDFViewModel: ObservableObject {
     }
 
     func recolorText() {
-        // Ensure font attributes are applied after recoloring
         modifyFontAttributes()
         let coloredText = applyColorModeUseCase.execute(text: extractedText, segmentColorMode: segmentColoringMode, coloringStyle: coloringStyle, containerWidth: containerWidth)
         extractedText = coloredText
@@ -85,7 +84,7 @@ class PDFViewModel: ObservableObject {
         case .extraLarge:
             fontSize = 47
         }
-        modifyFontAttributes()
+        recolorText()
     }
 
     func setSelectedFontWeight(to newFontWeight: FontWeightPicker) {
@@ -95,13 +94,13 @@ class PDFViewModel: ObservableObject {
         case .bold:
             fontWeight = .bold
         }
-        modifyFontAttributes()
+        recolorText()
     }
 
     func setSelectedFontFamily(to newFontFamily: FontFamily) {
         fontFamily = newFontFamily.rawValue
 
-        modifyFontAttributes()
+        recolorText()
     }
 
     func setSegmentedControlValue(to newValue: SegmentColoringMode) {
@@ -129,20 +128,20 @@ class PDFViewModel: ObservableObject {
             lineSpacing = 5
         }
 
-        modifyFontAttributes()
+        recolorText()
     }
 
     func setLetterSpacing(to newLetterSpacing: LetterSpacing) {
         switch newLetterSpacing {
         case .normal:
-            letterSpacing = 1 * lineSpacing	
+            letterSpacing = 1 * lineSpacing
         case .large:
             letterSpacing = 1.5 * lineSpacing
         case .extraLarge:
             letterSpacing = 2 * lineSpacing
         }
 
-        modifyFontAttributes()
+        recolorText()
     }
 
     func setParagraphSpacing(to newParagraphSpacing: ParagraphSpacing) {
@@ -155,7 +154,7 @@ class PDFViewModel: ObservableObject {
             paragraphSpacing = 3 * lineSpacing
         }
 
-        modifyFontAttributes()
+        recolorText()
     }
 
     func setSelectedTextAlignment(to newTextAlignment: AlignmentText) {
@@ -170,7 +169,7 @@ class PDFViewModel: ObservableObject {
         case .justified:
             textAlignment = "justified"
         }
-        modifyFontAttributes()
+        recolorText()
     }
 
     func resetAllStyling() {
@@ -190,6 +189,6 @@ class PDFViewModel: ObservableObject {
         selectedParagraphSpacing = .normal
         selectedTextAlignment = .left
 
-        modifyFontAttributes()
+        recolorText()
     }
 }
