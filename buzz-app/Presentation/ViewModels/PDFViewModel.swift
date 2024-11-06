@@ -7,6 +7,7 @@ class PDFViewModel: ObservableObject {
     @Published var rawText = ""
     @Published var segmentColoringMode: SegmentColoringMode = .line
     @Published var coloringStyle: ColoringStyle = .highlight
+    @Published var containerWidth: CGFloat = 1331
 
     @Published var selectedFontSize: FontSizePicker = .normal
     @Published var selectedFontWeight: FontWeightPicker = .regular
@@ -40,16 +41,17 @@ class PDFViewModel: ObservableObject {
     func openPDF(url: URL) {
         if let document = extractPDFTextUseCase.execute(url: url) {
             rawText = document.rawText
-            extractedText = NSAttributedString(string: document.rawText)
+            extractedText = document.attributedText
             recolorText()
         }
     }
 
     func recolorText() {
-        let coloredText = applyColorModeUseCase.execute(text: extractedText, segmentColorMode: segmentColoringMode, coloringStyle: coloringStyle)
+        // Ensure font attributes are applied after recoloring
+        modifyFontAttributes()
+        let coloredText = applyColorModeUseCase.execute(text: extractedText, segmentColorMode: segmentColoringMode, coloringStyle: coloringStyle, containerWidth: containerWidth)
         extractedText = coloredText
         context.setAttributedString(to: extractedText)
-        modifyFontAttributes() // Ensure font attributes are applied after recoloring
     }
 
     // Apply both font size and weight
@@ -124,7 +126,7 @@ class PDFViewModel: ObservableObject {
         case .large:
             lineSpacing = 2.5
         case .extraLarge:
-            lineSpacing = 4
+            lineSpacing = 5
         }
 
         modifyFontAttributes()
@@ -133,7 +135,7 @@ class PDFViewModel: ObservableObject {
     func setLetterSpacing(to newLetterSpacing: LetterSpacing) {
         switch newLetterSpacing {
         case .normal:
-            letterSpacing = 1 * lineSpacing
+            letterSpacing = 1 * lineSpacing	
         case .large:
             letterSpacing = 1.5 * lineSpacing
         case .extraLarge:

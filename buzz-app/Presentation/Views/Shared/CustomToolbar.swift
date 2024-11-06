@@ -154,7 +154,7 @@ struct CustomToolbar: View {
                             Button(action: {
                                 pdfViewModel.setColoringStyle(to: .text)
                             }) {
-                                Image(pdfViewModel.coloringStyle == .text ? "letter-2" : "letter-1")
+                                Image(pdfViewModel.coloringStyle == .text || colorScheme == .dark ? "letter-2" : "letter-1")
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 32, height: 32) // Make the image bigger
@@ -191,7 +191,7 @@ struct CustomToolbar: View {
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 32, height: 32) // Make the image bigger
-                                    .foregroundColor(pdfViewModel.segmentColoringMode == .line ? .white : .black)
+                                    .foregroundColor(pdfViewModel.segmentColoringMode == .line || colorScheme == .dark ? .white : .black)
                                     .padding(8) // Adjust padding to make button smaller
                                     .background(pdfViewModel.segmentColoringMode == .line ? Color.blue : Color.clear)
                                     .cornerRadius(10)
@@ -205,7 +205,7 @@ struct CustomToolbar: View {
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 32, height: 32) // Make the image bigger
-                                    .foregroundColor(pdfViewModel.segmentColoringMode == .sentence ? .white : .black)
+                                    .foregroundColor(pdfViewModel.segmentColoringMode == .sentence || colorScheme == .dark ? .white : .black)
                                     .padding(8) // Adjust padding to make button smaller
                                     .background(pdfViewModel.segmentColoringMode == .sentence ? Color.blue : Color.clear)
                                     .cornerRadius(10)
@@ -219,17 +219,18 @@ struct CustomToolbar: View {
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 32, height: 32) // Make the image bigger
-                                    .foregroundColor(pdfViewModel.segmentColoringMode == .paragraph ? .white : .black)
+                                    .foregroundColor(pdfViewModel.segmentColoringMode == .paragraph || colorScheme == .dark ? .white : .black)
                                     .padding(8) // Adjust padding to make button smaller
                                     .background(pdfViewModel.segmentColoringMode == .paragraph ? Color.blue : Color.clear)
                                     .cornerRadius(10)
                             }
+
                             .buttonStyle(PlainButtonStyle())
 
                             Button(action: {
                                 pdfViewModel.setSegmentedControlValue(to: .punctuation)
                             }) {
-                                Image(pdfViewModel.segmentColoringMode == .punctuation ? "Punctuation-1" : "Punctuation-2")
+                                Image(pdfViewModel.segmentColoringMode == .punctuation || colorScheme == .dark ? "Punctuation-1" : "Punctuation-2")
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 32, height: 32) // Make the image bigger
@@ -262,7 +263,6 @@ struct CustomToolbar: View {
                         .onTapGesture {
                             toolbarViewModel.setActiveToolbar(.main)
                             pdfViewModel.resetAllStyling()
-                            print("Reset All button tapped")
                         }
                 }
                 .padding(.trailing, 88) // Add same margin as the left for the Reset button
