@@ -23,19 +23,10 @@ struct ContentView: View {
                     
                     ScrollView {
                         VStack {
-                            // Tampilkan teks yang diekstrak
+                            // Tampilkan teks yang diekstrak beserta gambar menggunakan RichTextEditor
                             RichTextEditor(text: $viewModel.extractedText, context: viewModel.context)
                                 .frame(width: contentWidth, height: totalHeight)
                                 .fixedSize(horizontal: true, vertical: true)
-                            
-                            // Tampilkan gambar yang diekstrak di bawah teks
-                            ForEach(viewModel.extractedImages, id: \.self) { image in
-                                Image(nsImage: image)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: contentWidth)
-                                    .padding()
-                            }
                         }
                         .padding(.leading, sidePadding)
                         .padding(.trailing, sidePadding)
@@ -76,4 +67,3 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
-

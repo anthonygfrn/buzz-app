@@ -5,7 +5,9 @@ import RichTextKit
 class PDFViewModel: ObservableObject {
     @Published var extractedText = NSAttributedString("")
     @Published var rawText = ""
-    @Published var extractedImages: [NSImage] = []
+    @Published var figures: [Figure] = []
+//    @Published var extractedImages: [NSImage] = []
+    
     @Published var isLoading = true
     
     @Published var segmentColoringMode: SegmentColoringMode = .line
@@ -59,13 +61,17 @@ class PDFViewModel: ObservableObject {
         uploadPDFForImageExtraction(pdfURL: url)
     }
     
-    // Fungsi untuk mengunggah PDF ke API dan mengekstrak gambar
     private func uploadPDFForImageExtraction(pdfURL: URL) {
         pdfUploadService.uploadPDFToAPI(pdfURL: pdfURL) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
-                case .success(let images):
-                    self?.extractedImages = images
+                case .success(let (fullText, figures)):
+                    self?.rawText = fullText
+                    self?.figures = figures.map { figure in
+                        Figure(title: figure.title, position: figure.position, imageData: figure.imageData)
+                    }
+                    self?.buildAttributedText() // Gabungkan teks dan gambar setelah respons diterima
+                    
                 case .failure(let error):
                     print("Error uploading PDF for image extraction: \(error)")
                 }
@@ -73,6 +79,34 @@ class PDFViewModel: ObservableObject {
                 self?.isLoading = false
             }
         }
+    }
+    
+    // Gabungkan teks dan gambar ke dalam NSAttributedString
+    private func buildAttributedText() {
+        let attributedString = NSMutableAttributedString(string: rawText)
+        var offset = 0
+        
+        for figure in figures {
+            // Cari lokasi judul gambar dalam teks
+            let titleRange = NSRange(location: figure.position + offset, length: figure.title.count)
+            
+            // Tambahkan gambar sebagai NSAttributedString.ImageAttachment
+            if let image = NSImage(data: figure.imageData) {
+                let attachment = NSTextAttachment()
+                attachment.image = image
+                
+                let imageString = NSAttributedString(attachment: attachment)
+                
+                // Sisipkan gambar sebelum judul
+                attributedString.insert(imageString, at: titleRange.location)
+                
+                // Tambahkan offset panjang satu karakter untuk gambar
+                offset += 1
+            }
+        }
+        
+        // Update extractedText untuk digunakan dalam RichTextEditor
+        self.extractedText = attributedString
     }
 
     func recolorText() {

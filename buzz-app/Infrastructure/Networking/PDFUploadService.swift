@@ -8,8 +8,15 @@
 import Foundation
 import AppKit
 
+struct Figure: Identifiable {
+    let id = UUID()
+    let title: String
+    let position: Int
+    let imageData: Data
+}
+
 class PDFUploadService {
-    func uploadPDFToAPI(pdfURL: URL, completion: @escaping (Result<[NSImage], Error>) -> Void) {
+    func uploadPDFToAPI(pdfURL: URL, completion: @escaping (Result<(String, [Figure]), Error>) -> Void) {
         let url = URL(string: "https://rggayb-polaread.hf.space/upload")! // Sesuaikan dengan URL server API
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -35,18 +42,22 @@ class PDFUploadService {
                 do {
                     // Decode respons JSON
                     if let json = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
-                       let imageArray = json["images"] as? [[String: Any]] {
+                       let fullText = json["full_text"] as? String,
+                       let figuresData = json["figures"] as? [[String: Any]] {
                         
-                        var extractedImages: [NSImage] = []
+                        var figures: [Figure] = []
                         
-                        for imageInfo in imageArray {
-                            if let base64String = imageInfo["image_data"] as? String,
-                               let imageData = Data(base64Encoded: base64String),
-                               let image = NSImage(data: imageData) {
-                                extractedImages.append(image)
+                        for figureInfo in figuresData {
+                            if let title = figureInfo["title"] as? String,
+                               let position = figureInfo["position"] as? Int,
+                               let imageDataString = figureInfo["image_data"] as? String,
+                               let imageData = Data(base64Encoded: imageDataString) {
+                                let figure = Figure(title: title, position: position, imageData: imageData)
+                                figures.append(figure)
                             }
                         }
-                        completion(.success(extractedImages))
+                        
+                        completion(.success((fullText, figures)))
                     }
                 } catch {
                     completion(.failure(error))
@@ -57,4 +68,5 @@ class PDFUploadService {
         task.resume()
     }
 }
+
 
