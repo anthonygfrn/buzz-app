@@ -12,7 +12,6 @@ struct ApplyColorModeUseCase {
 
         switch segmentColorMode {
         case .line:
-//            applyColorByLines(in: coloredText, from: text.string, coloringStyle: coloringStyle)
             applyColorByLinesUsingLayoutManager(in: coloredText, coloringStyle: coloringStyle, containerWidth: containerWidth)
         case .sentence:
             applyColorBySentences(in: coloredText, from: text.string, coloringStyle: coloringStyle)

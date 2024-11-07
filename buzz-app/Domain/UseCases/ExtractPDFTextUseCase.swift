@@ -18,3 +18,4 @@ struct ExtractPDFTextUseCase {
         return repository.extractText(from: url)
     }
 }
+
