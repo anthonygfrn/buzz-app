@@ -8,66 +8,56 @@
 import SwiftUI
 
 struct ToolbarButton: View {
-    let iconName: String? // SF Symbol name (optional for custom image)
-    let customImage: Image? // Custom image (optional)
-    let overlayOpacity: Double // Opacity for the overlay (0.0 to 1.0)
-    let action: () -> Void // Action closure for button tap
+    let iconName: String?
+    let customImage: Image?
+    let overlayOpacity: Double
+    let action: () -> Void
+    let isSelected: Bool // New property to determine if the button is selected
 
-    // State for hover effect
     @State private var isHovered: Bool = false
 
     var body: some View {
         Button(action: action) {
             if let iconName = iconName {
-                // SF Symbol Button (smaller symbol, larger padding)
                 Image(systemName: iconName)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 28, height: 28) // Smaller SF Symbol
+                    .frame(width: 28, height: 28)
                     .foregroundColor(Color("Default"))
                     .padding(14)
-                    .font(.title)
-                    .bold()
+                    .background(isSelected ? Color.blue : (isHovered ? Color("Hover") : Color.clear))
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
                             .stroke(Color("OutlinePrimary"), lineWidth: 1.5)
                             .background(
                                 RoundedRectangle(cornerRadius: 12)
-                                    .fill(isHovered ? Color("OutlinePrimary").opacity(overlayOpacity) : Color.clear) // Use the overlayOpacity
+                                    .fill(isHovered && !isSelected ? Color("OutlinePrimary").opacity(overlayOpacity) : Color.clear)
                             )
                     )
-                    .frame(width: 64, height: 64) // Outer frame remains the same
+                    .cornerRadius(12)
+                    .frame(width: 64, height: 64)
             } else if let customImage = customImage {
-                // Custom Image Button (larger image, smaller padding)
                 customImage
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 48, height: 48) // Larger custom image
-                    .padding(4) // Smaller padding for custom image
+                    .frame(width: 48, height: 48)
+                    .padding(4)
+                    .background(isSelected ? Color.blue : (isHovered ? Color("Hover") : Color.clear))
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
                             .stroke(Color("OutlinePrimary"), lineWidth: 1.5)
                             .background(
                                 RoundedRectangle(cornerRadius: 12)
-                                    .fill(isHovered ? Color("OutlinePrimary").opacity(overlayOpacity) : Color.clear) // Use the overlayOpacity
+                                    .fill(isHovered && !isSelected ? Color("OutlinePrimary").opacity(overlayOpacity) : Color.clear)
                             )
                     )
-                    .frame(width: 64, height: 64) // Same outer frame size
+                    .cornerRadius(12)
+                    .frame(width: 64, height: 64)
             }
         }
-        .buttonStyle(PlainButtonStyle()) // Ensure default button style is plain
+        .buttonStyle(PlainButtonStyle())
         .onHover { hovering in
             isHovered = hovering
-            // Explicitly set the cursor to pointing hand when hovering
-            if hovering {
-                NSCursor.pointingHand.push()
-            } else {
-                NSCursor.pop() // Return to the default cursor when not hovering
-            }
-        }
-        .onExitCommand {
-            // Fallback: Reset cursor when exiting the button area
-            NSCursor.arrow.set()
         }
     }
 }
