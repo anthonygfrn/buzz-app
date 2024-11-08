@@ -12,7 +12,7 @@ struct ContentView: View {
     var body: some View {
         VStack(spacing: 0) {
             if viewModel.isLoading {
-                ProgressView("Loading PDF...")  // Loading indicator
+                ProgressView("Loading PDF...") // Loading indicator
                     .padding()
             } else {
                 GeometryReader { geometry in
@@ -32,6 +32,12 @@ struct ContentView: View {
                         .padding(.trailing, sidePadding)
                     }
                     .background(Color("BgColor"))
+                    .onChange(of: geometry.size.width) { newWidth in
+                        viewModel.containerWidth = min(newWidth * 0.80, 1424)
+                        if viewModel.segmentColoringMode == .line {
+                            viewModel.recolorText()
+                        }
+                    }
                 }
                 CustomToolbar()
             }
@@ -50,7 +56,7 @@ struct ContentView: View {
         
         panel.begin { response in
             if response == .OK, let url = panel.url {
-                viewModel.isLoading = true  // Mulai loading hanya setelah memilih PDF
+                viewModel.isLoading = true // Mulai loading hanya setelah memilih PDF
                 viewModel.openPDF(url: url)
                 
                 // Set the window title to the file name
@@ -58,7 +64,7 @@ struct ContentView: View {
                     window.title = url.lastPathComponent
                 }
             } else {
-                viewModel.isLoading = false  // Batalkan loading jika tidak memilih file
+                viewModel.isLoading = false // Batalkan loading jika tidak memilih file
             }
         }
     }
