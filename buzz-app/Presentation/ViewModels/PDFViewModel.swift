@@ -7,6 +7,7 @@ class PDFViewModel: ObservableObject {
     @Published var rawText = ""
     @Published var figures: [Figure] = []
 //    @Published var extractedImages: [NSImage] = []
+    @Published var containerWidth: CGFloat = CGFloat(800)
     
     @Published var isLoading = true
     
@@ -107,13 +108,15 @@ class PDFViewModel: ObservableObject {
         
         // Update extractedText untuk digunakan dalam RichTextEditor
         self.extractedText = attributedString
+        
+        recolorText()
     }
 
     func recolorText() {
-        let coloredText = applyColorModeUseCase.execute(text: extractedText, segmentColorMode: segmentColoringMode, coloringStyle: coloringStyle)
+        modifyFontAttributes() // Ensure font attributes are applied after recoloring
+        let coloredText = applyColorModeUseCase.execute(text: extractedText, segmentColorMode: segmentColoringMode, coloringStyle: coloringStyle, containerWidth: containerWidth)
         extractedText = coloredText
         context.setAttributedString(to: extractedText)
-        modifyFontAttributes() // Ensure font attributes are applied after recoloring
     }
 
     // Apply both font size and weight
