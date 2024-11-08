@@ -4,7 +4,6 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var viewModel: PDFViewModel
-    @State private var shouldShowPDFPicker = true // Indikator untuk mencegah buka Finder
 
     var body: some View {
         VStack(spacing: 0) {
@@ -34,7 +33,9 @@ struct ContentView: View {
             CustomToolbar()
         }
         .onAppear {
-            if shouldShowPDFPicker {
+            
+            if viewModel.extractedText.length == .zero {
+                viewModel.shouldShowPDFPicker = false
                 openPDFPicker()
             }
         }

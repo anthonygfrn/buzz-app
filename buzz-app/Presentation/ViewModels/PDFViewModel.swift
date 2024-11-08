@@ -8,6 +8,7 @@ class PDFViewModel: ObservableObject {
     @Published var segmentColoringMode: SegmentColoringMode = .line
     @Published var coloringStyle: ColoringStyle = .highlight
     @Published var containerWidth: CGFloat = 1331
+    @Published var shouldShowPDFPicker: Bool = true
 
     @Published var selectedFontSize: FontSizePicker = .normal
     @Published var selectedFontWeight: FontWeightPicker = .regular
