@@ -44,7 +44,24 @@ struct ContentView: View {
         }
         .environmentObject(viewModel)
         .onAppear {
-            openPDFPicker()
+            let fontFamilies = NSFontManager.shared.availableFontFamilies
+            for family in fontFamilies {
+                print("\(family)")
+                let fontNames = NSFontManager.shared.availableMembers(ofFontFamily: family)
+                fontNames?.forEach { font in
+                    if let fontName = font.first as? String {
+                        print("  Font Name: \(fontName)")
+                    }
+                }
+            }
+
+
+            
+            if viewModel.extractedText.length == .zero && !viewModel.isLoading {
+                openPDFPicker()
+            }
+            
+            
         }
     }
     

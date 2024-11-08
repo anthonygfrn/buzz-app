@@ -8,8 +8,9 @@ class PDFViewModel: ObservableObject {
     @Published var figures: [Figure] = []
 //    @Published var extractedImages: [NSImage] = []
     @Published var containerWidth: CGFloat = .init(800)
+    @Published var shouldShowPDFPicker: Bool = false
 
-    @Published var isLoading = true
+    @Published var isLoading = false
 
     @Published var segmentColoringMode: SegmentColoringMode = .line
     @Published var coloringStyle: ColoringStyle = .highlight

@@ -10,16 +10,26 @@ class ApplyFontAttributesUseCase {
         lineSpacing: CGFloat,
         letterSpacing: CGFloat,
         paragraphSpacing: CGFloat,
-        textAlignment: String 
+        textAlignment: String
     ) -> NSAttributedString {
         // Create a mutable attributed string
         let mutableText = NSMutableAttributedString(attributedString: text)
 
-        let fontDescriptor = NSFontDescriptor(name: fontFamily, size: fontSize)
+        // Check if the font is "Calibri" and the weight is bold, then use "Calibri-Bold"
+        let fontName: String
+        if fontFamily.lowercased() == "calibri" && fontWeight == .bold {
+            fontName = "Calibri-Bold"
+        } else {
+            fontName = fontFamily
+        }
+
+        // Create the font descriptor and font
+        let fontDescriptor = NSFontDescriptor(name: fontName, size: fontSize)
             .addingAttributes([.traits: [NSFontDescriptor.TraitKey.weight: fontWeight]])
 
         let font = NSFont(descriptor: fontDescriptor, size: fontSize) ??
-            NSFont.systemFont(ofSize: fontSize, weight: fontWeight)
+            NSFont(name: fontName, size: fontSize) ?? // Fallback to custom font name
+            NSFont.systemFont(ofSize: fontSize, weight: fontWeight) // System font fallback
 
         let fullRange = NSRange(location: 0, length: text.length)
         mutableText.addAttribute(.font, value: font, range: fullRange)
@@ -46,4 +56,3 @@ class ApplyFontAttributesUseCase {
         return mutableText
     }
 }
-
