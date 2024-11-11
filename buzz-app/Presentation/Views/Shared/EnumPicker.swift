@@ -40,7 +40,7 @@ struct EnumPicker<T: RawRepresentable & Hashable>: View where T.RawValue == Stri
                                     .padding(.trailing, 5)
                             }
 
-                            Text(selectedItem.rawValue)
+                            Text(selectedItem.rawValue == "OpenDyslexic" ? "Open Dyslexic" : selectedItem.rawValue)
                                 .font(.system(size: 16))
 
                             Spacer()

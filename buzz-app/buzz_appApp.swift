@@ -1,3 +1,9 @@
+//
+//  buzz_appApp.swift
+//  buzz-app
+//
+//  Created by Anthony on 07/10/24.
+//
 import SwiftUI
 
 @main
@@ -7,6 +13,7 @@ struct buzz_appApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .frame(minWidth: 800, minHeight: 600)
                 .environmentObject(appDelegate.viewModel)
         }
         .windowStyle(HiddenTitleBarWindowStyle())
@@ -25,7 +32,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             if firstURL.pathExtension.lowercased() == "pdf" {
                 viewModel.shouldShowPDFPicker = false // Prevent PDF picker when opening a file
                 viewModel.openPDF(url: firstURL)
-                
             }
         }
     }

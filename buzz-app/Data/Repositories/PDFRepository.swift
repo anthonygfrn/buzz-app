@@ -13,20 +13,20 @@ class PDFRepository: PDFRepositoryProtocol {
             print("Cannot load PDF file.")
             return nil
         }
-
+        
         let fullText = NSMutableAttributedString()
         var rawTextBuffer = ""
-
+        
         for pageIndex in 0 ..< pdfDocument.pageCount {
             if let page = pdfDocument.page(at: pageIndex),
                let pageText = page.string
             {
                 let lines = pageText.components(separatedBy: .newlines)
                 var currentParagraph = ""
-
+                
                 for line in lines {
                     let trimmedLine = line.trimmingCharacters(in: .whitespacesAndNewlines)
-
+                    
                     if trimmedLine.isEmpty {
                         // Handle end of paragraph
                         if !currentParagraph.isEmpty {
@@ -55,7 +55,7 @@ class PDFRepository: PDFRepositoryProtocol {
                         currentParagraph += trimmedLine
                     }
                 }
-
+                
                 // Append any remaining paragraph at the end of the page
                 if !currentParagraph.isEmpty {
                     let attributedParagraphText = NSMutableAttributedString(string: currentParagraph + "\n\n")
@@ -64,12 +64,12 @@ class PDFRepository: PDFRepositoryProtocol {
                 }
             }
         }
-
+        
         let rawText = rawTextBuffer.trimmingCharacters(in: .whitespacesAndNewlines)
-
+        
         return PDFDocumentEntity(rawText: rawText, attributedText: fullText)
     }
-
+    
     private func isSectionTitle(_ line: String) -> Bool {
         // List of section titles to match as standalone words
         let sectionTitles = [
@@ -84,11 +84,11 @@ class PDFRepository: PDFRepositoryProtocol {
             "Survey Methodology",
             "References"
         ]
-
+        
         // Create a pattern that matches any of the section titles exactly as standalone words, ignoring case
         let titlePattern = sectionTitles.joined(separator: "|")
         let regexPattern = #"(?i)^(?:\#(titlePattern))$"#
-
+        
         // Check if the line matches the section title pattern exactly
         return line.range(of: regexPattern, options: .regularExpression) != nil
     }
