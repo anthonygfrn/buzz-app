@@ -44,7 +44,7 @@ class PDFViewModel: ObservableObject {
         self.applyColorModeUseCase = applyColorModeUseCase
         self.applyFontAttributesUseCase = applyFontAttributesUseCase
 
-        context.isEditable = true
+        context.isEditable = false
     }
 
     func openPDF(url: URL) {
