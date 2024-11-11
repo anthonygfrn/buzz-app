@@ -25,7 +25,7 @@ enum ColoringStyle {
 }
 
 enum FontSizePicker: String, CaseIterable {
-    case normal = "Normal"
+    case standard = "Standard"
     case large = "Large"
     case extraLarge = "Extra Large"
 }
@@ -42,19 +42,19 @@ enum FontFamilyPicker: String, CaseIterable {
 }
 
 enum LineSpacing: String, CaseIterable {
-    case normal = "Normal"
+    case standard = "Standard"
     case large = "Large"
     case extraLarge = "Extra Large"
 }
 
 enum LetterSpacing: String, CaseIterable {
-    case normal = "Normal"
+    case standard = "Standard"
     case large = "Large"
     case extraLarge = "Extra Large"
 }
 
 enum ParagraphSpacing: String, CaseIterable {
-    case normal = "Normal"
+    case standard = "Standard"
     case large = "Large"
     case extraLarge = "Extra Large"
 }

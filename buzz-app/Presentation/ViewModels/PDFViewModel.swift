@@ -10,12 +10,12 @@ class PDFViewModel: ObservableObject {
     @Published var containerWidth: CGFloat = 1331
     @Published var shouldShowPDFPicker: Bool = true
 
-    @Published var selectedFontSize: FontSizePicker = .normal
+    @Published var selectedFontSize: FontSizePicker = .standard
     @Published var selectedFontWeight: FontWeightPicker = .regular
     @Published var selectedFontFamily: FontFamily = .SFPro
-    @Published var selectedLineSpacing: LineSpacing = .normal
-    @Published var selectedLetterSpacing: LetterSpacing = .normal
-    @Published var selectedParagraphSpacing: ParagraphSpacing = .normal
+    @Published var selectedLineSpacing: LineSpacing = .standard
+    @Published var selectedLetterSpacing: LetterSpacing = .standard
+    @Published var selectedParagraphSpacing: ParagraphSpacing = .standard
     @Published var selectedTextAlignment: AlignmentText = .left
 
     @Published private(set) var fontSize: CGFloat = 18
@@ -78,7 +78,7 @@ class PDFViewModel: ObservableObject {
 
     func setSelectedFontSize(to newFontSize: FontSizePicker) {
         switch newFontSize {
-        case .normal:
+        case .standard:
             fontSize = 18
         case .large:
             fontSize = 29
@@ -121,7 +121,7 @@ class PDFViewModel: ObservableObject {
 
     func setLineSpacing(to newLineSpacing: LineSpacing) {
         switch newLineSpacing {
-        case .normal:
+        case .standard:
             lineSpacing = 1
         case .large:
             lineSpacing = 2.5
@@ -134,7 +134,7 @@ class PDFViewModel: ObservableObject {
 
     func setLetterSpacing(to newLetterSpacing: LetterSpacing) {
         switch newLetterSpacing {
-        case .normal:
+        case .standard:
             letterSpacing = 1 * lineSpacing
         case .large:
             letterSpacing = 1.5 * lineSpacing
@@ -147,7 +147,7 @@ class PDFViewModel: ObservableObject {
 
     func setParagraphSpacing(to newParagraphSpacing: ParagraphSpacing) {
         switch newParagraphSpacing {
-        case .normal:
+        case .standard:
             paragraphSpacing = 2 * lineSpacing
         case .large:
             paragraphSpacing = 2.5 * lineSpacing
@@ -182,12 +182,12 @@ class PDFViewModel: ObservableObject {
         paragraphSpacing = 2
         textAlignment = "left"
 
-        selectedFontSize = .normal
+        selectedFontSize = .standard
         selectedFontWeight = .regular
         selectedFontFamily = .SFPro
-        selectedLineSpacing = .normal
-        selectedLetterSpacing = .normal
-        selectedParagraphSpacing = .normal
+        selectedLineSpacing = .standard
+        selectedLetterSpacing = .standard
+        selectedParagraphSpacing = .standard
         selectedTextAlignment = .left
 
         recolorText()
