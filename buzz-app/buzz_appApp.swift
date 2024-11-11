@@ -17,7 +17,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var viewModel = PDFViewModel(
         extractPDFTextUseCase: ExtractPDFTextUseCase(repository: PDFRepository()),
         applyColorModeUseCase: ApplyColorModeUseCase(),
-        applyFontAttributesUseCase:x ApplyFontAttributesUseCase()
+        applyFontAttributesUseCase: ApplyFontAttributesUseCase()
     )
 
     func application(_ application: NSApplication, open urls: [URL]) {
