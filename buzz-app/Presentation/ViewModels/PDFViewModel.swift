@@ -7,13 +7,15 @@ class PDFViewModel: ObservableObject {
     @Published var rawText = ""
     @Published var segmentColoringMode: SegmentColoringMode = .line
     @Published var coloringStyle: ColoringStyle = .highlight
+    @Published var containerWidth: CGFloat = 1331
+    @Published var shouldShowPDFPicker: Bool = true
 
-    @Published var selectedFontSize: FontSizePicker = .normal
+    @Published var selectedFontSize: FontSizePicker = .standard
     @Published var selectedFontWeight: FontWeightPicker = .regular
     @Published var selectedFontFamily: FontFamily = .SFPro
-    @Published var selectedLineSpacing: LineSpacing = .normal
-    @Published var selectedLetterSpacing: LetterSpacing = .normal
-    @Published var selectedParagraphSpacing: ParagraphSpacing = .normal
+    @Published var selectedLineSpacing: LineSpacing = .standard
+    @Published var selectedLetterSpacing: LetterSpacing = .standard
+    @Published var selectedParagraphSpacing: ParagraphSpacing = .standard
     @Published var selectedTextAlignment: AlignmentText = .left
 
     @Published private(set) var fontSize: CGFloat = 18
@@ -40,16 +42,16 @@ class PDFViewModel: ObservableObject {
     func openPDF(url: URL) {
         if let document = extractPDFTextUseCase.execute(url: url) {
             rawText = document.rawText
-            extractedText = NSAttributedString(string: document.rawText)
+            extractedText = document.attributedText
             recolorText()
         }
     }
 
     func recolorText() {
-        let coloredText = applyColorModeUseCase.execute(text: extractedText, segmentColorMode: segmentColoringMode, coloringStyle: coloringStyle)
+        modifyFontAttributes()
+        let coloredText = applyColorModeUseCase.execute(text: extractedText, segmentColorMode: segmentColoringMode, coloringStyle: coloringStyle, containerWidth: containerWidth)
         extractedText = coloredText
         context.setAttributedString(to: extractedText)
-        modifyFontAttributes() // Ensure font attributes are applied after recoloring
     }
 
     // Apply both font size and weight
@@ -76,14 +78,14 @@ class PDFViewModel: ObservableObject {
 
     func setSelectedFontSize(to newFontSize: FontSizePicker) {
         switch newFontSize {
-        case .normal:
+        case .standard:
             fontSize = 18
         case .large:
             fontSize = 29
         case .extraLarge:
             fontSize = 47
         }
-        modifyFontAttributes()
+        recolorText()
     }
 
     func setSelectedFontWeight(to newFontWeight: FontWeightPicker) {
@@ -93,13 +95,13 @@ class PDFViewModel: ObservableObject {
         case .bold:
             fontWeight = .bold
         }
-        modifyFontAttributes()
+        recolorText()
     }
 
     func setSelectedFontFamily(to newFontFamily: FontFamily) {
         fontFamily = newFontFamily.rawValue
 
-        modifyFontAttributes()
+        recolorText()
     }
 
     func setSegmentedControlValue(to newValue: SegmentColoringMode) {
@@ -119,20 +121,20 @@ class PDFViewModel: ObservableObject {
 
     func setLineSpacing(to newLineSpacing: LineSpacing) {
         switch newLineSpacing {
-        case .normal:
+        case .standard:
             lineSpacing = 1
         case .large:
             lineSpacing = 2.5
         case .extraLarge:
-            lineSpacing = 4
+            lineSpacing = 5
         }
 
-        modifyFontAttributes()
+        recolorText()
     }
 
     func setLetterSpacing(to newLetterSpacing: LetterSpacing) {
         switch newLetterSpacing {
-        case .normal:
+        case .standard:
             letterSpacing = 1 * lineSpacing
         case .large:
             letterSpacing = 1.5 * lineSpacing
@@ -140,12 +142,12 @@ class PDFViewModel: ObservableObject {
             letterSpacing = 2 * lineSpacing
         }
 
-        modifyFontAttributes()
+        recolorText()
     }
 
     func setParagraphSpacing(to newParagraphSpacing: ParagraphSpacing) {
         switch newParagraphSpacing {
-        case .normal:
+        case .standard:
             paragraphSpacing = 2 * lineSpacing
         case .large:
             paragraphSpacing = 2.5 * lineSpacing
@@ -153,7 +155,7 @@ class PDFViewModel: ObservableObject {
             paragraphSpacing = 3 * lineSpacing
         }
 
-        modifyFontAttributes()
+        recolorText()
     }
 
     func setSelectedTextAlignment(to newTextAlignment: AlignmentText) {
@@ -168,7 +170,7 @@ class PDFViewModel: ObservableObject {
         case .justified:
             textAlignment = "justified"
         }
-        modifyFontAttributes()
+        recolorText()
     }
 
     func resetAllStyling() {
@@ -180,14 +182,14 @@ class PDFViewModel: ObservableObject {
         paragraphSpacing = 2
         textAlignment = "left"
 
-        selectedFontSize = .normal
+        selectedFontSize = .standard
         selectedFontWeight = .regular
         selectedFontFamily = .SFPro
-        selectedLineSpacing = .normal
-        selectedLetterSpacing = .normal
-        selectedParagraphSpacing = .normal
+        selectedLineSpacing = .standard
+        selectedLetterSpacing = .standard
+        selectedParagraphSpacing = .standard
         selectedTextAlignment = .left
 
-        modifyFontAttributes()
+        recolorText()
     }
 }
