@@ -26,9 +26,7 @@ struct ApplyColorModeUseCase {
     }
 
     private mutating func removeColoringStyle(in attributedString: NSMutableAttributedString, coloringStyle: ColoringStyle) {
-        
             attributedString.removeAttribute(.backgroundColor, range: NSRange(location: 0, length: attributedString.length))
-        
             attributedString.removeAttribute(.foregroundColor, range: NSRange(location: 0, length: attributedString.length))
         
     }

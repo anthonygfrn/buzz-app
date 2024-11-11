@@ -26,7 +26,7 @@ class PDFViewModel: ObservableObject {
     @Published private(set) var fontSize: CGFloat = 18
     @Published private(set) var fontWeight: NSFont.Weight = .regular
     @Published private(set) var fontFamily: String = "SF Pro"
-    @Published private(set) var lineSpacing: CGFloat = 0
+    @Published private(set) var lineSpacing: CGFloat = 1
     @Published private(set) var letterSpacing: CGFloat = 1
     @Published private(set) var paragraphSpacing: CGFloat = 2
     @Published private(set) var textAlignment: String = "left"
@@ -43,6 +43,8 @@ class PDFViewModel: ObservableObject {
         self.extractPDFTextUseCase = extractPDFTextUseCase
         self.applyColorModeUseCase = applyColorModeUseCase
         self.applyFontAttributesUseCase = applyFontAttributesUseCase
+
+        context.isEditable = true
     }
 
     func openPDF(url: URL) {
@@ -55,6 +57,7 @@ class PDFViewModel: ObservableObject {
                     self.rawText = document.rawText
                     self.extractedText = NSAttributedString(string: document.rawText)
                     self.recolorText()
+//                    self.isLoading = false
                 }
             }
         }

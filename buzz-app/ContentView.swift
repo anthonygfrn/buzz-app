@@ -19,6 +19,7 @@ struct ContentView: View {
                     let totalWidth = geometry.size.width
                     let contentWidth: CGFloat = min(totalWidth * 0.80, 1424)
                     let totalHeight = geometry.size.height
+                    
                     let sidePadding = (totalWidth - contentWidth) / 2
                     
                     ScrollView {
@@ -26,7 +27,11 @@ struct ContentView: View {
                             // Tampilkan teks yang diekstrak beserta gambar menggunakan RichTextEditor
                             RichTextEditor(text: $viewModel.extractedText, context: viewModel.context)
                                 .frame(width: contentWidth, height: totalHeight)
-                                .fixedSize(horizontal: true, vertical: true)
+                                .richTextEditorConfig(RichTextEditorConfig(isContinuousSpellCheckingEnabled: false))
+                                .richTextFormatSheetStyle(.init(padding: 120))
+                                .richTextEditorStyle(.init(backgroundColor: NSColor(named: "BgColor") ?? .white))
+                                .background(Color("BgColor"))
+//                                .fixedSize(horizontal: true, vertical: true)
                         }
                         .padding(.leading, sidePadding)
                         .padding(.trailing, sidePadding)
@@ -44,24 +49,9 @@ struct ContentView: View {
         }
         .environmentObject(viewModel)
         .onAppear {
-            let fontFamilies = NSFontManager.shared.availableFontFamilies
-            for family in fontFamilies {
-                print("\(family)")
-                let fontNames = NSFontManager.shared.availableMembers(ofFontFamily: family)
-                fontNames?.forEach { font in
-                    if let fontName = font.first as? String {
-                        print("  Font Name: \(fontName)")
-                    }
-                }
-            }
-
-
-            
             if viewModel.extractedText.length == .zero && !viewModel.isLoading {
                 openPDFPicker()
             }
-            
-            
         }
     }
     
