@@ -133,7 +133,7 @@ struct CustomToolbar: View {
 
                             PaletteButton(
                                 iconName: nil,
-                                assetImage: Image("highlight"),
+                                assetImage: Image(pdfViewModel.coloringStyle == .highlight ? "highlight-selected" : "highlight"),
                                 isSelected: pdfViewModel.coloringStyle == .highlight,
                                 action: { pdfViewModel.setColoringStyle(to: .highlight) }
                             )
