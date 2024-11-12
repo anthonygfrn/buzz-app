@@ -7,6 +7,7 @@ struct buzz_appApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .frame(minWidth: 800, minHeight: 600)
                 .environmentObject(appDelegate.viewModel)
         }
         .windowStyle(HiddenTitleBarWindowStyle())
