@@ -1,0 +1,118 @@
+@font-face {
+  font-family: 'SF Pro';
+  src: url('path-to-your-font/SF-Pro.ttf') format('truetype');
+}
+
+body {
+  font-family: 'SF Pro', sans-serif;
+  padding: 3px 10px; /* Further reduced top and bottom padding */
+  background-color: #ffffff;
+  text-align: center;
+  width: 393px;
+  height: 661px;
+}
+
+.action-button {
+  display: block;
+  width: 100%;
+  padding: 8px; /* Reduced padding to save space */
+  border: none;
+  border-radius: 8px;
+  margin-bottom: 12px; /* Reduced margin for compact layout */
+  font-size: 17px;
+  font-weight: 600; /* Semibold */
+  cursor: pointer;
+  text-align: center;
+  background-color: #3478F6;
+  color: white;
+  font-family: 'SF Pro', sans-serif;
+}
+
+.action-button.grey {
+  background-color: #EAEAEA;
+  color: black;
+}
+
+.section {
+  margin-bottom: 22px; /* Adjusted space between sections */
+  text-align: left;
+  padding-left: 10px;
+  font-size: 17px;
+  font-weight: 600; /* Semibold */
+  color: #333;
+}
+
+h3 {
+  font-size: 17px;
+  font-weight: 600; /* Semibold */
+  color: #333;
+}
+
+.picker-row {
+  display: flex;
+  justify-content: flex-start;
+  gap: 25px; /* Increased horizontal gap between pickers */
+  margin-top: 4px; /* Further reduced to fit within the popup */
+  margin-bottom: 4px; /* Further reduced to fit within the popup */
+}
+
+.picker {
+  display: flex;
+  justify-content: center;
+}
+
+.picker-box {
+  width: 96px;
+  height: 96px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-family: 'SF Pro', sans-serif;
+  font-size: 13px;
+  font-weight: 600; /* Semibold */
+}
+
+.picker-box:hover {
+  background-color: #EAEAEA;
+}
+
+.icon {
+  font-size: 28px;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.picker-controls {
+  display: flex;
+  align-items: center; /* Center-align arrows and text */
+  gap: 3px; /* Reduced spacing between arrows and text */
+  margin-top: auto;
+  padding: 0 5px;
+}
+
+.arrow {
+  background: none;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center; /* Align arrows with text center */
+}
+
+span {
+  font-size: 13px;
+  font-weight: 600; /* Semibold */
+  text-align: center;
+  margin-bottom: 5px;
+}
