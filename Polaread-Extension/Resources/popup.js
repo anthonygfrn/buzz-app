@@ -3,12 +3,12 @@ const selectedPalette = ["#FF6F61", "#6B5B95", "#88B04B", "#F7CAC9", "#92A8D1"];
 const options = {
   color: ["Text", "Highlight"],
   applyColor: ["Line", "Paragraph", "Sentence", "Punctuation"],
-  lineSpacing: ["Standard", "Larger", "Extra Large"],
-  charSpacing: ["Standard", "Larger", "Extra Large"],
-  wordSpacing: ["Standard", "Larger", "Extra Large"],
+  lineSpacing: ["Standard", "Large", "Extra Large"],
+  charSpacing: ["Standard", "Large", "Extra Large"],
+  wordSpacing: ["Standard", "Large", "Extra Large"],
   font: ["SF Pro", "Arial", "Open Sans", "Open Dyslexic", "Calibri"],
   fontSize: ["Standard", "Large", "Extra Large"],
-  fontWeight: ["Regular", "Bolder"],
+  fontWeight: ["Standard", "Bolder"],
 };
 
 const icons = {
@@ -75,7 +75,7 @@ document.getElementById("usePreference").addEventListener("click", () => {
 
     chrome.tabs.sendMessage(tabs[0].id, {
       type: "typography",
-      font: document.getElementById("fontText").textContent.toLowerCase().replace(" ", "-"),
+      font: normalizeTypography("font"),
       fontSize: normalizeTypography("fontSize"),
       fontWeight: normalizeTypography("fontWeight"),
     });
@@ -84,11 +84,12 @@ document.getElementById("usePreference").addEventListener("click", () => {
 
 function normalizeSpacing(type) {
   const value = document.getElementById(`${type}Text`).textContent.toLowerCase();
-  return value === "extra large" ? "xlarge" : value;
+  return value === "standard" ? "standard" : value === "extra large" ? "xlarge" : "large";
 }
 
 function normalizeTypography(type) {
-  return document.getElementById(`${type}Text`).textContent.toLowerCase();
+  const value = document.getElementById(`${type}Text`).textContent.toLowerCase().replace(" ", "-");
+  return value === "standard" ? "standard" : value;
 }
 
 document.getElementById("savePreference").addEventListener("click", () => {
