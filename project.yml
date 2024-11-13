@@ -57,7 +57,7 @@ targets:
         INFOPLIST_FILE: buzz-app/Info.plist
 
   Polared-Extension:
-    type: app-extension.safari
+    type: app-extension
     platform: macOS
     sources: [Polared-Extension]
     resources: [Resources]
