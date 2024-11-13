@@ -31,7 +31,7 @@ targets:
           UIApplicationSupportsMultipleScenes: YES
         LSApplicationCategoryType: public.app-category.productivity
         ATSApplicationFontsPath: .
-        CFBundleDocumentTypes: # Declare document types the app can open
+        CFBundleDocumentTypes:
           - CFBundleTypeName: PDF Document
             CFBundleTypeRole: Viewer
             LSHandlerRank: Alternate
@@ -40,6 +40,7 @@ targets:
     settings:
       INFOPLIST_FILE: buzz-app/Info.plist
       ENABLE_TESTABILITY: YES
+
   buzz-appTests:
     type: bundle.unit-test
     platform: macOS
@@ -54,12 +55,33 @@ targets:
       ENABLE_TESTABILITY: YES
       base:
         INFOPLIST_FILE: buzz-app/Info.plist
+
+  Polaread-Extension:
+    type: app-extension
+    platform: macOS
+    sources: [Polaread-Extension]
+    resources: [Resources]
+    dependencies: []
+    info:
+      path: Polaread-Extension/Info.plist
+      properties:
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.Safari.web-extension
+          NSExtensionAttributes:
+            WKAppBoundDomains: []
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.anthony-gufron.Polaread-Extension
+      INFOPLIST_FILE: Polaread-Extension/Info.plist
+
 schemes:
   buzz-app:
     build:
       targets:
         buzz-app: all
         buzz-appTests: all
+        Polaread-Extension: all
     test:
       targets:
         - name: buzz-appTests
