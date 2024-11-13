@@ -56,14 +56,14 @@ targets:
       base:
         INFOPLIST_FILE: buzz-app/Info.plist
 
-  Polared-Extension:
+  Polaread-Extension:
     type: app-extension
     platform: macOS
-    sources: [Polared-Extension]
+    sources: [Polaread-Extension]
     resources: [Resources]
     dependencies: []
     info:
-      path: Polared-Extension/Info.plist
+      path: Polaread-Extension/Info.plist
       properties:
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         CFBundleShortVersionString: $(MARKETING_VERSION)
@@ -72,8 +72,8 @@ targets:
           NSExtensionAttributes:
             WKAppBoundDomains: []
     settings:
-      PRODUCT_BUNDLE_IDENTIFIER: com.anthony-gufron.Polared-Extension
-      INFOPLIST_FILE: Polared-Extension/Info.plist
+      PRODUCT_BUNDLE_IDENTIFIER: com.anthony-gufron.Polaread-Extension
+      INFOPLIST_FILE: Polaread-Extension/Info.plist
 
 schemes:
   buzz-app:
@@ -81,7 +81,7 @@ schemes:
       targets:
         buzz-app: all
         buzz-appTests: all
-        Polared-Extension: all
+        Polaread-Extension: all
     test:
       targets:
         - name: buzz-appTests
