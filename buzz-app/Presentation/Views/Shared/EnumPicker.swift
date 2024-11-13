@@ -5,6 +5,8 @@ struct EnumPicker<T: RawRepresentable & Hashable>: View where T.RawValue == Stri
     @Binding var selectedItem: T
     @EnvironmentObject var toolbarViewModel: ToolBarViewModel
     @State private var isMenuVisible: Bool = false
+    @State private var isHovered: Bool = false // Track hover state for outer rectangle
+    @State private var hoveredItem: T? = nil // Track hovered item for hover effect
     let items: [T]
     let imageName: String?
     let assetImageName: String?
@@ -64,6 +66,11 @@ struct EnumPicker<T: RawRepresentable & Hashable>: View where T.RawValue == Stri
                         )
                     }
                     .frame(width: 264)
+                    .background(RoundedRectangle(cornerRadius: 12)
+                        .fill(isHovered ? Color("Hover") : Color.clear)) // Hover effect background
+                    .onHover { hovering in
+                        isHovered = hovering
+                    }
                 }
 
                 if isMenuVisible {
@@ -79,13 +86,17 @@ struct EnumPicker<T: RawRepresentable & Hashable>: View where T.RawValue == Stri
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .padding(.vertical, 10)
                                     .padding(.horizontal, 10)
+                                    .background(hoveredItem == item ? Color("Hover") : Color.clear)
+                                    .cornerRadius(5)
                             }
-                            .background(Color.white)
                             .buttonStyle(PlainButtonStyle())
+                            .onHover { hovering in
+                                hoveredItem = hovering ? item : nil
+                            }
                         }
                     }
                     .frame(width: 264)
-                    .background(Color.white)
+                    .background(Color("Picker")) // Use the asset color for picker menu
                     .cornerRadius(10)
                     .shadow(radius: 5)
                     .offset(y: -24)

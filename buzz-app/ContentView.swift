@@ -3,77 +3,99 @@ import RichTextKit
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var viewModel = PDFViewModel(
-        extractPDFTextUseCase: ExtractPDFTextUseCase(repository: PDFRepository()),
-        applyColorModeUseCase: ApplyColorModeUseCase(),
-        applyFontAttributesUseCase: ApplyFontAttributesUseCase()
-    )
-    
+    @EnvironmentObject var viewModel: PDFViewModel
+
     var body: some View {
-        VStack(spacing: 0) {
-            if viewModel.isLoading {
-                ProgressView("Loading PDF...")  // Loading indicator
-                    .padding()
-            } else {
+        ZStack {
+            VStack(spacing: 0) {
                 GeometryReader { geometry in
-                    let totalWidth = geometry.size.width
-                    let contentWidth: CGFloat = min(totalWidth * 0.80, 1424)
-                    let totalHeight = geometry.size.height
-                    let sidePadding = (totalWidth - contentWidth) / 2
-                    
                     ScrollView {
                         VStack {
-                            // Tampilkan teks yang diekstrak
+                            let totalWidth = geometry.size.width
+                            let totalHeight = geometry.size.height
+                            let contentWidth: CGFloat = min(totalWidth * 0.80, 1424)
+                            let sidePadding = (totalWidth - contentWidth) / 2
+
                             RichTextEditor(text: $viewModel.extractedText, context: viewModel.context)
                                 .frame(width: contentWidth, height: totalHeight)
-                                .fixedSize(horizontal: true, vertical: true)
-                            
-                            // Tampilkan gambar yang diekstrak di bawah teks
-                            ForEach(viewModel.extractedImages, id: \.self) { image in
-                                Image(nsImage: image)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: contentWidth)
-                                    .padding()
+                                .padding(.leading, sidePadding)
+                                .padding(.trailing, sidePadding)
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
+                    .overlay(content: {
+                        if viewModel.isLoading {
+                            VStack {
+                                Spacer()
+                                ProgressView("Loading...")
+                                Spacer()
                             }
                         }
-                        .padding(.leading, sidePadding)
-                        .padding(.trailing, sidePadding)
+                    })
+                    .onChange(of: geometry.size.width) { newWidth in
+                        viewModel.containerWidth = min(newWidth * 0.80, 1424)
+                        if viewModel.segmentColoringMode == .line {
+                            viewModel.recolorText()
+                        }
                     }
                     .background(Color("BgColor"))
                 }
                 CustomToolbar()
+                //                if !viewModel.isLoading {
+//                    GeometryReader { geometry in
+//                        ScrollView {
+//                            VStack {
+//                                let totalWidth = geometry.size.width
+//                                let totalHeight = geometry.size.height
+//                                let contentWidth: CGFloat = min(totalWidth * 0.80, 1424)
+//                                let sidePadding = (totalWidth - contentWidth) / 2
+//
+//                                RichTextEditor(text: $viewModel.extractedText, context: viewModel.context)
+//                                    .frame(width: contentWidth, height: totalHeight)
+//                                    .padding(.leading, sidePadding)
+//                                    .padding(.trailing, sidePadding)
+//                            }
+//                            .frame(maxWidth: .infinity)
+//                        }
+//                        .onChange(of: geometry.size.width) { newWidth in
+//                            viewModel.containerWidth = min(newWidth * 0.80, 1424)
+//                            if viewModel.segmentColoringMode == .line {
+//                                viewModel.recolorText()
+//                            }
+//                        }
+//                        .background(Color("BgColor"))
+//                    }
+//                    CustomToolbar()
+//                }else{
+//                    ProgressView("Loading PDF...")
+//                        .padding()
+//                }
+            }
+            .background(Color("BgColor"))
+        }
+        .onAppear {
+            if viewModel.extractedText.length == .zero {
+                viewModel.shouldShowPDFPicker = false
+                openPDFPicker()
             }
         }
-        .environmentObject(viewModel)
-        .onAppear {
-            openPDFPicker()
-        }
     }
-    
+
     func openPDFPicker() {
         let panel = NSOpenPanel()
         panel.allowedFileTypes = ["pdf"]
         panel.allowsMultipleSelection = false
         panel.canChooseDirectories = false
-        
-        panel.begin { response in
-            if response == .OK, let url = panel.url {
-                viewModel.isLoading = true  // Mulai loading hanya setelah memilih PDF
+
+        if panel.runModal() == .OK {
+            if let url = panel.url {
                 viewModel.openPDF(url: url)
-                
-                // Set the window title to the file name
-                if let window = NSApplication.shared.windows.first {
-                    window.title = url.lastPathComponent
-                }
-            } else {
-                viewModel.isLoading = false  // Batalkan loading jika tidak memilih file
             }
         }
     }
 }
 
-#Preview {
-    ContentView()
-}
-
+// #Preview {
+//    ContentView()
+//
+// }

@@ -19,24 +19,48 @@ targets:
     resources: [Resources]
     dependencies:
       - package: RichTextKit
+      - target: Polaread-Extension # Include the extension as a dependency of the main app
     info:
       path: buzz-app/Info.plist
       properties:
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         CFBundleShortVersionString: $(MARKETING_VERSION)
         LSRequiresIPhoneOS: YES
-        UILaunchScreen: ""
         UIApplicationSupportsIndirectInputEvents: YES
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: YES
         LSApplicationCategoryType: public.app-category.productivity
         ATSApplicationFontsPath: .
-          # - ./TAHOMAB0.ttf
-          # - ./OpenDyslexic.ttf
-          # - ./OpenSans.ttf
+        CFBundleDocumentTypes:
+          - CFBundleTypeName: PDF Document
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Alternate
+            LSItemContentTypes:
+              - com.adobe.pdf
     settings:
       INFOPLIST_FILE: buzz-app/Info.plist
       ENABLE_TESTABILITY: YES
+
+  Polaread-Extension:
+    type: app-extension
+    platform: macOS
+    sources: [Polaread-Extension]
+    resources: [Resources/Polaread-Extension]
+    dependencies:
+      - package: RichTextKit # Include necessary packages, but do not link back to buzz-app
+    info:
+      path: Polaread-Extension/Info.plist
+      properties:
+        CFBundleIdentifier: com.anthony-gufron.buzz-app.Polaread-Extension # Set the correct prefixed bundle identifier
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        NSExtension:
+          NSExtensionPointIdentifier: "com.apple.extensions.polaread"
+          NSExtensionPrincipalClass: "PolareadExtension"
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.anthony-gufron.buzz-app.Polaread-Extension # Ensure bundle identifier matches
+      INFOPLIST_FILE: Polaread-Extension/Info.plist
+
   buzz-appTests:
     type: bundle.unit-test
     platform: macOS
@@ -51,12 +75,15 @@ targets:
       ENABLE_TESTABILITY: YES
       base:
         INFOPLIST_FILE: buzz-app/Info.plist
+
 schemes:
   buzz-app:
     build:
       targets:
         buzz-app: all
         buzz-appTests: all
+    run:
+      target: buzz-app
     test:
       targets:
         - name: buzz-appTests

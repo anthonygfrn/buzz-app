@@ -25,33 +25,25 @@ struct CustomToolbar: View {
             HStack {
                 if toolbarViewModel.activeToolbar == .main {
                     // Main toolbar buttons
-                    ToolbarButton(iconName: "textformat", customImage: nil, overlayOpacity: 0.2) {
-                        toolbarViewModel.activeToolbar = .textFormat // Show child buttons for text format
-                    }
+                    ToolbarButton(iconName: "textformat", customImage: nil, overlayOpacity: 0.2, action: {
+                        toolbarViewModel.activeToolbar = .textFormat
+                    }, isSelected: toolbarViewModel.activeToolbar == .textFormat)
 
-                    ToolbarButton(iconName: "arrow.up.and.down.text.horizontal", customImage: nil, overlayOpacity: 0.2) {
+                    ToolbarButton(iconName: "arrow.up.and.down.text.horizontal", customImage: nil, overlayOpacity: 0.2, action: {
                         toolbarViewModel.setActiveToolbar(.textSpacing)
-                    }
+                    }, isSelected: toolbarViewModel.activeToolbar == .textSpacing)
 
-                    ToolbarButton(iconName: "text.justify.left", customImage: nil, overlayOpacity: 0.2) {
+                    ToolbarButton(iconName: "text.justify.left", customImage: nil, overlayOpacity: 0.2, action: {
                         toolbarViewModel.setActiveToolbar(.textAlign)
-                    }
+                    }, isSelected: toolbarViewModel.activeToolbar == .textAlign)
 
-                    ToolbarButton(iconName: nil, customImage: Image("Color-Mode"), overlayOpacity: 0.2) {
+                    ToolbarButton(iconName: nil, customImage: Image("Color-Mode"), overlayOpacity: 0.2, action: {
                         toolbarViewModel.setActiveToolbar(.palette)
-                    }
+                    }, isSelected: toolbarViewModel.activeToolbar == .palette)
                 } else if toolbarViewModel.activeToolbar == .textFormat {
-                    Button(action: {
+                    BackButton {
                         toolbarViewModel.setActiveToolbar(.main)
-                    }) {
-                        Image(systemName: "chevron.left")
-                            .font(.system(size: 24))
-                            .padding()
-                            .foregroundColor(Color("Default"))
-                            .frame(width: 64, height: 64) // Mengatur ukuran click area
-                            .contentShape(Rectangle()) // Menambah area klik di luar icon
                     }
-                    .buttonStyle(PlainButtonStyle())
 
                     EnumPicker(idPicker: 0, selectedItem: $pdfViewModel.selectedFontFamily, items: FontFamily.allCases, imageName: "textformat", assetImageName: nil)
                         .padding(.horizontal, 0)
@@ -74,17 +66,9 @@ struct CustomToolbar: View {
                             pdfViewModel.setSelectedFontWeight(to: newValue)
                         }
                 } else if toolbarViewModel.activeToolbar == .textSpacing {
-                    Button(action: {
+                    BackButton {
                         toolbarViewModel.setActiveToolbar(.main)
-                    }) {
-                        Image(systemName: "chevron.left")
-                            .font(.system(size: 24)) // Customize icon size if needed
-                            .padding() // Add padding if required for alignment
-                            .foregroundColor(Color("Default"))
-                            .frame(width: 64, height: 64)
-                            .contentShape(Rectangle())
                     }
-                    .buttonStyle(PlainButtonStyle())
 
                     EnumPicker(idPicker: 3, selectedItem: $pdfViewModel.selectedLineSpacing, items: LineSpacing.allCases, imageName: "arrow.up.and.down.text.horizontal", assetImageName: nil)
                         .padding(.horizontal, 0)
@@ -107,157 +91,93 @@ struct CustomToolbar: View {
                             pdfViewModel.setParagraphSpacing(to: newValue)
                         }
                 } else if toolbarViewModel.activeToolbar == .textAlign {
-                    Button(action: {
+                    BackButton {
                         toolbarViewModel.setActiveToolbar(.main)
-                    }) {
-                        Image(systemName: "chevron.left")
-                            .font(.system(size: 24)) // Customize icon size if needed
-                            .padding() // Add padding if required for alignment
-                            .foregroundColor(Color("Default"))
-                            .frame(width: 64, height: 64)
-                            .contentShape(Rectangle())
                     }
-                    .buttonStyle(PlainButtonStyle())
+                    
                     HStack(spacing: 5) {
-                        ToolbarButton(iconName: "text.alignleft", customImage: nil, overlayOpacity: 0) {
+                        ToolbarButton(iconName: "text.alignleft", customImage: nil, overlayOpacity: 0, action: {
                             pdfViewModel.setSelectedTextAlignment(to: .left)
-                        }
-                        .background(pdfViewModel.selectedTextAlignment == .left ? Color.blue : Color.clear)
+                        }, isSelected: pdfViewModel.selectedTextAlignment == .left)
                         .cornerRadius(12)
 
-                        ToolbarButton(iconName: "text.aligncenter", customImage: nil, overlayOpacity: 0) {
+                        ToolbarButton(iconName: "text.aligncenter", customImage: nil, overlayOpacity: 0, action: {
                             pdfViewModel.setSelectedTextAlignment(to: .center)
-                        }
-                        .background(pdfViewModel.selectedTextAlignment == .center ? Color.blue : Color.clear)
+                        }, isSelected: pdfViewModel.selectedTextAlignment == .center)
                         .cornerRadius(12)
 
-                        ToolbarButton(iconName: "text.alignright", customImage: nil, overlayOpacity: 0) {
+                        ToolbarButton(iconName: "text.alignright", customImage: nil, overlayOpacity: 0, action: {
                             pdfViewModel.setSelectedTextAlignment(to: .right)
-                        }
-                        .background(pdfViewModel.selectedTextAlignment == .right ? Color.blue : Color.clear)
+                        }, isSelected: pdfViewModel.selectedTextAlignment == .right)
                         .cornerRadius(12)
 
-                        ToolbarButton(iconName: "text.justify.leading", customImage: nil, overlayOpacity: 0) {
+                        ToolbarButton(iconName: "text.justify.leading", customImage: nil, overlayOpacity: 0, action: {
                             pdfViewModel.setSelectedTextAlignment(to: .justified)
-                        }
-                        .background(pdfViewModel.selectedTextAlignment == .justified ? Color.blue : Color.clear)
+                        }, isSelected: pdfViewModel.selectedTextAlignment == .justified)
                         .cornerRadius(12)
                     }
                     .padding(6)
                 } else if toolbarViewModel.activeToolbar == .palette {
-                    Button(action: {
-                        toolbarViewModel.setActiveToolbar(.main) // Return to main toolbar
-                    }) {
-                        Image(systemName: "chevron.left")
-                            .font(.system(size: 24)) // Customize icon size if needed
-                            .padding() // Add padding if required for alignment
-                            .foregroundColor(Color("Default"))
-                            .frame(width: 64, height: 64)
-                            .contentShape(Rectangle())
+                    BackButton {
+                        toolbarViewModel.setActiveToolbar(.main)
                     }
-                    .buttonStyle(PlainButtonStyle())
 
                     HStack(spacing: 20) {
                         HStack(spacing: 12) {
-                            Button(action: {
-                                pdfViewModel.setColoringStyle(to: .text)
-                            }) {
-                                Image(pdfViewModel.coloringStyle == .text ? "letter-2" : "letter-1")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 32, height: 32) // Make the image bigger
-                                    .foregroundColor(.white)
-                                    .padding(8)
-                                    .background(pdfViewModel.coloringStyle == .text ? Color.blue : Color.clear)
-                                    .cornerRadius(10)
-                            }
-                            .buttonStyle(PlainButtonStyle())
+                            PaletteButton(
+                                iconName: nil,
+                                assetImage: Image(pdfViewModel.coloringStyle == .text || colorScheme == .dark ? "letter-2" : "letter-1"),
+                                isSelected: pdfViewModel.coloringStyle == .text,
+                                action: { pdfViewModel.setColoringStyle(to: .text) }
+                            )
 
-                            Button(action: {
-                                pdfViewModel.setColoringStyle(to: .highlight)
-                            }) {
-                                Image("highlight")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 32, height: 32) // Make the image bigger
-                                    .foregroundColor(.white)
-                                    .padding(8) // Adjust padding to make button smaller
-                                    .background(pdfViewModel.coloringStyle == .highlight ? Color.blue : Color.clear)
-                                    .cornerRadius(10)
-                            }
-                            .buttonStyle(PlainButtonStyle())
+                            PaletteButton(
+                                iconName: nil,
+                                assetImage: Image(pdfViewModel.coloringStyle == .highlight ? "highlight-selected" : "highlight"),
+                                isSelected: pdfViewModel.coloringStyle == .highlight,
+                                action: { pdfViewModel.setColoringStyle(to: .highlight) }
+                            )
                         }
-                        .padding(8) // Reduce padding around the buttons
-                        .background(RoundedRectangle(cornerRadius: 20).stroke(Color.gray.opacity(0.5), lineWidth: 2)) // Rounded rectangle border around both buttons
+                        .padding(8)
+                        .background(RoundedRectangle(cornerRadius: 20).stroke(Color.gray.opacity(0.5), lineWidth: 2))
                     }
+
                     HStack(spacing: 20) {
-                        HStack(spacing: 10) {
-                            Button(action: {
-                                pdfViewModel.setSegmentedControlValue(to: .line)
-                            }) {
-                                Image(systemName: "text.justify")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 32, height: 32) // Make the image bigger
-                                    .foregroundColor(pdfViewModel.segmentColoringMode == .line ? .white : .black)
-                                    .padding(8) // Adjust padding to make button smaller
-                                    .background(pdfViewModel.segmentColoringMode == .line ? Color.blue : Color.clear)
-                                    .cornerRadius(10)
-                            }
-                            .buttonStyle(PlainButtonStyle())
+                        PaletteButton(
+                            iconName: "text.justify",
+                            assetImage: nil,
+                            isSelected: pdfViewModel.segmentColoringMode == .line,
+                            action: { pdfViewModel.setSegmentedControlValue(to: .line) }
+                        )
 
-                            Button(action: {
-                                pdfViewModel.setSegmentedControlValue(to: .sentence)
-                            }) {
-                                Image(systemName: "text.word.spacing")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 32, height: 32) // Make the image bigger
-                                    .foregroundColor(pdfViewModel.segmentColoringMode == .sentence ? .white : .black)
-                                    .padding(8) // Adjust padding to make button smaller
-                                    .background(pdfViewModel.segmentColoringMode == .sentence ? Color.blue : Color.clear)
-                                    .cornerRadius(10)
-                            }
-                            .buttonStyle(PlainButtonStyle())
+                        PaletteButton(
+                            iconName: "text.word.spacing",
+                            assetImage: nil,
+                            isSelected: pdfViewModel.segmentColoringMode == .sentence,
+                            action: { pdfViewModel.setSegmentedControlValue(to: .sentence) }
+                        )
 
-                            Button(action: {
-                                pdfViewModel.setSegmentedControlValue(to: .paragraph)
-                            }) {
-                                Image(systemName: "text.justify.left")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 32, height: 32) // Make the image bigger
-                                    .foregroundColor(pdfViewModel.segmentColoringMode == .paragraph ? .white : .black)
-                                    .padding(8) // Adjust padding to make button smaller
-                                    .background(pdfViewModel.segmentColoringMode == .paragraph ? Color.blue : Color.clear)
-                                    .cornerRadius(10)
-                            }
-                            .buttonStyle(PlainButtonStyle())
+                        PaletteButton(
+                            iconName: "text.justify.left",
+                            assetImage: nil,
+                            isSelected: pdfViewModel.segmentColoringMode == .paragraph,
+                            action: { pdfViewModel.setSegmentedControlValue(to: .paragraph) }
+                        )
 
-                            Button(action: {
-                                pdfViewModel.setSegmentedControlValue(to: .punctuation)
-                            }) {
-                                Image(pdfViewModel.segmentColoringMode == .punctuation ? "Punctuation-1" : "Punctuation-2")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 32, height: 32) // Make the image bigger
-                                    .foregroundColor(pdfViewModel.segmentColoringMode == .punctuation ? .white : .black)
-                                    .padding(8) // Adjust padding to make button smaller
-                                    .background(pdfViewModel.segmentColoringMode == .punctuation ? Color.blue : Color.clear)
-                                    .cornerRadius(10)
-                            }
-                            .buttonStyle(PlainButtonStyle())
-                        }
-                        .padding(8) // Reduce padding around the buttons
-                        .background(RoundedRectangle(cornerRadius: 20).stroke(Color.gray.opacity(0.5), lineWidth: 2)) // Rounded rectangle border around both buttons
+                        PaletteButton(
+                            iconName: nil,
+                            assetImage: Image(pdfViewModel.segmentColoringMode == .punctuation || colorScheme == .dark ? "Punctuation-1" : "Punctuation-2"),
+                            isSelected: pdfViewModel.segmentColoringMode == .punctuation,
+                            action: { pdfViewModel.setSegmentedControlValue(to: .punctuation) }
+                        )
                     }
+                    .padding(8)
+                    .background(RoundedRectangle(cornerRadius: 20).stroke(Color.gray.opacity(0.5), lineWidth: 2))
                 }
-
                 Spacer() // Pushes buttons to the left
             }
             .padding(.leading, 88) // Add margin on the left
 
-            // Show the Reset button only when in the main toolbar
             if toolbarViewModel.activeToolbar == .main {
                 HStack {
                     Spacer() // Pushes the Reset button to the right
@@ -270,7 +190,6 @@ struct CustomToolbar: View {
                         .onTapGesture {
                             toolbarViewModel.setActiveToolbar(.main)
                             pdfViewModel.resetAllStyling()
-                            print("Reset All button tapped")
                         }
                 }
                 .padding(.trailing, 88) // Add same margin as the left for the Reset button

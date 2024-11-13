@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Text Styling Extension</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <!-- Use My Preference Button -->
+  <button id="usePreference" class="action-button">use my preference</button>
+
+  <!-- Coloring Section -->
+  <div class="section">
+    <h3>Coloring</h3>
+    <div class="picker-row">
+      <div class="picker">
+        <div class="picker-box" data-type="color">
+          <img src="images/color-text.png" alt="Color Text" id="colorIcon" class="icon">
+          <div class="picker-controls">
+            <button class="arrow left" data-type="color" data-direction="left">
+              <img src="images/left-arrow.png" alt="Left Arrow">
+            </button>
+            <span id="colorText">Text</span>
+            <button class="arrow right" data-type="color" data-direction="right">
+              <img src="images/right-arrow.png" alt="Right Arrow">
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="picker">
+        <div class="picker-box" data-type="applyColor">
+          <img src="images/apply-color-line.png" alt="Apply Color" id="applyColorIcon" class="icon">
+          <div class="picker-controls">
+            <button class="arrow left" data-type="applyColor" data-direction="left">
+              <img src="images/left-arrow.png" alt="Left Arrow">
+            </button>
+            <span id="applyColorText">Line</span>
+            <button class="arrow right" data-type="applyColor" data-direction="right">
+              <img src="images/right-arrow.png" alt="Right Arrow">
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Spacing Section -->
+  <div class="section">
+    <h3>Spacing</h3>
+    <div class="picker-row">
+      <div class="picker">
+        <div class="picker-box" data-type="lineSpacing">
+          <img src="images/line-spacing.png" alt="Line Spacing" id="lineSpacingIcon" class="icon">
+          <div class="picker-controls">
+            <button class="arrow left" data-type="lineSpacing" data-direction="left">
+              <img src="images/left-arrow.png" alt="Left Arrow">
+            </button>
+            <span id="lineSpacingText">Standard</span>
+            <button class="arrow right" data-type="lineSpacing" data-direction="right">
+              <img src="images/right-arrow.png" alt="Right Arrow">
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="picker">
+        <div class="picker-box" data-type="charSpacing">
+          <img src="images/char-spacing.png" alt="Char Spacing" id="charSpacingIcon" class="icon">
+          <div class="picker-controls">
+            <button class="arrow left" data-type="charSpacing" data-direction="left">
+              <img src="images/left-arrow.png" alt="Left Arrow">
+            </button>
+            <span id="charSpacingText">Standard</span>
+            <button class="arrow right" data-type="charSpacing" data-direction="right">
+              <img src="images/right-arrow.png" alt="Right Arrow">
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="picker">
+        <div class="picker-box" data-type="wordSpacing">
+          <img src="images/word-spacing.png" alt="Word Spacing" id="wordSpacingIcon" class="icon">
+          <div class="picker-controls">
+            <button class="arrow left" data-type="wordSpacing" data-direction="left">
+              <img src="images/left-arrow.png" alt="Left Arrow">
+            </button>
+            <span id="wordSpacingText">Standard</span>
+            <button class="arrow right" data-type="wordSpacing" data-direction="right">
+              <img src="images/right-arrow.png" alt="Right Arrow">
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Typography Section -->
+  <div class="section">
+    <h3>Typography</h3>
+    <div class="picker-row">
+      <div class="picker">
+        <div class="picker-box" data-type="font">
+          <img src="images/sf-pro.png" alt="Font" id="fontIcon" class="icon">
+          <div class="picker-controls">
+            <button class="arrow left" data-type="font" data-direction="left">
+              <img src="images/left-arrow.png" alt="Left Arrow">
+            </button>
+            <span id="fontText">SF Pro</span>
+            <button class="arrow right" data-type="font" data-direction="right">
+              <img src="images/right-arrow.png" alt="Right Arrow">
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="picker">
+        <div class="picker-box" data-type="fontSize">
+          <img src="images/font-size.png" alt="Font Size" id="fontSizeIcon" class="icon">
+          <div class="picker-controls">
+            <button class="arrow left" data-type="fontSize" data-direction="left">
+              <img src="images/left-arrow.png" alt="Left Arrow">
+            </button>
+            <span id="fontSizeText">Standard</span>
+            <button class="arrow right" data-type="fontSize" data-direction="right">
+              <img src="images/right-arrow.png" alt="Right Arrow">
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="picker">
+        <div class="picker-box" data-type="fontWeight">
+          <img src="images/font-weight.png" alt="Font Weight" id="fontWeightIcon" class="icon">
+          <div class="picker-controls">
+            <button class="arrow left" data-type="fontWeight" data-direction="left">
+              <img src="images/left-arrow.png" alt="Left Arrow">
+            </button>
+            <span id="fontWeightText">Standard</span>
+            <button class="arrow right" data-type="fontWeight" data-direction="right">
+              <img src="images/right-arrow.png" alt="Right Arrow">
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button id="savePreference" class="action-button grey" style="display: flex; align-items: center; justify-content: center; color: black;">
+      <img src="images/save-icon.png" alt="Save Icon" style="width: 14px; height: 16px; margin-right: 6px;">
+      save this preference
+  </button>
+
+  <script src="popup.js"></script>
+</body>
+</html>
