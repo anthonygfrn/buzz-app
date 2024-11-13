@@ -31,7 +31,7 @@ targets:
           UIApplicationSupportsMultipleScenes: YES
         LSApplicationCategoryType: public.app-category.productivity
         ATSApplicationFontsPath: .
-        CFBundleDocumentTypes: # Declare document types the app can open
+        CFBundleDocumentTypes:
           - CFBundleTypeName: PDF Document
             CFBundleTypeRole: Viewer
             LSHandlerRank: Alternate
@@ -40,6 +40,7 @@ targets:
     settings:
       INFOPLIST_FILE: buzz-app/Info.plist
       ENABLE_TESTABILITY: YES
+
   buzz-appTests:
     type: bundle.unit-test
     platform: macOS
@@ -54,12 +55,33 @@ targets:
       ENABLE_TESTABILITY: YES
       base:
         INFOPLIST_FILE: buzz-app/Info.plist
+
+  Polared-Extension:
+    type: app-extension.safari
+    platform: macOS
+    sources: [Polared-Extension]
+    resources: [Resources]
+    dependencies: []
+    info:
+      path: Polared-Extension/Info.plist
+      properties:
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.Safari.web-extension
+          NSExtensionAttributes:
+            WKAppBoundDomains: []
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.anthony-gufron.Polared-Extension
+      INFOPLIST_FILE: Polared-Extension/Info.plist
+
 schemes:
   buzz-app:
     build:
       targets:
         buzz-app: all
         buzz-appTests: all
+        Polared-Extension: all
     test:
       targets:
         - name: buzz-appTests
