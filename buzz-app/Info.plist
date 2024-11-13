@@ -46,7 +46,5 @@
 	</dict>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-	<key>UILaunchScreen</key>
-	<string></string>
 </dict>
 </plist>
