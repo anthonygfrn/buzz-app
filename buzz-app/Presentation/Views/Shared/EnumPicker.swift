@@ -96,7 +96,7 @@ struct EnumPicker<T: RawRepresentable & Hashable>: View where T.RawValue == Stri
                         }
                     }
                     .frame(width: 264)
-                    .background(Color.white)
+                    .background(Color("Picker")) // Use the asset color for picker menu
                     .cornerRadius(10)
                     .shadow(radius: 5)
                     .offset(y: -24)

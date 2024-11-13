@@ -19,13 +19,13 @@ targets:
     resources: [Resources]
     dependencies:
       - package: RichTextKit
+      - target: Polaread-Extension # Include the extension as a dependency of the main app
     info:
       path: buzz-app/Info.plist
       properties:
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         CFBundleShortVersionString: $(MARKETING_VERSION)
         LSRequiresIPhoneOS: YES
-        UILaunchScreen: ""
         UIApplicationSupportsIndirectInputEvents: YES
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: YES
@@ -40,6 +40,26 @@ targets:
     settings:
       INFOPLIST_FILE: buzz-app/Info.plist
       ENABLE_TESTABILITY: YES
+
+  Polaread-Extension:
+    type: app-extension
+    platform: macOS
+    sources: [Polaread-Extension]
+    resources: [Resources/Polaread-Extension]
+    dependencies:
+      - package: RichTextKit # Include necessary packages, but do not link back to buzz-app
+    info:
+      path: Polaread-Extension/Info.plist
+      properties:
+        CFBundleIdentifier: com.anthony-gufron.buzz-app.Polaread-Extension # Set the correct prefixed bundle identifier
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        NSExtension:
+          NSExtensionPointIdentifier: "com.apple.extensions.polaread"
+          NSExtensionPrincipalClass: "PolareadExtension"
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.anthony-gufron.buzz-app.Polaread-Extension # Ensure bundle identifier matches
+      INFOPLIST_FILE: Polaread-Extension/Info.plist
 
   buzz-appTests:
     type: bundle.unit-test
@@ -56,32 +76,14 @@ targets:
       base:
         INFOPLIST_FILE: buzz-app/Info.plist
 
-  Polaread-Extension:
-    type: app-extension
-    platform: macOS
-    sources: [Polaread-Extension]
-    resources: [Resources]
-    dependencies: []
-    info:
-      path: Polaread-Extension/Info.plist
-      properties:
-        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
-        CFBundleShortVersionString: $(MARKETING_VERSION)
-        NSExtension:
-          NSExtensionPointIdentifier: com.apple.Safari.web-extension
-          NSExtensionAttributes:
-            WKAppBoundDomains: []
-    settings:
-      PRODUCT_BUNDLE_IDENTIFIER: com.anthony-gufron.Polaread-Extension
-      INFOPLIST_FILE: Polaread-Extension/Info.plist
-
 schemes:
   buzz-app:
     build:
       targets:
         buzz-app: all
         buzz-appTests: all
-        Polaread-Extension: all
+    run:
+      target: buzz-app
     test:
       targets:
         - name: buzz-appTests
