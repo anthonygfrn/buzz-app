@@ -12,7 +12,7 @@ class PDFViewModel: ObservableObject {
     @Published var shouldShowPDFPicker: Bool = true
     @Published var isLoading: Bool = true
 
-    @Published var selectedFontSize: FontSizePicker = .standard
+    @Published var selectedFontSize: FontSizePicker = .normal
     @Published var selectedFontWeight: FontWeightPicker = .regular
     @Published var selectedFontFamily: FontFamily = .SFPro
     @Published var selectedLineSpacing: LineSpacing = .standard
@@ -212,7 +212,7 @@ class PDFViewModel: ObservableObject {
 
     func setSelectedFontSize(to newFontSize: FontSizePicker) {
         switch newFontSize {
-        case .standard:
+        case .normal:
             fontSize = 18
         case .large:
             fontSize = 29
@@ -316,7 +316,7 @@ class PDFViewModel: ObservableObject {
         paragraphSpacing = 2
         textAlignment = "left"
 
-        selectedFontSize = .standard
+        selectedFontSize = .normal
         selectedFontWeight = .regular
         selectedFontFamily = .SFPro
         selectedLineSpacing = .standard

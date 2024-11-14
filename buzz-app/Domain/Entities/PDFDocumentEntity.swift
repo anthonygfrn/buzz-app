@@ -12,22 +12,26 @@ struct PDFDocumentEntity {
     let attributedText: NSAttributedString
 }
 
-enum SegmentColoringMode {
+enum SegmentColoringMode: CaseIterable {
     case line
     case paragraph
     case punctuation
     case sentence
 }
 
-enum ColoringStyle {
+enum ColoringStyle: CaseIterable {
     case text
     case highlight
 }
 
-enum FontSizePicker: String, CaseIterable {
-    case standard = "Standard"
+enum FontSizePicker: String, CaseIterable, Identifiable {
+    case normal = "Standard"
     case large = "Large"
     case extraLarge = "Extra Large"
+
+    var id: Self {
+        self
+    }
 }
 
 enum FontWeightPicker: String, CaseIterable {
@@ -66,10 +70,14 @@ enum AlignmentText: String, CaseIterable {
     case justified
 }
 
-enum FontFamily: String, CaseIterable {
+enum FontFamily: String, CaseIterable, Identifiable {
     case SFPro = "SF Pro"
     case openSans = "Open Sans"
     case calibri = "Calibri"
     case Arial
     case openDyslexic = "OpenDyslexic"
+
+    var id: Self {
+        self
+    }
 }
