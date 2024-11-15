@@ -58,9 +58,11 @@ struct ContentView: View {
         panel.allowsMultipleSelection = false
         panel.canChooseDirectories = false
 
-        if panel.runModal() == .OK {
-            if let url = panel.url {
-                viewModel.openPDF(url: url)
+        panel.begin { response in
+            if response == .OK {
+                if let url = panel.url {
+                    viewModel.openPDF(url: url)
+                }
             }
         }
     }
