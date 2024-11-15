@@ -45,10 +45,9 @@ struct ContentView: View {
             .background(Color("BgColor"))
         }
         .onAppear {
-//            if viewModel.extractedText.length == .zero {
-            print("hai")
-            openPDFPicker()
-//            }
+            if viewModel.extractedText.length == .zero {
+                openPDFPicker()
+            }
         }
     }
 

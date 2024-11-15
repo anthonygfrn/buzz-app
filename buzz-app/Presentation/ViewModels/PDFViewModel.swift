@@ -265,24 +265,25 @@ class PDFViewModel: ObservableObject {
     func setLetterSpacing(to newLetterSpacing: LetterSpacing) {
         switch newLetterSpacing {
         case .standard:
-            letterSpacing = 1 * lineSpacing
+            letterSpacing = 1
         case .large:
-            letterSpacing = 1.5 * lineSpacing
+            letterSpacing = 1.5
         case .extraLarge:
-            letterSpacing = 2 * lineSpacing
+            letterSpacing = 2
         }
 
         recolorText()
     }
+    
 
     func setParagraphSpacing(to newParagraphSpacing: ParagraphSpacing) {
         switch newParagraphSpacing {
         case .standard:
-            paragraphSpacing = 2 * lineSpacing
+            paragraphSpacing = 2
         case .large:
-            paragraphSpacing = 2.5 * lineSpacing
+            paragraphSpacing = 2.5
         case .extraLarge:
-            paragraphSpacing = 3 * lineSpacing
+            paragraphSpacing = 3 
         }
 
         recolorText()

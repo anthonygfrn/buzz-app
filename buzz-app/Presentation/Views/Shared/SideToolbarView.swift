@@ -19,59 +19,72 @@ struct SideToolbarView: View {
                     .foregroundColor(.gray)
                     .font(.footnote)
 
-                Menu {
-                    ForEach(FontFamily.allCases) { option in
-                        Button(option.rawValue, action: { pdfViewModel.selectedFontFamily = option })
-                    }
+                HStack {
+                    Menu {
+                        ForEach(FontFamily.allCases) { option in
+                            Button(option.rawValue, action: { pdfViewModel.selectedFontFamily = option })
+                        }
 
-                } label: {
-                    HStack {
-                        Text(pdfViewModel.selectedFontFamily.rawValue)
-                        Spacer()
-                        Image(systemName: "chevron.up.chevron.down")
+                    } label: {
+                        HStack {
+                            Text(pdfViewModel.selectedFontFamily.rawValue)
+                            Spacer()
+                            Image(systemName: "chevron.up.chevron.down")
+                        }
+                        .padding()
+                        .background(Color.white)
                     }
-                    .padding()
-                    .background(Color.white)
                 }
+                .padding(.leading, 8)
 
                 HStack {
                     Picker("", selection: $pdfViewModel.selectedFontSize) {
-                        Button("A", action: {})
-                            .tag(FontSizePicker.normal)
-                        Button("A", action: {})
-                            .tag(FontSizePicker.large)
-                        Button("A", action: {})
-                            .tag(FontSizePicker.extraLarge)
+                        Button(action: {}) {
+                            Image("fontsize1")
+                                .resizable()
+                                .frame(width: 7, height: 13)
+                        }
+                        .tag(FontSizePicker.normal)
+                        Button(action: {}) {
+                            Image("fontsize2")
+                                .resizable()
+                                .frame(width: 9, height: 13)
+                        }
+                        .tag(FontSizePicker.large)
+                        Button(action: {}) {
+                            Image("fontsize3")
+                                .resizable()
+                                .frame(width: 11, height: 16)
+                        }
+                        .tag(FontSizePicker.extraLarge)
                     }
 
                     .pickerStyle(.segmented)
                     .tint(Color("PrimaryColor"))
 
                     VStack {
-                        Button(action: {
-                            if pdfViewModel.selectedFontWeight == .regular {
-                                pdfViewModel.setSelectedFontWeight(to: .bold)
-                            } else {
-                                print("")
-                                pdfViewModel.setSelectedFontWeight(to: .regular)
-                            }
-
-                        }) {
+                        HStack {
                             Text("B")
-                                .fontWeight(.bold)
                         }
-                        .background(Color("PrimaryColor"))
-                        .cornerRadius(4)
+                        .frame(width: 34, height: 24, alignment: .center)
+                        .fontWeight(.bold)
+                        .background(Color.white.opacity(0))
                         .overlay(
-                            RoundedRectangle(cornerRadius: 4)
-                                .stroke(Color.black.opacity(0.25), lineWidth: 4) // Garis luar untuk bayangan
-                                .blur(radius: 4)
-                                .offset(x: 2, y: 2)
-                                .mask(
-                                    RoundedRectangle(cornerRadius: 4)
-                                        .fill(LinearGradient(gradient: Gradient(colors: [Color.black, Color.clear]), startPoint: .topLeading, endPoint: .bottomTrailing))
-                                )
+                            RoundedRectangle(cornerRadius: 6)
+                                .stroke(Color.black.opacity(0.1), lineWidth: 2)
                         )
+                        .cornerRadius(6)
+                        .shadow(color: pdfViewModel.selectedFontWeight == .bold ? Color.black.opacity(0.4) : Color.clear,
+                                radius: 4, x: 2, y: 2) // Outer shadow diterapkan saat bold
+                    }
+                    .background(pdfViewModel.selectedFontWeight == .bold ? Color("ButtonBgSelected") : Color("ButtonBg"))
+                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                    .onTapGesture {
+                        if pdfViewModel.selectedFontWeight == .regular {
+                            pdfViewModel.selectedFontWeight = .bold
+                        } else {
+                            pdfViewModel.selectedFontWeight = .regular
+                        }
                     }
                     .padding(.vertical, 8)
                 }
@@ -106,12 +119,18 @@ struct SideToolbarView: View {
                     .foregroundColor(.gray)
                     .font(.footnote)
                 Picker("", selection: $pdfViewModel.selectedLineSpacing) {
-                    Button("A", action: {})
-                        .tag(LineSpacing.standard)
-                    Button("A", action: {})
-                        .tag(LineSpacing.large)
-                    Button("A", action: {})
-                        .tag(LineSpacing.extraLarge)
+                    Button(action: {}) {
+                        Image("lineSpacing-1")
+                    }
+                    .tag(LineSpacing.standard)
+                    Button(action: {}) {
+                        Image("lineSpacing-2")
+                    }
+                    .tag(LineSpacing.large)
+                    Button(action: {}) {
+                        Image("lineSpacing-3")
+                    }
+                    .tag(LineSpacing.extraLarge)
                 }
 
                 .pickerStyle(.segmented)
@@ -140,24 +159,27 @@ struct SideToolbarView: View {
                 Text("Paragraph spacing")
                     .foregroundColor(.gray)
                     .font(.footnote)
-                Menu {
-                    ForEach(spacingOptions, id: \.self) { option in
-                        Button(option) {
-                            selectedParagraphSpacing = option
+                HStack {
+                    Menu {
+                        ForEach(spacingOptions, id: \.self) { option in
+                            Button(option) {
+                                selectedParagraphSpacing = option
+                            }
                         }
+                    } label: {
+                        HStack {
+                            Text(selectedParagraphSpacing)
+                                .foregroundColor(.primary)
+                            Spacer()
+                            Image(systemName: "chevron.up.chevron.down")
+                                .foregroundColor(.primary)
+                        }
+                        .padding()
+                        .background(Color.blue)
+                        .cornerRadius(10)
                     }
-                } label: {
-                    HStack {
-                        Text(selectedParagraphSpacing)
-                            .foregroundColor(.primary)
-                        Spacer()
-                        Image(systemName: "chevron.up.chevron.down")
-                            .foregroundColor(.primary)
-                    }
-                    .padding()
-                    .background(Color.white)
-                    .cornerRadius(10)
                 }
+                .padding(.leading, 8)
             }
 
             // Coloring Section
@@ -194,7 +216,7 @@ struct SideToolbarView: View {
                     .tag(SegmentColoringMode.paragraph)
 
                     Button(action: {}) {
-                        Image("Punctuation-2")
+                        Image("Punctuation")
                     }
                     .tag(SegmentColoringMode.punctuation)
                 }
@@ -206,6 +228,10 @@ struct SideToolbarView: View {
         .onChange(of: pdfViewModel.selectedFontFamily) {
             newValue in
             pdfViewModel.setSelectedFontFamily(to: newValue)
+        }
+        .onChange(of: pdfViewModel.selectedFontWeight) {
+            newValue in
+            pdfViewModel.setSelectedFontWeight(to: newValue)
         }
         .onChange(of: pdfViewModel.selectedFontSize) {
             newValue in
@@ -240,38 +266,3 @@ struct SideToolbarView: View {
         .padding()
     }
 }
-
-//                Button(action: {
-//                    toolbarViewModel.toggleIsOpen() // Toggle menu visibility
-//                }) {
-//                    // Customize button appearance
-//                    HStack {
-//                        Text(pdfViewModel.selectedFontFamily.rawValue)
-//                            .font(.headline)
-//                        Spacer()
-//                        Image(systemName: "chevron.up.chevron.down")
-//                    }
-//                    .padding(10)
-//                    .background(RoundedRectangle(cornerRadius: 8).fill(Color.white))
-//                }
-//                .buttonStyle(PlainButtonStyle()) // Allows for custom styling without button effect
-//                .menuStyle(BorderlessButtonMenuStyle()) // Borderless menu style for macOS
-//
-//                // Attach Menu as an overlay to show on button click
-//                .overlay(
-//                    Group {
-//                        if toolbarViewModel.isOpen {
-//                            VStack {
-//                                ForEach(FontFamily.allCases) { option in
-//                                    Button(action: {
-//                                        pdfViewModel.selectedFontFamily = option
-//                                        toolbarViewModel.isOpen = false // Dismiss menu on selection
-//                                    }) {
-//                                        Text(option.rawValue)
-//                                    }
-//                                }
-//                            }.background(Color.white)
-//                        }
-//                    }
-//                )
-//                .padding()

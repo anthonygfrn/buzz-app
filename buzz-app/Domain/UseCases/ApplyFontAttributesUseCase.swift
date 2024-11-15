@@ -34,11 +34,11 @@ class ApplyFontAttributesUseCase {
 
         let fullRange = NSRange(location: 0, length: text.length)
         mutableText.addAttribute(.font, value: font, range: fullRange)
-        mutableText.addAttribute(.kern, value: letterSpacing, range: fullRange)
+        mutableText.addAttribute(.kern, value: letterSpacing * lineSpacing, range: fullRange)
 
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = lineSpacing
-        paragraphStyle.paragraphSpacing = paragraphSpacing
+        paragraphStyle.paragraphSpacing = paragraphSpacing * lineSpacing
 
         // Set alignment based on textAlignment value
         switch textAlignment {
