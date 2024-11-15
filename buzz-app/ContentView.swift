@@ -4,7 +4,6 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var viewModel: PDFViewModel
-    
 
     var body: some View {
         ZStack {
@@ -46,10 +45,10 @@ struct ContentView: View {
             .background(Color("BgColor"))
         }
         .onAppear {
-            if viewModel.extractedText.length == .zero {
-                viewModel.shouldShowPDFPicker = false
-                openPDFPicker()
-            }
+//            if viewModel.extractedText.length == .zero {
+            print("hai")
+            openPDFPicker()
+//            }
         }
     }
 

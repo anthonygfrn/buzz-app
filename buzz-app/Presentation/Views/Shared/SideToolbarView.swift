@@ -48,12 +48,30 @@ struct SideToolbarView: View {
                     .tint(Color("PrimaryColor"))
 
                     VStack {
-                        Button(action: {}) {
+                        Button(action: {
+                            if pdfViewModel.selectedFontWeight == .regular {
+                                pdfViewModel.setSelectedFontWeight(to: .bold)
+                            } else {
+                                print("")
+                                pdfViewModel.setSelectedFontWeight(to: .regular)
+                            }
+
+                        }) {
                             Text("B")
                                 .fontWeight(.bold)
                         }
                         .background(Color("PrimaryColor"))
                         .cornerRadius(4)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 4)
+                                .stroke(Color.black.opacity(0.25), lineWidth: 4) // Garis luar untuk bayangan
+                                .blur(radius: 4)
+                                .offset(x: 2, y: 2)
+                                .mask(
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .fill(LinearGradient(gradient: Gradient(colors: [Color.black, Color.clear]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                                )
+                        )
                     }
                     .padding(.vertical, 8)
                 }
@@ -106,11 +124,11 @@ struct SideToolbarView: View {
                     .foregroundColor(.gray)
                     .font(.footnote)
                 Picker("", selection: $pdfViewModel.selectedLetterSpacing) {
-                    Button("abc", action:{})
+                    Button("abc", action: {})
                         .tag(LetterSpacing.standard)
-                    Button("a b c", action:{})
+                    Button("a b c", action: {})
                         .tag(LetterSpacing.large)
-                    Button("a  b  c", action:{})
+                    Button("a  b  c", action: {})
                         .tag(LetterSpacing.extraLarge)
                 }
                 .pickerStyle(.segmented)
@@ -209,13 +227,14 @@ struct SideToolbarView: View {
             newValue in
             pdfViewModel.setParagraphSpacing(to: newValue)
         }
-        .onChange(of: pdfViewModel.coloringStyle) {
-            newValue in
-            pdfViewModel.setColoringStyle(to: newValue)
-        }
+
         .onChange(of: pdfViewModel.segmentColoringMode) {
             newValue in
             pdfViewModel.setSegmentedControlValue(to: newValue)
+        }
+        .onChange(of: pdfViewModel.coloringStyle) {
+            newValue in
+            pdfViewModel.setColoringStyle(to: newValue)
         }
 
         .padding()

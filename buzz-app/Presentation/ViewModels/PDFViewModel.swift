@@ -52,7 +52,6 @@ class PDFViewModel: ObservableObject {
             if let document = self.extractPDFTextUseCase.execute(url: url) {
                 DispatchQueue.main.async {
                     self.rawText = document.rawText
-//                    self.extractedText = NSAttributedString(string: document.rawText)
                     self.recolorText()
                 }
             }
@@ -204,10 +203,7 @@ class PDFViewModel: ObservableObject {
     }
 
     func setColoringStyle(to newValue: ColoringStyle) {
-        if coloringStyle != newValue {
-            coloringStyle = newValue
-            recolorText()
-        }
+        recolorText()
     }
 
     func setSelectedFontSize(to newFontSize: FontSizePicker) {
