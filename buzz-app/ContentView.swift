@@ -40,42 +40,12 @@ struct ContentView: View {
                     }
                     .background(Color("BgColor"))
                 }
-                CustomToolbar()
-                //                if !viewModel.isLoading {
-//                    GeometryReader { geometry in
-//                        ScrollView {
-//                            VStack {
-//                                let totalWidth = geometry.size.width
-//                                let totalHeight = geometry.size.height
-//                                let contentWidth: CGFloat = min(totalWidth * 0.80, 1424)
-//                                let sidePadding = (totalWidth - contentWidth) / 2
-//
-//                                RichTextEditor(text: $viewModel.extractedText, context: viewModel.context)
-//                                    .frame(width: contentWidth, height: totalHeight)
-//                                    .padding(.leading, sidePadding)
-//                                    .padding(.trailing, sidePadding)
-//                            }
-//                            .frame(maxWidth: .infinity)
-//                        }
-//                        .onChange(of: geometry.size.width) { newWidth in
-//                            viewModel.containerWidth = min(newWidth * 0.80, 1424)
-//                            if viewModel.segmentColoringMode == .line {
-//                                viewModel.recolorText()
-//                            }
-//                        }
-//                        .background(Color("BgColor"))
-//                    }
-//                    CustomToolbar()
-//                }else{
-//                    ProgressView("Loading PDF...")
-//                        .padding()
-//                }
+//                CustomToolbar()
             }
             .background(Color("BgColor"))
         }
         .onAppear {
             if viewModel.extractedText.length == .zero {
-                viewModel.shouldShowPDFPicker = false
                 openPDFPicker()
             }
         }
@@ -87,9 +57,11 @@ struct ContentView: View {
         panel.allowsMultipleSelection = false
         panel.canChooseDirectories = false
 
-        if panel.runModal() == .OK {
-            if let url = panel.url {
-                viewModel.openPDF(url: url)
+        panel.begin { response in
+            if response == .OK {
+                if let url = panel.url {
+                    viewModel.openPDF(url: url)
+                }
             }
         }
     }

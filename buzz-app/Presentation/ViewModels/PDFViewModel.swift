@@ -12,7 +12,7 @@ class PDFViewModel: ObservableObject {
     @Published var shouldShowPDFPicker: Bool = true
     @Published var isLoading: Bool = true
 
-    @Published var selectedFontSize: FontSizePicker = .standard
+    @Published var selectedFontSize: FontSizePicker = .normal
     @Published var selectedFontWeight: FontWeightPicker = .regular
     @Published var selectedFontFamily: FontFamily = .SFPro
     @Published var selectedLineSpacing: LineSpacing = .standard
@@ -52,7 +52,6 @@ class PDFViewModel: ObservableObject {
             if let document = self.extractPDFTextUseCase.execute(url: url) {
                 DispatchQueue.main.async {
                     self.rawText = document.rawText
-//                    self.extractedText = NSAttributedString(string: document.rawText)
                     self.recolorText()
                 }
             }
@@ -204,15 +203,12 @@ class PDFViewModel: ObservableObject {
     }
 
     func setColoringStyle(to newValue: ColoringStyle) {
-        if coloringStyle != newValue {
-            coloringStyle = newValue
-            recolorText()
-        }
+        recolorText()
     }
 
     func setSelectedFontSize(to newFontSize: FontSizePicker) {
         switch newFontSize {
-        case .standard:
+        case .normal:
             fontSize = 18
         case .large:
             fontSize = 29
@@ -269,24 +265,25 @@ class PDFViewModel: ObservableObject {
     func setLetterSpacing(to newLetterSpacing: LetterSpacing) {
         switch newLetterSpacing {
         case .standard:
-            letterSpacing = 1 * lineSpacing
+            letterSpacing = 1
         case .large:
-            letterSpacing = 1.5 * lineSpacing
+            letterSpacing = 1.5
         case .extraLarge:
-            letterSpacing = 2 * lineSpacing
+            letterSpacing = 2
         }
 
         recolorText()
     }
+    
 
     func setParagraphSpacing(to newParagraphSpacing: ParagraphSpacing) {
         switch newParagraphSpacing {
         case .standard:
-            paragraphSpacing = 2 * lineSpacing
+            paragraphSpacing = 2
         case .large:
-            paragraphSpacing = 2.5 * lineSpacing
+            paragraphSpacing = 2.5
         case .extraLarge:
-            paragraphSpacing = 3 * lineSpacing
+            paragraphSpacing = 3 
         }
 
         recolorText()
@@ -316,7 +313,7 @@ class PDFViewModel: ObservableObject {
         paragraphSpacing = 2
         textAlignment = "left"
 
-        selectedFontSize = .standard
+        selectedFontSize = .normal
         selectedFontWeight = .regular
         selectedFontFamily = .SFPro
         selectedLineSpacing = .standard

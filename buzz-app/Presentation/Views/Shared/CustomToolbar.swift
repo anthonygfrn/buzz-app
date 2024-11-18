@@ -17,7 +17,7 @@ enum ActiveToolbar {
 
 struct CustomToolbar: View {
     @EnvironmentObject var pdfViewModel: PDFViewModel
-    @StateObject var toolbarViewModel = ToolBarViewModel()
+    @EnvironmentObject var toolbarViewModel : ToolBarViewModel
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {

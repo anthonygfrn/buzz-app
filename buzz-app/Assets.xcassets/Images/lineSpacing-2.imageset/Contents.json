@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "Paragraph-1.png",
+      "filename" : "lineSpacing-2_Dark.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -12,6 +12,7 @@
           "value" : "dark"
         }
       ],
+      "filename" : "lineSpacing-2.png",
       "idiom" : "universal",
       "scale" : "1x"
     },

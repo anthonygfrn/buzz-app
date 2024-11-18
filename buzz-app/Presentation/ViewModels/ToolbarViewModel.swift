@@ -10,6 +10,11 @@ import Foundation
 class ToolBarViewModel: ObservableObject {
     @Published var activeToolbar: ActiveToolbar = .main
     @Published var activePicker: Int = -1
+    @Published var isOpen: Bool = true
+    
+    func toggleIsOpen() {
+        self.isOpen.toggle()
+    }
     
     func setActiveToolbar(_ toolbar: ActiveToolbar) {
         self.activeToolbar = toolbar
