@@ -4,6 +4,7 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var viewModel: PDFViewModel
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         ZStack {
@@ -48,7 +49,17 @@ struct ContentView: View {
             if viewModel.extractedText.length == .zero {
                 openPDFPicker()
             }
+            
+            if(colorScheme == .dark){
+                viewModel.coloringStyle = .text
+                viewModel.setColoringStyle(to: .text)
+            }else{
+                viewModel.coloringStyle = .highlight
+                viewModel.setColoringStyle(to: .highlight)
+            }
+
         }
+        
     }
 
     func openPDFPicker() {
