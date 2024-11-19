@@ -11,7 +11,7 @@ struct ApplyColorModeUseCase {
         "5. Discussion", "6. Implications", "7. Limitations and future work", "8. Conclusion"
     ]
 
-    mutating func execute(text: NSAttributedString, segmentColorMode: SegmentColoringMode, coloringStyle: ColoringStyle, containerWidth: CGFloat) -> NSAttributedString {
+    mutating func execute(text: NSAttributedString, fontSize: CGFloat, segmentColorMode: SegmentColoringMode, coloringStyle: ColoringStyle, containerWidth: CGFloat) -> NSAttributedString {
         // Start with a mutable copy of the existing attributed string
         let coloredText = NSMutableAttributedString(attributedString: text)
 
@@ -28,7 +28,7 @@ struct ApplyColorModeUseCase {
             applyColorByPunctuation(in: coloredText, from: text.string, coloringStyle: coloringStyle)
         }
 
-        applySectionTitleStyles(in: coloredText)
+        applySectionTitleStyles(in: coloredText, fontSize: fontSize)
 
         colorApplier.colorIndex = 1
         return coloredText
@@ -39,7 +39,7 @@ struct ApplyColorModeUseCase {
         attributedString.removeAttribute(.foregroundColor, range: NSRange(location: 0, length: attributedString.length))
     }
 
-    private func applySectionTitleStyles(in attributedString: NSMutableAttributedString) {
+    private func applySectionTitleStyles(in attributedString: NSMutableAttributedString, fontSize: CGFloat) {
         let fullText = attributedString.string.lowercased() // Konversi seluruh teks ke lowercase
 
         for title in sectionTitles {
@@ -47,18 +47,16 @@ struct ApplyColorModeUseCase {
             var searchRange = NSRange(location: 0, length: attributedString.length)
 
             while let foundRange = (fullText as NSString).range(of: lowercaseTitle, options: [], range: searchRange).toOptional(), foundRange.location != NSNotFound {
-                
                 attributedString.removeAttribute(.backgroundColor, range: foundRange)
                 attributedString.removeAttribute(.foregroundColor, range: foundRange)
-                
+
                 let textColorAttribute: [NSAttributedString.Key: Any] = [
                     .foregroundColor: NSColor(named: NSColor.Name("Default")) ?? NSColor.black // Default to black if color not found
                 ]
                 attributedString.addAttributes(textColorAttribute, range: foundRange)
 
-
                 attributedString.addAttributes([
-                    .font: NSFont.boldSystemFont(ofSize: 29)
+                    .font: NSFont.boldSystemFont(ofSize: ceil(fontSize * 1.618))
                 ], range: foundRange)
 
                 // Perbarui searchRange untuk mencari kemunculan berikutnya setelah foundRange
@@ -67,17 +65,7 @@ struct ApplyColorModeUseCase {
         }
     }
 
-    private mutating func applyColorByLines(in attributedString: NSMutableAttributedString, from text: String, coloringStyle: ColoringStyle) {
-        let lines = text.components(separatedBy: .newlines)
-        var location = 0
-        for line in lines {
-            if !line.isEmpty {
-                let range = NSRange(location: location, length: line.count)
-                colorApplier.applyColor(text: attributedString, range: range, coloringStyle: coloringStyle)
-            }
-            location += line.count + 1 // Move to next line (including newline character)
-        }
-    }
+
 
     private mutating func applyColorByLinesUsingLayoutManager(in attributedString: NSMutableAttributedString, coloringStyle: ColoringStyle, containerWidth: CGFloat) {
         let textStorage = NSTextStorage(attributedString: attributedString)
@@ -210,7 +198,6 @@ struct ApplyColorModeUseCase {
         }
     }
 }
-
 
 // Helper untuk NSRange agar menjadi Optional
 private extension NSRange {

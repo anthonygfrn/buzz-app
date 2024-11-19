@@ -51,7 +51,6 @@ class ApplyFontAttributesUseCase {
         default:
             paragraphStyle.alignment = .left
         }
-
         mutableText.addAttribute(.paragraphStyle, value: paragraphStyle, range: fullRange)
 
         return mutableText

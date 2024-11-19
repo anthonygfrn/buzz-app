@@ -16,7 +16,7 @@ struct ContentView: View {
                             let contentWidth: CGFloat = min(totalWidth * 0.80, 1424)
                             let sidePadding = (totalWidth - contentWidth) / 2
 
-                            RichTextEditor(text: $viewModel.extractedText, context: viewModel.context)
+                            RichTextEditor(text: $viewModel.displayedText, context: viewModel.context)
                                 .frame(width: contentWidth, height: totalHeight)
                                 .padding(.leading, sidePadding)
                                 .padding(.trailing, sidePadding)
@@ -60,6 +60,20 @@ struct ContentView: View {
         panel.begin { response in
             if response == .OK {
                 if let url = panel.url {
+                    // Create a PDFDocument from the URL
+                    if let pdfDocument = PDFDocument(url: url) {
+                        // Retrieve document attributes
+                        if let attributes = pdfDocument.documentAttributes {
+                            var title = attributes[PDFDocumentAttribute.titleAttribute] as? String ?? ""
+                            title = "\n" + title + "\n\n"
+                            viewModel.title = title
+                        } else {
+                            print("No metadata available in the PDF.")
+                        }
+                    } else {
+                        print("Unable to open PDF.")
+                    }
+
                     viewModel.openPDF(url: url)
                 }
             }

@@ -3,15 +3,21 @@ import PDFKit
 import RichTextKit
 
 class PDFViewModel: ObservableObject {
+    //    PDF Entity
+    @Published var title = ""
     @Published var extractedText = NSAttributedString("")
     @Published var rawText = ""
+    @Published var displayedText = NSAttributedString("")
     @Published var figures: [Figure] = []
+
+//    Styling
     @Published var segmentColoringMode: SegmentColoringMode = .line
     @Published var coloringStyle: ColoringStyle = .highlight
     @Published var containerWidth: CGFloat = 800
     @Published var shouldShowPDFPicker: Bool = true
     @Published var isLoading: Bool = true
 
+//    Picker Value
     @Published var selectedFontSize: FontSizePicker = .normal
     @Published var selectedFontWeight: FontWeightPicker = .regular
     @Published var selectedFontFamily: FontFamily = .SFPro
@@ -62,7 +68,6 @@ class PDFViewModel: ObservableObject {
     }
 
     private func uploadPDFForImageExtraction(pdfURL: URL) {
-        let attributedString = NSMutableAttributedString(attributedString: extractedText)
 
         pdfUploadService.uploadPDFToAPI(pdfURL: pdfURL) { [weak self] result in
             DispatchQueue.main.async {
@@ -126,8 +131,29 @@ class PDFViewModel: ObservableObject {
 
         // Update the extracted text to be used in the editor
         extractedText = attributedString
-        context.setAttributedString(to: attributedString)
+
         recolorText()
+        setContext()
+    }
+
+    func setContext() {
+        var formattedTitle = formatPDFTitle(title: title)
+        formattedTitle.append(extractedText)
+        
+        displayedText = formattedTitle
+        context.setAttributedString(to: displayedText)
+    }
+
+    private func formatPDFTitle(title: String) -> NSMutableAttributedString {
+        var paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
+        let mutableTitle = NSMutableAttributedString(string: title, attributes: [
+            .font: NSFont.boldSystemFont(ofSize: ceil(fontSize * 1.618)),
+            .foregroundColor: NSColor(named: NSColor.Name("Default")) ?? NSColor.black,
+            .paragraphStyle: paragraphStyle
+        ])
+
+        return mutableTitle
     }
 
     private func formatTextWithTitles(_ text: String) -> String {
@@ -182,9 +208,10 @@ class PDFViewModel: ObservableObject {
 
     func recolorText() {
         modifyFontAttributes()
-        let coloredText = applyColorModeUseCase.execute(text: extractedText, segmentColorMode: segmentColoringMode, coloringStyle: coloringStyle, containerWidth: containerWidth)
+        let coloredText = applyColorModeUseCase.execute(text: extractedText, fontSize: fontSize, segmentColorMode: segmentColoringMode, coloringStyle: coloringStyle, containerWidth: containerWidth)
         extractedText = coloredText
-        context.setAttributedString(to: extractedText)
+//        context.setAttributedString(to: extractedText)
+        setContext()
     }
 
     // Apply both font size and weight
@@ -199,7 +226,8 @@ class PDFViewModel: ObservableObject {
             paragraphSpacing: paragraphSpacing,
             textAlignment: textAlignment
         )
-        context.setAttributedString(to: extractedText)
+//        context.setAttributedString(to: extractedText)
+        setContext()
     }
 
     func setColoringStyle(to newValue: ColoringStyle) {
@@ -274,7 +302,6 @@ class PDFViewModel: ObservableObject {
 
         recolorText()
     }
-    
 
     func setParagraphSpacing(to newParagraphSpacing: ParagraphSpacing) {
         switch newParagraphSpacing {
@@ -283,7 +310,7 @@ class PDFViewModel: ObservableObject {
         case .large:
             paragraphSpacing = 2.5
         case .extraLarge:
-            paragraphSpacing = 3 
+            paragraphSpacing = 3
         }
 
         recolorText()
