@@ -40,32 +40,36 @@ struct ApplyColorModeUseCase {
     }
 
     private func applySectionTitleStyles(in attributedString: NSMutableAttributedString, fontSize: CGFloat) {
-        let fullText = attributedString.string.lowercased() // Konversi seluruh teks ke lowercase
+        let fullText = attributedString.string.lowercased() // Convert full text to lowercase
 
         for title in sectionTitles {
-            let lowercaseTitle = title.lowercased() // Konversi setiap judul dalam sectionTitles ke lowercase
+            let lowercaseTitle = title.lowercased() // Convert each section title to lowercase
             var searchRange = NSRange(location: 0, length: attributedString.length)
 
             while let foundRange = (fullText as NSString).range(of: lowercaseTitle, options: [], range: searchRange).toOptional(), foundRange.location != NSNotFound {
-                attributedString.removeAttribute(.backgroundColor, range: foundRange)
-                attributedString.removeAttribute(.foregroundColor, range: foundRange)
+                // Find the start and end of the line containing the found range
+                let lineRange = (fullText as NSString).lineRange(for: foundRange)
 
+                // Remove background and foreground colors for the entire line
+                attributedString.removeAttribute(.backgroundColor, range: lineRange)
+                attributedString.removeAttribute(.foregroundColor, range: lineRange)
+
+                // Apply default text color to the section title within the line
                 let textColorAttribute: [NSAttributedString.Key: Any] = [
                     .foregroundColor: NSColor(named: NSColor.Name("Default")) ?? NSColor.black // Default to black if color not found
                 ]
                 attributedString.addAttributes(textColorAttribute, range: foundRange)
 
+                // Apply bold font to the section title
                 attributedString.addAttributes([
                     .font: NSFont.boldSystemFont(ofSize: ceil(fontSize * 1.618))
                 ], range: foundRange)
 
-                // Perbarui searchRange untuk mencari kemunculan berikutnya setelah foundRange
+                // Update searchRange to look for the next occurrence after foundRange
                 searchRange = NSRange(location: NSMaxRange(foundRange), length: attributedString.length - NSMaxRange(foundRange))
             }
         }
     }
-
-
 
     private mutating func applyColorByLinesUsingLayoutManager(in attributedString: NSMutableAttributedString, coloringStyle: ColoringStyle, containerWidth: CGFloat) {
         let textStorage = NSTextStorage(attributedString: attributedString)
