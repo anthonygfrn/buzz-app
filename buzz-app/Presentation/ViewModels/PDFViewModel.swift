@@ -29,7 +29,7 @@ class PDFViewModel: ObservableObject {
     @Published private(set) var fontSize: CGFloat = 18
     @Published private(set) var fontWeight: NSFont.Weight = .regular
     @Published private(set) var fontFamily: String = "SF Pro"
-    @Published private(set) var lineSpacing: CGFloat = 0
+    @Published private(set) var lineSpacing: CGFloat = 1
     @Published private(set) var letterSpacing: CGFloat = 1
     @Published private(set) var paragraphSpacing: CGFloat = 2
     @Published private(set) var textAlignment: String = "left"
@@ -68,7 +68,6 @@ class PDFViewModel: ObservableObject {
     }
 
     private func uploadPDFForImageExtraction(pdfURL: URL) {
-
         pdfUploadService.uploadPDFToAPI(pdfURL: pdfURL) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
@@ -139,7 +138,7 @@ class PDFViewModel: ObservableObject {
     func setContext() {
         var formattedTitle = formatPDFTitle(title: title)
         formattedTitle.append(extractedText)
-        
+
         displayedText = formattedTitle
         context.setAttributedString(to: displayedText)
     }
@@ -171,12 +170,12 @@ class PDFViewModel: ObservableObject {
                     currentParagraph = ""
                 }
             } else if isSectionTitle(trimmedLine) {
-                // Add current paragraph before section title, then format the title
+                // Add current paragraph before title/subtitle, then format the title/subtitle
                 if !currentParagraph.isEmpty {
                     formattedText += currentParagraph + "\n\n"
                     currentParagraph = ""
                 }
-                formattedText += "\n\n" + trimmedLine + "\n\n"
+                formattedText += trimmedLine + "\n\n"
             } else {
                 // Append to current paragraph with a space if not the first word
                 if !currentParagraph.isEmpty {
@@ -210,7 +209,6 @@ class PDFViewModel: ObservableObject {
         modifyFontAttributes()
         let coloredText = applyColorModeUseCase.execute(text: extractedText, fontSize: fontSize, segmentColorMode: segmentColoringMode, coloringStyle: coloringStyle, containerWidth: containerWidth)
         extractedText = coloredText
-//        context.setAttributedString(to: extractedText)
         setContext()
     }
 
@@ -308,9 +306,9 @@ class PDFViewModel: ObservableObject {
         case .standard:
             paragraphSpacing = 2
         case .large:
-            paragraphSpacing = 2.5
+            paragraphSpacing = 6
         case .extraLarge:
-            paragraphSpacing = 3
+            paragraphSpacing = 10
         }
 
         recolorText()

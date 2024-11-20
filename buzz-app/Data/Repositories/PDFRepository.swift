@@ -10,7 +10,7 @@ import PDFKit
 class PDFRepository: PDFRepositoryProtocol {
     func extractText(from url: URL) -> PDFDocumentEntity? {
         guard let pdfDocument = PDFDocument(url: url) else {
-            print("Cannot load PDF file.")
+            print("Cannot load PDF file.") 
             return nil
         }
 

@@ -39,6 +39,7 @@ class ApplyFontAttributesUseCase {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = lineSpacing
         paragraphStyle.paragraphSpacing = paragraphSpacing * lineSpacing
+        print(paragraphSpacing * lineSpacing)
 
         // Set alignment based on textAlignment value
         switch textAlignment {

@@ -9,7 +9,7 @@ struct SideToolbarView: View {
     @State private var selectedParagraphSpacing = "Standard"
 
     private let fonts = ["Calibri", "Arial", "Times New Roman"]
-    private let spacingOptions = ["Standard", "1.15", "1.5", "2.0"]
+    private let spacingOptions = ["Standard", "Large", "1.5", "2.0"]
 
     var body: some View {
         VStack(alignment: .leading, spacing: 24) {
@@ -161,22 +161,18 @@ struct SideToolbarView: View {
                     .font(.footnote)
                 HStack {
                     Menu {
-                        ForEach(spacingOptions, id: \.self) { option in
-                            Button(option) {
-                                selectedParagraphSpacing = option
-                            }
+                        ForEach(ParagraphSpacing.allCases, id: \.self) { option in
+                            Button(option.rawValue, action: { pdfViewModel.selectedParagraphSpacing = option })
                         }
+
                     } label: {
                         HStack {
-                            Text(selectedParagraphSpacing)
-                                .foregroundColor(.primary)
+                            Text(pdfViewModel.selectedParagraphSpacing.rawValue)
                             Spacer()
                             Image(systemName: "chevron.up.chevron.down")
-                                .foregroundColor(.primary)
                         }
                         .padding()
-                        .background(Color.blue)
-                        .cornerRadius(10)
+                        .background(Color.white)
                     }
                 }
                 .padding(.leading, 8)
