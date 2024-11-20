@@ -37,6 +37,7 @@ struct ContentView: View {
                                         .padding(.trailing, sidePadding)
                                 }
                                 .frame(maxWidth: .infinity)
+                                
                             }
                             .overlay(content: {
                                 if viewModel.isLoading {
