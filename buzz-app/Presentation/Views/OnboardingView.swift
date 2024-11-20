@@ -24,12 +24,16 @@ struct OnboardingView: View {
                 
                 HStack(spacing: 20) {
                     Icons(iconName: "textformat", customImage: nil)
+                        .font(.system(size: 28, weight: .bold))
                         .onHover { _ in NSCursor.arrow.set() }
                     Icons(iconName: "arrow.up.and.down.text.horizontal", customImage: nil)
+                        .font(.system(size: 28, weight: .bold))
                         .onHover { _ in NSCursor.arrow.set() }
                     Icons(iconName: "text.justify.left", customImage: nil)
+                        .font(.system(size: 28, weight: .bold))
                         .onHover { _ in NSCursor.arrow.set() }
                     Icons(iconName: nil, customImage: Image("Color-Mode"))
+                        .font(.system(size: 28, weight: .bold))
                         .onHover { _ in NSCursor.arrow.set() }
                 }
                 
