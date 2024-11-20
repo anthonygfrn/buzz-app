@@ -59,12 +59,10 @@ struct ContentView: View {
     
     func handleFirstLaunch() {
         let hasSeenOnboarding = UserDefaults.standard.bool(forKey: "HasSeenOnboarding")
-        showPopup = true
-        UserDefaults.standard.set(true, forKey: "HasSeenOnboarding")
-//        if !hasSeenOnboarding {
-//            showPopup = true
-//            UserDefaults.standard.set(true, forKey: "HasSeenOnboarding") // Mark onboarding as shown
-//        }
+        if !hasSeenOnboarding {
+            showPopup = true
+            UserDefaults.standard.set(true, forKey: "HasSeenOnboarding") // Mark onboarding as shown
+        }
     }
     
     func openPDFPicker() {
