@@ -4,7 +4,8 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var viewModel: PDFViewModel
-
+    @State private var showPopup = false // Initially set to false
+    
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
@@ -15,7 +16,7 @@ struct ContentView: View {
                             let totalHeight = geometry.size.height
                             let contentWidth: CGFloat = min(totalWidth * 0.80, 1424)
                             let sidePadding = (totalWidth - contentWidth) / 2
-
+                            
                             RichTextEditor(text: $viewModel.displayedText, context: viewModel.context)
                                 .frame(width: contentWidth, height: totalHeight)
                                 .padding(.leading, sidePadding)
@@ -40,17 +41,30 @@ struct ContentView: View {
                     }
                     .background(Color("BgColor"))
                 }
-//                CustomToolbar()
             }
             .background(Color("BgColor"))
+            
+            if showPopup {
+                OnboardingView(showPopup: $showPopup)
+            }
         }
         .onAppear {
+            handleFirstLaunch()
+            
             if viewModel.extractedText.length == .zero {
                 openPDFPicker()
             }
         }
     }
-
+    
+    func handleFirstLaunch() {
+        let hasSeenOnboarding = UserDefaults.standard.bool(forKey: "HasSeenOnboarding")
+        if !hasSeenOnboarding {
+            showPopup = true
+            UserDefaults.standard.set(true, forKey: "HasSeenOnboarding") // Mark onboarding as shown
+        }
+    }
+    
     func openPDFPicker() {
         let panel = NSOpenPanel()
         panel.allowedFileTypes = ["pdf"]
@@ -73,15 +87,9 @@ struct ContentView: View {
                     } else {
                         print("Unable to open PDF.")
                     }
-
                     viewModel.openPDF(url: url)
                 }
             }
         }
     }
 }
-
-// #Preview {
-//    ContentView()
-//
-// }
