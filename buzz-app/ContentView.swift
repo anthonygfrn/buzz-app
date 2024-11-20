@@ -73,17 +73,6 @@ struct ContentView: View {
                         .font(.system(size: 42))
                         .fontWeight(.bold)
                     
-                    Group{
-                        Text("We are using the ") +
-                        Text("dyslexia style guide ").bold() +
-                        Text("from ") +
-                        Text("British Dyslexia Association\n ").bold() +
-                        Text("that will help you ensure that written material is easier on the eye of\n everyone.")
-                    }
-                    .multilineTextAlignment(.center)
-                    .font(.system(size: 18))
-                    .padding()
-                    
                     
                     HStack(spacing: 20) {
                         Icons(iconName: "textformat", customImage: nil)
