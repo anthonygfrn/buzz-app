@@ -108,6 +108,14 @@ class PDFViewModel: ObservableObject {
                 let attachment = NSTextAttachment()
                 attachment.image = image
                 let imageString = NSAttributedString(attachment: attachment)
+                
+                // Set image size to fit within a desired width (containerWidth)
+                let maxWidth: CGFloat = containerWidth
+                let imageSize = image.size
+                let aspectRatio = imageSize.width / imageSize.height
+                let targetWidth = min(maxWidth, imageSize.width)
+                let targetHeight = targetWidth / aspectRatio
+                attachment.bounds = CGRect(x: 0, y: 0, width: targetWidth, height: targetHeight)
 
                 // Insert newline before the image
                 let newlineBeforeImage = NSAttributedString(string: "\n")
