@@ -10,7 +10,6 @@ struct PolareadApp: App {
             ContentView()
                 .inspector(isPresented: $toolbarViewModel.isOpen) {
                     SideToolbarView()
-
                         .padding(.horizontal, 20)
                         .toolbar {
                             Spacer()
@@ -26,6 +25,11 @@ struct PolareadApp: App {
                 .environmentObject(toolbarViewModel)
         }
         .windowStyle(HiddenTitleBarWindowStyle())
+        .onChange(of: appDelegate.viewModel.shouldQuitApp) { shouldQuit in
+            if shouldQuit {
+                NSApplication.shared.terminate(nil) // Quit the app when triggered
+            }
+        }
     }
 }
 
@@ -35,6 +39,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         applyColorModeUseCase: ApplyColorModeUseCase(),
         applyFontAttributesUseCase: ApplyFontAttributesUseCase()
     )
+
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        return true // Ensures app terminates when the last window is closed
+    }
 
     func application(_ application: NSApplication, open urls: [URL]) {
         if let firstURL = urls.first {

@@ -37,6 +37,8 @@ class PDFViewModel: ObservableObject {
 
     @Published var context = RichTextContext()
     @Published var pdfUploadService = PDFUploadService()
+    
+    @Published var shouldQuitApp = false
 
 //    Use Case
     private let extractPDFTextUseCase: ExtractPDFTextUseCase
@@ -128,10 +130,6 @@ class PDFViewModel: ObservableObject {
                     offset += 1 // Increase offset for the length of the image attachment
                 }
 
-                // Add a label "Figure x" after the image
-                let figureLabel = NSAttributedString(string: "\nFigure \(figureCounter)\n")
-                attributedString.insert(figureLabel, at: updatedPosition + newlineBeforeImage.length + 1)
-                offset += figureLabel.length
 
                 // Increment the figure counter for the next figure
                 figureCounter += 1
