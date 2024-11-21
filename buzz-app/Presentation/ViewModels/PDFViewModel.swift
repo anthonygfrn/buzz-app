@@ -53,8 +53,7 @@ class PDFViewModel: ObservableObject {
 
     func openPDF(url: URL) {
         isLoading = true // Mulai loading
-        self.fileName = url.lastPathComponent
-
+        fileName = url.lastPathComponent
 
         // Ekstraksi teks secara lokal
         DispatchQueue.global(qos: .userInitiated).async {
@@ -149,7 +148,9 @@ class PDFViewModel: ObservableObject {
     private func formatPDFTitle(title: String) -> NSMutableAttributedString {
         var paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
-        let mutableTitle = NSMutableAttributedString(string: title, attributes: [
+
+        var formattedTitle = "\n" + title + "\n\n"
+        let mutableTitle = NSMutableAttributedString(string: formattedTitle, attributes: [
             .font: NSFont.boldSystemFont(ofSize: ceil(fontSize * 1.618)),
             .foregroundColor: NSColor(named: NSColor.Name("Default")) ?? NSColor.black,
             .paragraphStyle: paragraphStyle
@@ -211,7 +212,7 @@ class PDFViewModel: ObservableObject {
 
         // Create the pattern for numbered titles
         let numberedTitlePattern = numberedSectionTitles.map { NSRegularExpression.escapedPattern(for: $0) }.joined(separator: "|")
-        
+
         // Create the pattern for non-numbered titles
         let nonNumberedTitlePattern = nonNumberedSectionTitles.map { NSRegularExpression.escapedPattern(for: $0) }.joined(separator: "|")
 
@@ -220,7 +221,7 @@ class PDFViewModel: ObservableObject {
             let numberedRegexPattern = #"(?i)^\s*\d+\.?\s+(\#(numberedTitlePattern))\s*$"#
             let numberedRegex = try NSRegularExpression(pattern: numberedRegexPattern)
             let numberedRange = NSRange(location: 0, length: line.utf16.count)
-            
+
             // Pattern for specific non-numbered titles (only References and A B S T R A C T)
             let nonNumberedRegexPattern = #"(?i)^\s*(\#(nonNumberedTitlePattern))\s*$"#
             let nonNumberedRegex = try NSRegularExpression(pattern: nonNumberedRegexPattern)
@@ -230,7 +231,7 @@ class PDFViewModel: ObservableObject {
             if numberedRegex.firstMatch(in: line, range: numberedRange) != nil {
                 return true
             }
-            
+
             // Check if it's specifically References or A B S T R A C T without a number
             if nonNumberedRegex.firstMatch(in: line, range: nonNumberedRange) != nil {
                 return true
