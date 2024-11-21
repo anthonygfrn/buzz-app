@@ -5,10 +5,16 @@ struct ApplyColorModeUseCase {
     private var colorApplier = TextColorApplier()
 
     private let sectionTitles = [
-        "KESIMPULAN", "REFERENSI", "ABSTRAK", "ABSTRACT", "PENDAHULUAN",
-        "METODE", "HASIL DAN PEMBAHASAN", "Introduction", "Survey Methodology", "References",
-        "1. Introduction", "2. Literature Review", "3. Research Methodology", "4. Data Analysis",
-        "5. Discussion", "6. Implications", "7. Limitations and future work", "8. Conclusion"
+        "Introduction", "Survey Methodology", "References",
+        "Literature Review", "Research Methodology",
+        "Data Analysis", "Discussion", "Implications", "Limitations and future work",
+        "Conclusion", "Introduction", "Materials and Methods",
+        "Results", "Discussion", "Conclusion",
+        "Methods"
+    ]
+
+    private let nonNumberedTitles = [
+        "Results", "A B S T R A C T"
     ]
 
     mutating func execute(text: NSAttributedString, fontSize: CGFloat, segmentColorMode: SegmentColoringMode, coloringStyle: ColoringStyle, containerWidth: CGFloat) -> NSAttributedString {
@@ -34,40 +40,95 @@ struct ApplyColorModeUseCase {
         return coloredText
     }
 
-    private mutating func removeColoringStyle(in attributedString: NSMutableAttributedString, coloringStyle: ColoringStyle) {
-        attributedString.removeAttribute(.backgroundColor, range: NSRange(location: 0, length: attributedString.length))
-        attributedString.removeAttribute(.foregroundColor, range: NSRange(location: 0, length: attributedString.length))
-    }
-
     private func applySectionTitleStyles(in attributedString: NSMutableAttributedString, fontSize: CGFloat) {
-        let fullText = attributedString.string.lowercased() // Convert full text to lowercase
+        let fullText = attributedString.string
 
-        for title in sectionTitles {
-            let lowercaseTitle = title.lowercased() // Convert each section title to lowercase
-            var searchRange = NSRange(location: 0, length: attributedString.length)
+        // Separate lists for numbered and non-numbered titles
+        let numberedSectionTitles = [
+            "Introduction", "Survey Methodology",
+            "Literature Review", "Research Methodology",
+            "Data Analysis", "Discussion", "Implications",
+            "Limitations and future work", "Conclusion",
+            "Materials and Methods", "Methods", "Results"
+        ]
 
-            while let foundRange = (fullText as NSString).range(of: lowercaseTitle, options: [], range: searchRange).toOptional(), foundRange.location != NSNotFound {
-                // Find the start and end of the line containing the found range
-                let lineRange = (fullText as NSString).lineRange(for: foundRange)
+        let nonNumberedSectionTitles = [
+            "References", "A B S T R A C T"
+        ]
+
+        // Combine all titles for checking
+        let allSectionTitles = numberedSectionTitles + nonNumberedSectionTitles
+
+        // Regex patterns for both numbered and non-numbered titles
+        let numberedTitlePattern = #"(?i)^\s*(\d+\.?\s+)([^\n]+)$"#
+        let nonNumberedTitlePattern = #"(?i)^\s*(References|A B S T R A C T)\s*$"#
+
+        do {
+            // Numbered titles regex
+            let numberedRegex = try NSRegularExpression(pattern: numberedTitlePattern, options: [.anchorsMatchLines])
+            let numberedMatches = numberedRegex.matches(in: fullText, options: [], range: NSRange(location: 0, length: fullText.count))
+
+            for match in numberedMatches {
+                // Entire line range
+                let fullLineRange = match.range
 
                 // Remove background and foreground colors for the entire line
-                attributedString.removeAttribute(.backgroundColor, range: lineRange)
-                attributedString.removeAttribute(.foregroundColor, range: lineRange)
+                attributedString.removeAttribute(.backgroundColor, range: fullLineRange)
+                attributedString.removeAttribute(.foregroundColor, range: fullLineRange)
 
-                // Apply default text color to the section title within the line
+                // Number and dot range (first capture group)
+                let numberRange = match.range(at: 1)
+                
+                // Title text range (second capture group)
+                let titleRange = match.range(at: 2)
+
+                // Check if the title matches our section titles
+                let titleText = (fullText as NSString).substring(with: titleRange)
+                if numberedSectionTitles.contains(where: { $0.caseInsensitiveCompare(titleText) == .orderedSame }) {
+                    // Style both number and title
+                    let textColorAttribute: [NSAttributedString.Key: Any] = [
+                        .foregroundColor: NSColor(named: NSColor.Name("Default")) ?? NSColor.black
+                    ]
+                    
+                    // Apply attributes to both number and title
+                    attributedString.addAttributes(textColorAttribute, range: numberRange)
+                    attributedString.addAttributes(textColorAttribute, range: titleRange)
+                    
+                    // Apply bold font to both number and title
+                    attributedString.addAttributes([
+                        .font: NSFont.boldSystemFont(ofSize: ceil(fontSize * 1.618))
+                    ], range: numberRange)
+                    attributedString.addAttributes([
+                        .font: NSFont.boldSystemFont(ofSize: ceil(fontSize * 1.618))
+                    ], range: titleRange)
+                }
+            }
+
+            // Non-numbered titles regex
+            let nonNumberedRegex = try NSRegularExpression(pattern: nonNumberedTitlePattern, options: [.anchorsMatchLines])
+            let nonNumberedMatches = nonNumberedRegex.matches(in: fullText, options: [], range: NSRange(location: 0, length: fullText.count))
+
+            for match in nonNumberedMatches {
+                // Entire line range
+                let fullLineRange = match.range
+
+                // Remove background and foreground colors for the entire line
+                attributedString.removeAttribute(.backgroundColor, range: fullLineRange)
+                attributedString.removeAttribute(.foregroundColor, range: fullLineRange)
+
+                // Apply styling to the entire line
                 let textColorAttribute: [NSAttributedString.Key: Any] = [
-                    .foregroundColor: NSColor(named: NSColor.Name("Default")) ?? NSColor.black // Default to black if color not found
+                    .foregroundColor: NSColor(named: NSColor.Name("Default")) ?? NSColor.black
                 ]
-                attributedString.addAttributes(textColorAttribute, range: foundRange)
-
-                // Apply bold font to the section title
+                
+                attributedString.addAttributes(textColorAttribute, range: fullLineRange)
                 attributedString.addAttributes([
                     .font: NSFont.boldSystemFont(ofSize: ceil(fontSize * 1.618))
-                ], range: foundRange)
-
-                // Update searchRange to look for the next occurrence after foundRange
-                searchRange = NSRange(location: NSMaxRange(foundRange), length: attributedString.length - NSMaxRange(foundRange))
+                ], range: fullLineRange)
             }
+
+        } catch {
+            print("Regular expression error: \(error)")
         }
     }
 
@@ -200,6 +261,11 @@ struct ApplyColorModeUseCase {
             // Update currentLocation to move past the entire segment, including any newlines within it
             currentLocation = nsRange.location + nsRange.length
         }
+    }
+
+    private mutating func removeColoringStyle(in attributedString: NSMutableAttributedString, coloringStyle: ColoringStyle) {
+        attributedString.removeAttribute(.backgroundColor, range: NSRange(location: 0, length: attributedString.length))
+        attributedString.removeAttribute(.foregroundColor, range: NSRange(location: 0, length: attributedString.length))
     }
 }
 

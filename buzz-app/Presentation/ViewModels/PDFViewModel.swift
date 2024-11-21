@@ -194,15 +194,51 @@ class PDFViewModel: ObservableObject {
     }
 
     private func isSectionTitle(_ line: String) -> Bool {
-        let sectionTitles = [
-            "KESIMPULAN", "REFERENSI", "ABSTRAK", "ABSTRACT", "PENDAHULUAN",
-            "METODE", "HASIL DAN PEMBAHASAN", "Introduction", "Survey Methodology", "References",
-            "1. Introduction", "2. Literature Review", "3. Research Methodology", "4. Data Analysis", "5. Discussion", "6. Implications", "7. Limitations and future work", "8. Conclusion"
+        let numberedSectionTitles = [
+            "Introduction", "Survey Methodology",
+            "Literature Review", "Research Methodology",
+            "Data Analysis", "Discussion", "Implications",
+            "Limitations and future work", "Conclusion",
+            "Materials and Methods", "Methods", "Results"
         ]
 
-        let titlePattern = sectionTitles.joined(separator: "|")
-        let regexPattern = #"(?i)^\s*(?:\#(titlePattern))\s*$"#
-        return line.range(of: regexPattern, options: .regularExpression) != nil
+        let nonNumberedSectionTitles = [
+            "References", "A B S T R A C T"
+        ]
+
+        // Create the pattern for numbered titles
+        let numberedTitlePattern = numberedSectionTitles.map { NSRegularExpression.escapedPattern(for: $0) }.joined(separator: "|")
+        
+        // Create the pattern for non-numbered titles
+        let nonNumberedTitlePattern = nonNumberedSectionTitles.map { NSRegularExpression.escapedPattern(for: $0) }.joined(separator: "|")
+
+        do {
+            // Pattern for numbered titles
+            let numberedRegexPattern = #"(?i)^\s*\d+\.?\s+(\#(numberedTitlePattern))\s*$"#
+            let numberedRegex = try NSRegularExpression(pattern: numberedRegexPattern)
+            let numberedRange = NSRange(location: 0, length: line.utf16.count)
+            
+            // Pattern for specific non-numbered titles (only References and A B S T R A C T)
+            let nonNumberedRegexPattern = #"(?i)^\s*(\#(nonNumberedTitlePattern))\s*$"#
+            let nonNumberedRegex = try NSRegularExpression(pattern: nonNumberedRegexPattern)
+            let nonNumberedRange = NSRange(location: 0, length: line.utf16.count)
+
+            // Check if it's a numbered title
+            if numberedRegex.firstMatch(in: line, range: numberedRange) != nil {
+                return true
+            }
+            
+            // Check if it's specifically References or A B S T R A C T without a number
+            if nonNumberedRegex.firstMatch(in: line, range: nonNumberedRange) != nil {
+                return true
+            }
+
+            return false
+
+        } catch {
+            print("Regex error: \(error)")
+            return false
+        }
     }
 
     func recolorText() {
