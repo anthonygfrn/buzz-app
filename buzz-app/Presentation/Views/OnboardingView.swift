@@ -12,25 +12,33 @@ struct OnboardingView: View {
     
     var body: some View {
         ZStack {
-            Color.black.opacity(0.4)
+            Color.clear
                 .edgesIgnoringSafeArea(.all)
-                .onHover { _ in NSCursor.arrow.set() } // Ensure arrow cursor over background
+                .onAppear {
+                    if showPopup {
+                        NSCursor.arrow.set()
+                    }
+                }
+                .onHover { _ in
+                    if showPopup {
+                        NSCursor.arrow.set()
+                    }
+                }
             
             VStack(spacing: 32) {
                 Text("Let's enhance our reading experience")
                     .font(.system(size: 42))
                     .fontWeight(.bold)
-                    .onHover { _ in NSCursor.arrow.set() } // Enforce arrow cursor
                 
                 HStack(spacing: 20) {
                     Icons(iconName: "textformat", customImage: nil)
-                        .onHover { _ in NSCursor.arrow.set() }
+                        .font(.system(size: 28, weight: .bold))
                     Icons(iconName: "arrow.up.and.down.text.horizontal", customImage: nil)
-                        .onHover { _ in NSCursor.arrow.set() }
+                        .font(.system(size: 28, weight: .bold))
                     Icons(iconName: "text.justify.left", customImage: nil)
-                        .onHover { _ in NSCursor.arrow.set() }
+                        .font(.system(size: 28, weight: .bold))
                     Icons(iconName: nil, customImage: Image("Color-Mode"))
-                        .onHover { _ in NSCursor.arrow.set() }
+                        .font(.system(size: 28, weight: .bold))
                 }
                 
                 Group {
@@ -45,13 +53,11 @@ struct OnboardingView: View {
                 .multilineTextAlignment(.center)
                 .font(.system(size: 18))
                 .padding()
-                .onHover { _ in NSCursor.arrow.set() }
                 
                 Text("If you have any preferences, feel free to customize everything using the\n toolbar at the bottom of your screen anytime!")
                     .multilineTextAlignment(.center)
                     .font(.system(size: 18))
                     .padding()
-                    .onHover { _ in NSCursor.arrow.set() }
                 
                 Button(action: { showPopup = false }) {
                     Text("Start reading")
@@ -62,7 +68,6 @@ struct OnboardingView: View {
                 .background(Color.blue)
                 .cornerRadius(16)
                 .buttonStyle(PlainButtonStyle())
-                .onHover { _ in NSCursor.arrow.set() }
             }
             .padding(.horizontal, 128)
             .padding(.vertical, 64)
@@ -70,7 +75,11 @@ struct OnboardingView: View {
             .cornerRadius(16)
             .shadow(color: .black.opacity(0.25), radius: 32, x: 0, y: 20)
             .frame(maxWidth: 1051, maxHeight: 717)
-            .onHover { _ in NSCursor.arrow.set() } // Enforce arrow cursor for the entire frame
+            .onHover { _ in
+                if showPopup {
+                    NSCursor.arrow.set()
+                }
+            }
         }
     }
 }

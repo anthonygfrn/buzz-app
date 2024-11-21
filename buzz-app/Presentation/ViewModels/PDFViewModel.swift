@@ -9,6 +9,7 @@ class PDFViewModel: ObservableObject {
     @Published var rawText = ""
     @Published var displayedText = NSAttributedString("")
     @Published var figures: [Figure] = []
+    @Published var fileName: String = "Untitled"
 
 //    Styling
     @Published var segmentColoringMode: SegmentColoringMode = .line
@@ -52,6 +53,8 @@ class PDFViewModel: ObservableObject {
 
     func openPDF(url: URL) {
         isLoading = true // Mulai loading
+        self.fileName = url.lastPathComponent
+
 
         // Ekstraksi teks secara lokal
         DispatchQueue.global(qos: .userInitiated).async {
