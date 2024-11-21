@@ -1,4 +1,4 @@
-name: buzz-app
+name: Polaread
 settings:
   MARKETING_VERSION: "1.0"
   CURRENT_PROJECT_VERSION: 1
@@ -12,16 +12,15 @@ packages:
     url: https://github.com/danielsaidi/RichTextKit
     from: 1.1.1
 targets:
-  buzz-app:
+  Polaread:
     type: application
     platform: macOS
-    sources: [buzz-app]
+    sources: [Polaread]
     resources: [Resources]
     dependencies:
       - package: RichTextKit
-      - target: Polaread-Extension # Include the extension as a dependency of the main app
     info:
-      path: buzz-app/Info.plist
+      path: Polaread/Info.plist
       properties:
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         CFBundleShortVersionString: $(MARKETING_VERSION)
@@ -38,53 +37,33 @@ targets:
             LSItemContentTypes:
               - com.adobe.pdf
     settings:
-      INFOPLIST_FILE: buzz-app/Info.plist
+      INFOPLIST_FILE: Polaread/Info.plist
       ENABLE_TESTABILITY: YES
 
-  Polaread-Extension:
-    type: app-extension
-    platform: macOS
-    sources: [Polaread-Extension]
-    resources: [Resources/Polaread-Extension]
-    dependencies:
-      - package: RichTextKit # Include necessary packages, but do not link back to buzz-app
-    info:
-      path: Polaread-Extension/Info.plist
-      properties:
-        CFBundleIdentifier: com.anthony-gufron.buzz-app.Polaread-Extension # Set the correct prefixed bundle identifier
-        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
-        CFBundleShortVersionString: $(MARKETING_VERSION)
-        NSExtension:
-          NSExtensionPointIdentifier: "com.apple.extensions.polaread"
-          NSExtensionPrincipalClass: "PolareadExtension"
-    settings:
-      PRODUCT_BUNDLE_IDENTIFIER: com.anthony-gufron.buzz-app.Polaread-Extension # Ensure bundle identifier matches
-      INFOPLIST_FILE: Polaread-Extension/Info.plist
-
-  buzz-appTests:
+  PolareadTests:
     type: bundle.unit-test
     platform: macOS
-    sources: [buzz-appTests]
+    sources: [PolareadTests]
     buildSettings:
       ENABLE_TESTABILITY: YES
       DEFINES_MODULE: YES
     dependencies:
-      - target: buzz-app
+      - target: Polaread
     settings:
-      PRODUCT_BUNDLE_IDENTIFIER: com.anthony-gufron.buzz-appTests
+      PRODUCT_BUNDLE_IDENTIFIER: com.anthony-gufron.PolareadTests
       ENABLE_TESTABILITY: YES
       base:
-        INFOPLIST_FILE: buzz-app/Info.plist
+        INFOPLIST_FILE: Polaread/Info.plist
 
 schemes:
-  buzz-app:
+  Polaread:
     build:
       targets:
-        buzz-app: all
-        buzz-appTests: all
+        Polaread: all
+        PolareadTests: all
     run:
-      target: buzz-app
+      target: Polaread
     test:
       targets:
-        - name: buzz-appTests
+        - name: PolareadTests
       gatherCoverageData: true
