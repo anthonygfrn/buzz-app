@@ -21,7 +21,7 @@ struct ApplyColorModeUseCase {
         // Start with a mutable copy of the existing attributed string
         let coloredText = NSMutableAttributedString(attributedString: text)
 
-        removeColoringStyle(in: coloredText, coloringStyle: coloringStyle)
+        removeColoringStyle(in: coloredText)
 
         switch segmentColorMode {
         case .line:
@@ -40,10 +40,10 @@ struct ApplyColorModeUseCase {
         return coloredText
     }
 
-    private func applySectionTitleStyles(in attributedString: NSMutableAttributedString, fontSize: CGFloat) {
+    private mutating func applySectionTitleStyles(in attributedString: NSMutableAttributedString, fontSize: CGFloat) {
         let fullText = attributedString.string
 
-        // Separate lists for numbered and non-numbered titles
+        // Define section titles
         let numberedSectionTitles = [
             "Introduction", "Survey Methodology",
             "Literature Review", "Research Methodology",
@@ -56,79 +56,76 @@ struct ApplyColorModeUseCase {
             "References", "A B S T R A C T"
         ]
 
-        // Combine all titles for checking
-        let allSectionTitles = numberedSectionTitles + nonNumberedSectionTitles
-
-        // Regex patterns for both numbered and non-numbered titles
+        // Regex patterns
         let numberedTitlePattern = #"(?i)^\s*(\d+\.?\s+)([^\n]+)$"#
         let nonNumberedTitlePattern = #"(?i)^\s*(References|A B S T R A C T)\s*$"#
 
         do {
-            // Numbered titles regex
+            // Apply numbered titles styles
             let numberedRegex = try NSRegularExpression(pattern: numberedTitlePattern, options: [.anchorsMatchLines])
             let numberedMatches = numberedRegex.matches(in: fullText, options: [], range: NSRange(location: 0, length: fullText.count))
 
             for match in numberedMatches {
-                // Entire line range
-                let fullLineRange = match.range
+                var fullLineRange = match.range
+                fullLineRange.length += 1
 
-                // Remove background and foreground colors for the entire line
-                attributedString.removeAttribute(.backgroundColor, range: fullLineRange)
-                attributedString.removeAttribute(.foregroundColor, range: fullLineRange)
+                // Remove all background and foreground colors in range
+                attributedString.enumerateAttributes(in: fullLineRange, options: []) { attributes, range, _ in
+                    if attributes.keys.contains(.backgroundColor) {
+                        attributedString.removeAttribute(.backgroundColor, range: range)
+                    }
+                    if attributes.keys.contains(.foregroundColor) {
+                        attributedString.removeAttribute(.foregroundColor, range: range)
+                    }
+                }
 
-                // Number and dot range (first capture group)
+                // Number and dot range
                 let numberRange = match.range(at: 1)
-                
-                // Title text range (second capture group)
                 let titleRange = match.range(at: 2)
-
-                // Check if the title matches our section titles
                 let titleText = (fullText as NSString).substring(with: titleRange)
+
                 if numberedSectionTitles.contains(where: { $0.caseInsensitiveCompare(titleText) == .orderedSame }) {
-                    // Style both number and title
                     let textColorAttribute: [NSAttributedString.Key: Any] = [
                         .foregroundColor: NSColor(named: NSColor.Name("Default")) ?? NSColor.black
                     ]
-                    
-                    // Apply attributes to both number and title
                     attributedString.addAttributes(textColorAttribute, range: numberRange)
                     attributedString.addAttributes(textColorAttribute, range: titleRange)
-                    
-                    // Apply bold font to both number and title
-                    attributedString.addAttributes([
-                        .font: NSFont.boldSystemFont(ofSize: ceil(fontSize * 1.618))
-                    ], range: numberRange)
-                    attributedString.addAttributes([
-                        .font: NSFont.boldSystemFont(ofSize: ceil(fontSize * 1.618))
-                    ], range: titleRange)
+
+                    let boldFont = NSFont.boldSystemFont(ofSize: ceil(fontSize * 1.618))
+                    attributedString.addAttributes([.font: boldFont], range: numberRange)
+                    attributedString.addAttributes([.font: boldFont], range: titleRange)
                 }
             }
 
-            // Non-numbered titles regex
+            // Apply non-numbered titles styles
             let nonNumberedRegex = try NSRegularExpression(pattern: nonNumberedTitlePattern, options: [.anchorsMatchLines])
             let nonNumberedMatches = nonNumberedRegex.matches(in: fullText, options: [], range: NSRange(location: 0, length: fullText.count))
 
             for match in nonNumberedMatches {
-                // Entire line range
                 let fullLineRange = match.range
+                print("Processing non-numbered match at range: \(fullLineRange)")
 
-                // Remove background and foreground colors for the entire line
-                attributedString.removeAttribute(.backgroundColor, range: fullLineRange)
-                attributedString.removeAttribute(.foregroundColor, range: fullLineRange)
+                // Remove all background and foreground colors in range
+                attributedString.enumerateAttributes(in: fullLineRange, options: []) { attributes, range, _ in
+                    if attributes.keys.contains(.backgroundColor) {
+                        attributedString.removeAttribute(.backgroundColor, range: range)
+                    }
+                    if attributes.keys.contains(.foregroundColor) {
+                        attributedString.removeAttribute(.foregroundColor, range: range)
+                    }
+                }
 
-                // Apply styling to the entire line
+                // Apply styling
                 let textColorAttribute: [NSAttributedString.Key: Any] = [
                     .foregroundColor: NSColor(named: NSColor.Name("Default")) ?? NSColor.black
                 ]
-                
                 attributedString.addAttributes(textColorAttribute, range: fullLineRange)
-                attributedString.addAttributes([
-                    .font: NSFont.boldSystemFont(ofSize: ceil(fontSize * 1.618))
-                ], range: fullLineRange)
-            }
 
+                let boldFont = NSFont.boldSystemFont(ofSize: ceil(fontSize * 1.618))
+                attributedString.addAttributes([.font: boldFont], range: fullLineRange)
+            }
         } catch {
-            print("Regular expression error: \(error)")
+            print("Regex error: \(error)")
         }
     }
 
@@ -263,7 +260,7 @@ struct ApplyColorModeUseCase {
         }
     }
 
-    private mutating func removeColoringStyle(in attributedString: NSMutableAttributedString, coloringStyle: ColoringStyle) {
+    private mutating func removeColoringStyle(in attributedString: NSMutableAttributedString) {
         attributedString.removeAttribute(.backgroundColor, range: NSRange(location: 0, length: attributedString.length))
         attributedString.removeAttribute(.foregroundColor, range: NSRange(location: 0, length: attributedString.length))
     }
