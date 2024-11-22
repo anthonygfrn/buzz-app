@@ -55,6 +55,7 @@ class PDFViewModel: ObservableObject {
 
     func openPDF(url: URL) {
         isLoading = true // Mulai loading
+        shouldShowPDFPicker = false
         fileName = url.lastPathComponent
 
         // Ekstraksi teks secara lokal

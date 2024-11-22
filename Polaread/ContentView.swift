@@ -40,7 +40,15 @@ struct ContentView: View {
                                 
                             }
                             .overlay(content: {
-                                if viewModel.isLoading {
+                                if viewModel.shouldShowPDFPicker {
+                                    VStack {
+                                        Spacer()
+                                        Text("Open a PDF File")
+                                            .font(.headline)
+                                            .foregroundColor(.gray)
+                                        Spacer()
+                                    }
+                                } else if viewModel.isLoading {
                                     VStack {
                                         Spacer()
                                         ProgressView("Loading...")
@@ -123,8 +131,7 @@ struct ContentView: View {
         panel.begin { response in
             if response == .OK {
                 if let url = panel.url {
-                    viewModel.title = url.lastPathComponent // Update title with file name
-
+                    viewModel.title = url.lastPathComponent
                     // Create a PDFDocument from the URL
                     if let pdfDocument = PDFDocument(url: url) {
                         // Retrieve document attributes

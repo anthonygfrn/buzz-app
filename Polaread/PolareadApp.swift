@@ -21,7 +21,11 @@ struct PolareadApp: App {
                         }
                 }
                 .frame(minWidth: 800, minHeight: 600)
-                .environmentObject(appDelegate.viewModel)
+                .environmentObject(PDFViewModel(
+                    extractPDFTextUseCase: ExtractPDFTextUseCase(repository: PDFRepository()),
+                    applyColorModeUseCase: ApplyColorModeUseCase(),
+                    applyFontAttributesUseCase: ApplyFontAttributesUseCase()
+                ))
                 .environmentObject(toolbarViewModel)
         }
         .windowStyle(HiddenTitleBarWindowStyle())
@@ -32,6 +36,7 @@ struct PolareadApp: App {
         }
     }
 }
+
 
 class AppDelegate: NSObject, NSApplicationDelegate {
     var viewModel = PDFViewModel(
