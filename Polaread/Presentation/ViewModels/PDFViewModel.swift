@@ -25,7 +25,7 @@ class PDFViewModel: ObservableObject {
     @Published var selectedLineSpacing: LineSpacing = .standard
     @Published var selectedLetterSpacing: LetterSpacing = .standard
     @Published var selectedParagraphSpacing: ParagraphSpacing = .standard
-    @Published var selectedTextAlignment: AlignmentText = .left
+    @Published var selectedTextAlignment: AlignmentText = .justified
 
     @Published private(set) var fontSize: CGFloat = 18
     @Published private(set) var fontWeight: NSFont.Weight = .regular
@@ -33,11 +33,11 @@ class PDFViewModel: ObservableObject {
     @Published private(set) var lineSpacing: CGFloat = 1
     @Published private(set) var letterSpacing: CGFloat = 1
     @Published private(set) var paragraphSpacing: CGFloat = 2
-    @Published private(set) var textAlignment: String = "left"
+    @Published private(set) var textAlignment: String = "justified"
 
     @Published var context = RichTextContext()
     @Published var pdfUploadService = PDFUploadService()
-    
+
     @Published var shouldQuitApp = false
 
 //    Use Case
@@ -72,17 +72,36 @@ class PDFViewModel: ObservableObject {
         uploadPDFForImageExtraction(pdfURL: url)
     }
 
+    private func removeNoiseBeforeAbstract(arrayText: [String]) -> [String] {
+        // Find the index of "A B S T R A C T"
+        if let index = arrayText.firstIndex(of: "A B S T R A C T") {
+            // Return a new array starting from "A B S T R A C T"
+            return Array(arrayText[index...])
+        } else {
+            // If "A B S T R A C T" is not found, return the original array
+            return arrayText
+        }
+    }
+
     private func uploadPDFForImageExtraction(pdfURL: URL) {
-        pdfUploadService.uploadPDFToAPI(pdfURL: pdfURL) { [weak self] result in
+        pdfUploadService.uploadPDFToAPIArray(pdfURL: pdfURL) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let (fullText, figures)):
-                    self?.rawText = fullText
+
+                    let removedNoise = self?.removeNoiseBeforeAbstract(arrayText: fullText) ?? []
+                    var concatedFullText = removedNoise.joined(separator: "\n\n")
+                    self?.rawText = concatedFullText
                     self?.figures = figures.map { figure in
                         Figure(title: figure.title, position: figure.position, imageData: figure.imageData)
                     }
 
-                    self?.buildAttributedText()
+                    concatedFullText = self?.formatTextWithTitles(concatedFullText) ?? ""
+
+                    self?.extractedText = NSAttributedString(string: concatedFullText)
+                    self?.setContext()
+                    self?.recolorText()
+
 
                 case .failure(let error):
                     print("Error uploading PDF for image extraction: \(error)")
@@ -91,6 +110,44 @@ class PDFViewModel: ObservableObject {
                 self?.isLoading = false
             }
         }
+    }
+
+    private func formatTextWithTitles(_ text: String) -> String {
+        let lines = text.components(separatedBy: .newlines)
+        var formattedText = ""
+        var currentParagraph = ""
+
+        for line in lines {
+            let trimmedLine = line.trimmingCharacters(in: .whitespacesAndNewlines)
+
+            if trimmedLine.isEmpty {
+                // Add current paragraph if it's not empty, then reset
+                if !currentParagraph.isEmpty {
+                    formattedText += currentParagraph + "\n\n"
+                    currentParagraph = ""
+                }
+            } else if isSectionTitle(trimmedLine) {
+                // Add current paragraph before title/subtitle, then format the title/subtitle
+                if !currentParagraph.isEmpty {
+                    formattedText += currentParagraph + "\n\n"
+                    currentParagraph = ""
+                }
+                formattedText += trimmedLine + "\n\n"
+            } else {
+                // Append to current paragraph with a space if not the first word
+                if !currentParagraph.isEmpty {
+                    currentParagraph += "\n"
+                }
+                currentParagraph += trimmedLine
+            }
+        }
+
+        // Append any remaining paragraph
+        if !currentParagraph.isEmpty {
+            formattedText += currentParagraph + "\n\n"
+        }
+
+        return formattedText.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     private func buildAttributedText() {
@@ -111,7 +168,7 @@ class PDFViewModel: ObservableObject {
                 let attachment = NSTextAttachment()
                 attachment.image = image
                 let imageString = NSAttributedString(attachment: attachment)
-                
+
                 // Set image size to fit within a desired width (containerWidth)
                 let maxWidth: CGFloat = containerWidth
                 let imageSize = image.size
@@ -130,7 +187,6 @@ class PDFViewModel: ObservableObject {
                     attributedString.insert(imageString, at: updatedPosition + newlineBeforeImage.length)
                     offset += 1 // Increase offset for the length of the image attachment
                 }
-
 
                 // Increment the figure counter for the next figure
                 figureCounter += 1
@@ -164,44 +220,6 @@ class PDFViewModel: ObservableObject {
         ])
 
         return mutableTitle
-    }
-
-    private func formatTextWithTitles(_ text: String) -> String {
-        let lines = text.components(separatedBy: .newlines)
-        var formattedText = ""
-        var currentParagraph = ""
-
-        for line in lines {
-            let trimmedLine = line.trimmingCharacters(in: .whitespacesAndNewlines)
-
-            if trimmedLine.isEmpty {
-                // Add current paragraph if it's not empty, then reset
-                if !currentParagraph.isEmpty {
-                    formattedText += currentParagraph + "\n\n"
-                    currentParagraph = ""
-                }
-            } else if isSectionTitle(trimmedLine) {
-                // Add current paragraph before title/subtitle, then format the title/subtitle
-                if !currentParagraph.isEmpty {
-                    formattedText += currentParagraph + "\n\n"
-                    currentParagraph = ""
-                }
-                formattedText += trimmedLine + "\n\n"
-            } else {
-                // Append to current paragraph with a space if not the first word
-                if !currentParagraph.isEmpty {
-                    currentParagraph += " "
-                }
-                currentParagraph += trimmedLine
-            }
-        }
-
-        // Append any remaining paragraph
-        if !currentParagraph.isEmpty {
-            formattedText += currentParagraph + "\n\n"
-        }
-
-        return formattedText.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     private func isSectionTitle(_ line: String) -> Bool {

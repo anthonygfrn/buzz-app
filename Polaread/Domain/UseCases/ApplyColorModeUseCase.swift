@@ -69,15 +69,7 @@ struct ApplyColorModeUseCase {
                 var fullLineRange = match.range
                 fullLineRange.length += 1
 
-                // Remove all background and foreground colors in range
-                attributedString.enumerateAttributes(in: fullLineRange, options: []) { attributes, range, _ in
-                    if attributes.keys.contains(.backgroundColor) {
-                        attributedString.removeAttribute(.backgroundColor, range: range)
-                    }
-                    if attributes.keys.contains(.foregroundColor) {
-                        attributedString.removeAttribute(.foregroundColor, range: range)
-                    }
-                }
+      
 
                 // Number and dot range
                 let numberRange = match.range(at: 1)
@@ -85,6 +77,19 @@ struct ApplyColorModeUseCase {
                 let titleText = (fullText as NSString).substring(with: titleRange)
 
                 if numberedSectionTitles.contains(where: { $0.caseInsensitiveCompare(titleText) == .orderedSame }) {
+                    // Remove all background and foreground colors in range
+                    attributedString.enumerateAttributes(in: fullLineRange, options: []) { attributes, range, _ in
+                        print("Numbered" )
+                        print(attributedString.attributedSubstring(from: range))
+                        if attributes.keys.contains(.backgroundColor) {
+                            
+                            attributedString.removeAttribute(.backgroundColor, range: range)
+                        }
+                        if attributes.keys.contains(.foregroundColor) {
+                            attributedString.removeAttribute(.foregroundColor, range: range)
+                        }
+                    }
+                    
                     let textColorAttribute: [NSAttributedString.Key: Any] = [
                         .foregroundColor: NSColor(named: NSColor.Name("Default")) ?? NSColor.black
                     ]
@@ -103,10 +108,11 @@ struct ApplyColorModeUseCase {
 
             for match in nonNumberedMatches {
                 let fullLineRange = match.range
-                print("Processing non-numbered match at range: \(fullLineRange)")
 
                 // Remove all background and foreground colors in range
                 attributedString.enumerateAttributes(in: fullLineRange, options: []) { attributes, range, _ in
+                    print("nonNumberedMatches" )
+                    print(attributedString.attributedSubstring(from: range))
                     if attributes.keys.contains(.backgroundColor) {
                         attributedString.removeAttribute(.backgroundColor, range: range)
                     }
